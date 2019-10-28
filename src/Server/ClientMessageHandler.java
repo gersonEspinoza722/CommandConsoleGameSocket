@@ -1,6 +1,7 @@
 package Server;
 
 import Client.Message;
+import Client.Player.PlayerMessage;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -23,18 +24,18 @@ public class ClientMessageHandler implements IClientMessageHandler{
 
         switch (event) {
             case "REGISTRATION": {
-                FanMessage fanMessage = (FanMessage) message;
+                PlayerMessage playerMessage = (PlayerMessage) message;
 
-                String fanName = (String) fanMessage.getObjectOfInterest();
-                int clientID = fanMessage.getClientID();
+                String playerName = (String) playerMessage.getObjectOfInterest();
+                int clientID = playerMessage.getClientID();
 
-                SocialNetworkServer networkServer = (SocialNetworkServer) server;
+                GameServer gameServer = (GameServer) server; //GameServer es SocialNetServer
                 ServerThread currentServerThread = server.getClients().get(clientID);
-                networkServer.addNewFan(clientID,currentServerThread);
+                gameServer.addNewPlayer(clientID,currentServerThread);
 
                 ServerThread currentThread = server.getClients().get(clientID);
-                ArrayList<Observable> artists = server.getObservableResources();
-                Message observablesMessage = new ServerMessage("SERVER", "SENT_ARTIST_LIST", artists);
+                ArrayList<Observable> games = server.getObservableResources();
+                Message observablesMessage = new ServerMessage("SERVER", "SENT_GAMES_LIST", games);
                 try {
                     currentThread.getWriter().writeObject(observablesMessage);
                 } catch (IOException ex) {
@@ -44,8 +45,8 @@ public class ClientMessageHandler implements IClientMessageHandler{
             }
             break;
 
-            case "FOLLOW_ARTIST": {
-                FanMessage fanMessage = (FanMessage) message;
+            /*case "ENTER_GAME": { // era FOLLOW_ARTIST
+                PlayerMessage playerMessage = (FanMessage) message;
                 int clientID = fanMessage.getClientID();
                 ServerThread currentThread = server.getClients().get(clientID);
 
@@ -129,12 +130,15 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 }
             }
             break;
+
+             */
         }
     }
     public void handleArtistMessage(Message message, Server server) {
         String event = message.getEvent();
         switch (event) {
             case "REGISTRATION": {
+                /*
                 ArtistMessage artistMessage = (ArtistMessage) message;
                 int artistClientID = artistMessage.getArtistID();
                 ArrayList<Observable> artists = server.getObservableResources();
@@ -146,14 +150,17 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 SocialNetworkServer networkServer = (SocialNetworkServer) server;
                 ServerThread currentServerThread = server.getClients().get(artistClientID);
                 networkServer.addNewArtist(newArtist , artistName , currentServerThread);
-
+¨*/
             }
             break;
 
             case "NEW_MESSAGE": {
+                /*
                 ArtistPost newPost = (ArtistPost) message.getObjectOfInterest();
                 Artist artist = getArtist(newPost.getArtistName(), server);
                 artist.addPost(newPost);
+
+                 */
             }
             break;
 
@@ -166,19 +173,21 @@ public class ClientMessageHandler implements IClientMessageHandler{
     public Observable getGame(String gameIdentifier, Server server) {
         ArrayList<Observable> artists = server.getObservableResources();
         Observable result = null;
-        for (Observable game : games) {//games era artists
-            Observable currentGame = (Game) game; //current game era current artist
-            if (currentGame.getIdentifier().equals(gameIdentifier)) { //getIdentifier() era getName()
-                result = currentGame;
-            }
-        }
-        return result;
+        //for (Observable game : games) {//games era artists
+          //  Observable currentGame = (Game) game; //current game era current artist
+           // if (currentGame.getIdentifier().equals(gameIdentifier)) { //getIdentifier() era getName()
+             //   result = currentGame;
+            //}
+
+    //    }
+      //  return result;
+        return null;//QUITAR ESO
     }
     @Override
     public void handleClientMessage(Message message, Server server) {
         System.out.println("New client");
         if (message.sentBy().equals("PLAYER")) { //PLAYER era FAN
-            handlePlayerMessage(message, server);
+          //  handlePlayerMessage(message, server);
         } else {
             //handleArtistMessage(message, server);
         }

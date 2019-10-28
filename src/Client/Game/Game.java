@@ -1,4 +1,6 @@
-package Client;
+package Client.Game;
+
+import Client.*;
 
 import java.io.Serializable;
 import java.util.Observable;

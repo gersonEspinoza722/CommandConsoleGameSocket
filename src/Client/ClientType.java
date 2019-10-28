@@ -11,6 +11,6 @@ package Client;
  */
 public enum ClientType {
     
-    //PUBLISHER , SUBSCRIBER
-    PLAYER
+    OBSERVABLE , OBSERVER
+
 }
