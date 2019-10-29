@@ -111,6 +111,8 @@ public class ServerThread extends Thread implements Observer {
             
             while(connected){
                 Message clientMessage = (Message) reader.readObject();
+                //Guardar estado viejo
+
                 this.clientMessageHandler.handleClientMessage(clientMessage, server);
             }
         }
