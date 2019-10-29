@@ -72,7 +72,7 @@ public class ClientMessageHandler implements IClientMessageHandler{
             case "ATTACK_MESSAGE": {
                 PlayerMessage playerMessage = (PlayerMessage) message;
                 int clientID = playerMessage.getClientID();
-                PlayerAttackMessage attack = (PlayerAttackMessage) playerMessage.getObjectOfInterest();
+                PlayerAttack attack = (PlayerAttack) playerMessage.getObjectOfInterest();
                 Game realGame = (Game) getGame(((Game)playerMessage.getObjectOfInterest()).getIdentifier(), server);
                 realGame.attack(attack);
 
