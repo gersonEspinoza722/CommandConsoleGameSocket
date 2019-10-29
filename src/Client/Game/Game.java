@@ -1,8 +1,12 @@
 package Client.Game;
 
-import Client.Message;
+import BoardElement.Character.ICharacter;
+import Client.Command.ICommand;
+import Client.Command.PlayerAttackCommand;
+import Client.Player.Player;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -10,6 +14,7 @@ public class Game extends Observable implements Serializable {
     private String identifier;
     private int currentPlayer;
     private int amountPlayers;
+    private ArrayList<Player> players;
     //LA LISTA DE COMANDOS Y ESTADOS VA CON PROXY Y VA AQUI TALVEZ
     //aqui se pone el log tambien
 
@@ -33,14 +38,14 @@ public class Game extends Observable implements Serializable {
 
     public void attack(ICommand command) {
 
-        //PlayerAttack attack = (PlayerAttack) command
+        PlayerAttackCommand attack = (PlayerAttackCommand) command;
 
-        //Sacamos cosas valiosas de attack: a quien afecta?, cuanto qué arma? (para ver pos tipo de personaje cuanto quitar que lo trae el arma)
-        //Encontramos al jugador a atacar
-        //Encontramos el personaje a atacar
-        //Encontramos el arma
+        Player playerToAttack = players.get(attack.getClientToAttackId());//hay que asegurarse que el id de los clientes sea igual al indice de entrada
+        ICharacter character = playerToAttack.getCharacters().getCharacter(attack.getCharacterToAttackId());
 
         //Guardar estado anterior
+
+        command.execute(character);
 
         //arma.func(personaje-a-atacar) con if´s de tpo del mae
         //this.turnoActual++;
