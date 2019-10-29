@@ -11,6 +11,7 @@ public class Game extends Observable implements Serializable {
     private int currentPlayer;
     private int amountPlayers;
     //LA LISTA DE COMANDOS Y ESTADOS VA CON PROXY Y VA AQUI TALVEZ
+    //aqui se pone el log tambien
 
     public Game(String identifier) {
         this.identifier = identifier;
@@ -19,8 +20,10 @@ public class Game extends Observable implements Serializable {
     }
 
     public void addFollower(Observer observer) {
+        //log anterior
         this.addObserver(observer);
         this.amountPlayers++;
+        //log posterior
         setChanged();
 
         GameNotification followersIncreased = new GameNotification(this.identifier, "New player joined the game" , this);
