@@ -1,5 +1,6 @@
 package Client.Player;
 
+import BoardElement.Character.ICharacterListing;
 import BoardElement.Character.CharacterListingFactory;
 import BoardElement.Character.ICharacterListing;
 import Client.*;
@@ -11,6 +12,8 @@ public class Player extends Client {
 
     private String name;
     private Observable subscribedGame;
+    private int score;
+    private int totalScore;
     private ICharacterListing characters;
 
     public String getName() {

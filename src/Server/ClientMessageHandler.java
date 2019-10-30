@@ -48,6 +48,7 @@ public class ClientMessageHandler implements IClientMessageHandler{
             }
             break;
 
+                    /*
             case "ENTER_GAME": { // era FOLLOW_ARTIST
                 PlayerMessage playerMessage = (FanMessage) message;
                 int clientID = fanMessage.getClientID();
@@ -69,7 +70,7 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 }
 
             }
-            break;
+            break;*/
 
             case "ATTACK_MESSAGE": {
                 PlayerMessage playerMessage = (PlayerMessage) message;
