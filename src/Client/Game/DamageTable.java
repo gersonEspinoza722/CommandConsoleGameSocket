@@ -32,4 +32,12 @@ public class DamageTable {
         }
         return text;
     }
+
+    public Skill getSkillType() {
+        return skillType;
+    }
+
+    public Hashtable<Skill, Integer> getDamage() {
+        return damage;
+    }
 }

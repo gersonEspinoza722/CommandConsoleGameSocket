@@ -2,22 +2,20 @@ package Client.Resources;
 
 import BoardElement.Character.ICharacter;
 import BoardElement.IBoardElement;
-import BoardElement.Tools.ITool;
 import BoardElement.Tools.Tool;
-import Media.IMediaElement;
+import Client.Game.DamageTable;
 import Media.IMediaListing;
-import Media.MediaListingFactory;
-import Patterns.IBuilder;
 import Patterns.IPrototype;
-
-import java.util.Hashtable;
+import java.util.Random;
 
 public class Weapon extends Tool {
 
-    private Hashtable<Integer, Integer> damageTable; //<tipo, daño>
+    private DamageTable damageTable; //<tipo, daño>
 
     public Weapon(String name, int type, int simpleUseDecrement) {
         super(name, type, simpleUseDecrement);
+        Random random = new Random(System.currentTimeMillis());
+        damageTable = new DamageTable(Skill.values()[type], random);
     }
 
     @Override
@@ -55,10 +53,12 @@ public class Weapon extends Tool {
         System.out.println(object.toString());
         //if(object instanceof ICharacter){
         //}
-        Warrior warrior = (Warrior) object;
-        if(Skill.ACID.equals(warrior.getSkillType())){
+        attack((ICharacter) object);
+    }
 
-        }
+    private void attack(ICharacter character){
+        Warrior warrior = (Warrior) character;
+        warrior.decLife(damageTable.getDamage().get(warrior.getSkillType()));
     }
 
     @Override
@@ -95,5 +95,10 @@ public class Weapon extends Tool {
     @Override
     public void decLevel() {
         this.level --;
+    }
+
+    @Override
+    public void interact(IBoardElement otherElement){
+        func(otherElement);
     }
 }
