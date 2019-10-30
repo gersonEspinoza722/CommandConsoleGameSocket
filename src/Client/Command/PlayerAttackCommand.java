@@ -4,16 +4,34 @@ import BoardElement.IBoardElement;
 import BoardElement.Tools.ITool;
 
 public class PlayerAttackCommand implements ICommand {
-    int clientToAttackId;
+    int gameId;
+    String clientToAttackName;
     int characterToAttackId;
-    ITool weapon;
 
-    public int getClientToAttackId() {
-        return clientToAttackId;
+    public String getClientToAttackName() {
+        return clientToAttackName;
     }
 
-    public void setClientToAttackId(int clientToAttackId) {
-        this.clientToAttackId = clientToAttackId;
+    ITool weapon;
+
+
+@Override
+    public int getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
+    }
+
+
+
+    public String clientToAttackName() {
+        return clientToAttackName;
+    }
+
+    public void setClientToAttackName(String clientToAttackName) {
+        this.clientToAttackName = clientToAttackName;
     }
 
     public int getCharacterToAttackId() {

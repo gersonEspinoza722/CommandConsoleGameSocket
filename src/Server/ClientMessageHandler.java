@@ -1,5 +1,7 @@
 package Server;
 
+import Client.Command.ICommand;
+import Client.Command.PlayerAttackCommand;
 import Client.Game.Game;
 import Client.Message;
 import Client.Player.PlayerMessage;
@@ -71,18 +73,19 @@ public class ClientMessageHandler implements IClientMessageHandler{
 
             case "ATTACK_MESSAGE": {
                 PlayerMessage playerMessage = (PlayerMessage) message;
+
                 int clientID = playerMessage.getClientID();
-                PlayerAttack attack = (PlayerAttack) playerMessage.getObjectOfInterest();
-                Game realGame = (Game) getGame(((Game)playerMessage.getObjectOfInterest()).getIdentifier(), server);
+                ICommand attack = (PlayerAttackCommand) playerMessage.getObjectOfInterest();
+                Game realGame = (Game) getGame(attack.getGameId(), server);
                 realGame.attack(attack);
 
 
                 GameServer gameServer = (GameServer) server;
                 ServerThread gameThread = gameServer.getGames().get(realGame.getIdentifier());
-                Message attackMessage = new ServerMessage("SERVER", "ATTACK_MESSAGE", attack);
+                //Message attackMessage = new ServerMessage("SERVER", "ATTACK_MESSAGE", attack);
                 try {
                     gameThread.getWriter().reset();
-                    gameThread.getWriter().writeObject(attackMessage);
+                    gameThread.getWriter().writeObject(realGame); //Mandé el juego completo para ponerlo talvez en una pantalla de Game
                 } catch (IOException ex) {
                     Logger.getLogger(ClientMessageHandler.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -171,7 +174,7 @@ public class ClientMessageHandler implements IClientMessageHandler{
         }
 
     }
-    public Observable getGame(String gameIdentifier, Server server) {
+    public Observable getGame(int gameIdentifier, Server server) {
         ArrayList<Observable> artists = server.getObservableResources();
         Observable result = null;
         //for (Observable game : games) {//games era artists

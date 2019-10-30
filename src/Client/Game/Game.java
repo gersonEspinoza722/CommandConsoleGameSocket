@@ -11,14 +11,14 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class Game extends Observable implements Serializable {
-    private String identifier;
+    private int identifier;
     private int currentPlayer;
     private int amountPlayers;
     private ArrayList<Player> players;
     //LA LISTA DE COMANDOS Y ESTADOS VA CON PROXY Y VA AQUI TALVEZ
     //aqui se pone el log tambien
 
-    public Game(String identifier) {
+    public Game(int identifier) {
         this.identifier = identifier;
         this.currentPlayer = 0;
         this.amountPlayers=0;
@@ -36,11 +36,23 @@ public class Game extends Observable implements Serializable {
 
     }
 
+    private Player getPlayer(String name){
+        Player player;
+        player=null;
+        for(int i=0; i<players.size();i++){
+            if(players.get(i).getName().equals(name)){
+                player= players.get(i);
+                break;
+            }
+        }
+        return player;
+
+    }
     public void attack(ICommand command) {
 
         PlayerAttackCommand attack = (PlayerAttackCommand) command;
 
-        Player playerToAttack = players.get(attack.getClientToAttackId());//hay que asegurarse que el id de los clientes sea igual al indice de entrada
+        Player playerToAttack = getPlayer(attack.getClientToAttackName());//hay que asegurarse que el id de los clientes sea igual al indice de entrada
         ICharacter character = playerToAttack.getCharacters().getCharacter(attack.getCharacterToAttackId());
 
         //Guardar estado anterior
@@ -65,11 +77,11 @@ public class Game extends Observable implements Serializable {
 
     }
 
-    public String getIdentifier() {
+    public int getIdentifier() {
         return identifier;
     }
 
-    public void setIdentifier(String identifier) {
+    public void setIdentifier(int identifier) {
         this.identifier = identifier;
     }
 

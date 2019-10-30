@@ -1,5 +1,6 @@
 package Client.Game;
 
+import Client.Command.PlayerAttackCommand;
 import Client.IServerMessageHandler;
 import Client.Message;
 
@@ -24,7 +25,7 @@ public class ServerMessageHandlerGame implements IServerMessageHandler {
             }
             break;
             case "ATTACK_MESSAGE": {
-                PlayerAttack attack = (PlayerAttack) message.getObjectOfInterest();
+                PlayerAttackCommand attack = (PlayerAttackCommand) message.getObjectOfInterest();
                 //Pasan cosas de ataque: bajar vidas
                 //((ArtistWindow) artistWindow).setFollowersLabelText("" + artist.getFollowers());
             }
