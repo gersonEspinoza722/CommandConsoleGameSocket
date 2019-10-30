@@ -1,7 +1,11 @@
 package Server;
 
+import BoardElement.Character.ICharacter;
+import BoardElement.Character.ICharacterListing;
+import BoardElement.IBoardElement;
 import Client.Command.ICommand;
 import Client.Command.PlayerAttackCommand;
+import Client.Command.PlayerSurrenderCommand;
 import Client.Game.Game;
 import Client.Message;
 import Client.Player.PlayerMessage;
@@ -73,47 +77,60 @@ public class ClientMessageHandler implements IClientMessageHandler{
             break;*/
 
             case "ATTACK_MESSAGE": {
+
+
                 PlayerMessage playerMessage = (PlayerMessage) message;
 
-                int clientID = playerMessage.getClientID();
+
                 ICommand attack = (PlayerAttackCommand) playerMessage.getObjectOfInterest();
+
+
                 Game realGame = (Game) getGame(attack.getGameId(), server);
+                ICharacterListing targets = realGame.getPlayer(((PlayerAttackCommand)attack).getClientToAttackName()).getCharacters();
+                ArrayList<ICharacter> targetsList = targets.getCharacterList();
+
+
                 realGame.attack(attack);
 
-
+/*NO BORRAR, TALVEZ SIRVE, T A L V E Z
                 GameServer gameServer = (GameServer) server;
                 ServerThread gameThread = gameServer.getGames().get(attack.getGameId());
-                Message attackMessage = new ServerMessage("SERVER", "ATTACK_MESSAGE", attack);
+                Message attackMessage = new ServerMessage("SERVER", "ATTACK_MESSAGE", realGame);//MAdraríamos al cliente Game el juego completo
                 try {
                     gameThread.getWriter().reset();
-                    gameThread.getWriter().writeObject(realGame); //Mandé el juego completo para ponerlo talvez en una pantalla de Game
+                    gameThread.getWriter().writeObject(attackMessage); //Mandé el juego completo para ponerlo talvez en una pantalla de Game
                 } catch (IOException ex) {
                     Logger.getLogger(ClientMessageHandler.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                }*/
+            }
+            break;
+
+            case "SURRENDER_MESSAGE": {
+                PlayerMessage playerMessage = (PlayerMessage) message;
+                int clientID = playerMessage.getClientID();
+                ICommand surrender = (PlayerSurrenderCommand) playerMessage.getObjectOfInterest();
+                Game realGame = (Game) getGame(surrender.getGameId(), server);
+                realGame.surrender(surrender);
+
+                //NO BORRAR, TALVEZ SIRVE, T A L V E Z
+                //ArtistPost unlikedPost = (ArtistPost) fanMessage.getObjectOfInterest();
+                //Artist realArtist = getArtist(unlikedPost.getArtistName(), server);
+                //realArtist.addDislikeToPost(unlikedPost.getId());
+
+                //ArtistPost realPost = realArtist.getPostByID(unlikedPost.getId());
+                //SocialNetworkServer networkServer = (SocialNetworkServer) server;
+                //ServerThread artistThread = networkServer.getArtistClients().get(realArtist.getName());
+                //Message unlikedMessage = new ServerMessage("SERVER", "UNLIKED_MESSAGE", realPost);
+                //try {
+                  //  artistThread.getWriter().reset();
+                    //artistThread.getWriter().writeObject(unlikedMessage);
+                //} catch (IOException ex) {
+                  //  Logger.getLogger(ClientMessageHandler.class.getName()).log(Level.SEVERE, null, ex);
+                //}
+
             }
             break;
 /*
-            case "DISLIKE_MESSAGE": {
-                FanMessage fanMessage = (FanMessage) message;
-                int clientID = fanMessage.getClientID();
-                ArtistPost unlikedPost = (ArtistPost) fanMessage.getObjectOfInterest();
-                Artist realArtist = getArtist(unlikedPost.getArtistName(), server);
-                realArtist.addDislikeToPost(unlikedPost.getId());
-
-                ArtistPost realPost = realArtist.getPostByID(unlikedPost.getId());
-                SocialNetworkServer networkServer = (SocialNetworkServer) server;
-                ServerThread artistThread = networkServer.getArtistClients().get(realArtist.getName());
-                Message unlikedMessage = new ServerMessage("SERVER", "UNLIKED_MESSAGE", realPost);
-                try {
-                    artistThread.getWriter().reset();
-                    artistThread.getWriter().writeObject(unlikedMessage);
-                } catch (IOException ex) {
-                    Logger.getLogger(ClientMessageHandler.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            }
-            break;
-
             case "UNFOLLOW_ARTIST": {
                 FanMessage fanMessage = (FanMessage) message;
                 int clientID = fanMessage.getClientID();

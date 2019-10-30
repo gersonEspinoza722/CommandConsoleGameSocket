@@ -16,6 +16,24 @@ public class Player extends Client {
     private int totalScore;
     private ICharacterListing characters;
 
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getTotalScore() {
+        return totalScore;
+    }
+
+    public void setTotalScore(int totalScore) {
+        this.totalScore = totalScore;
+    }
+
+
+
     public String getName() {
         return name;
     }
