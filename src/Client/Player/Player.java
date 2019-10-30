@@ -16,6 +16,11 @@ public class Player extends Client {
     private int totalScore;
     private ICharacterListing characters;
 
+    public Player(String hostName, int portNumber, ClientType clientType) {
+        super(hostName, portNumber, clientType);
+        characters = CharacterListingFactory.getInstance().getCharacterListing(CharacterListingFactory.CHARACTER_ARRAY);
+    }
+
     public String getName() {
         return name;
     }
@@ -40,8 +45,4 @@ public class Player extends Client {
         this.characters = characters;
     }
 
-    public Player(String hostName, int portNumber, ClientType clientType) {
-        super(hostName, portNumber, clientType);
-        characters = CharacterListingFactory.getInstance().getCharacterListing(CharacterListingFactory.CHARACTER_ARRAY);
-    }
 }
