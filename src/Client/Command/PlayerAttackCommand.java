@@ -1,12 +1,23 @@
 package Client.Command;
 
+import BoardElement.Character.ICharacter;
 import BoardElement.IBoardElement;
 import BoardElement.Tools.ITool;
+
+import java.util.ArrayList;
 
 public class PlayerAttackCommand implements ICommand {
     int gameId;
     String clientToAttackName;
-    int characterToAttackId;
+    ArrayList<ICharacter> chars;
+
+    public ArrayList<ICharacter> getChars() {
+        return chars;
+    }
+
+    public void setChars(ArrayList<ICharacter> chars) {
+        this.chars = chars;
+    }
 
     public String getClientToAttackName() {
         return clientToAttackName;
@@ -34,13 +45,6 @@ public class PlayerAttackCommand implements ICommand {
         this.clientToAttackName = clientToAttackName;
     }
 
-    public int getCharacterToAttackId() {
-        return characterToAttackId;
-    }
-
-    public void setCharacterToAttackId(int characterToAttackId) {
-        this.characterToAttackId = characterToAttackId;
-    }
 
     public ITool getWeapon() {
         return weapon;
@@ -53,8 +57,11 @@ public class PlayerAttackCommand implements ICommand {
 
 
     @Override
-    public void execute(Object interest) {
-        IBoardElement character = (IBoardElement) interest;
-        weapon.interact(character);
+    public void execute() {
+        for (int i=0;i<chars.size();i++){
+            IBoardElement character = (IBoardElement) chars.get(i);
+            weapon.interact(character);
+        }
+
     }
 }
