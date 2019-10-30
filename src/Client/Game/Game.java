@@ -1,9 +1,11 @@
 package Client.Game;
 
 import BoardElement.Character.ICharacter;
+import BoardElement.IBoardElement;
 import Client.Command.ICommand;
 import Client.Command.PlayerAttackCommand;
 import Client.Player.Player;
+import Client.Resources.Warrior;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,7 +17,23 @@ public class Game extends Observable implements Serializable {
     private int currentPlayer;
     private int amountPlayers;
     private ArrayList<Player> players;
-    //LA LISTA DE COMANDOS Y ESTADOS VA CON PROXY Y VA AQUI TALVEZ
+
+    public int getAmountPlayers() {
+        return amountPlayers;
+    }
+
+    public void setAmountPlayers(int amountPlayers) {
+        this.amountPlayers = amountPlayers;
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
+//LA LISTA DE COMANDOS Y ESTADOS VA CON PROXY Y VA AQUI TALVEZ
     //aqui se pone el log tambien
 
     /*Se debe generar el aleatorio de asignacion de armas por tipo cuando se haga la instancia de game (10 "prototipos")*/
@@ -38,7 +56,7 @@ public class Game extends Observable implements Serializable {
 
     }*/
 
-    private Player getPlayer(String name){
+    public Player getPlayer(String name){
         Player player;
         player=null;
         for(int i=0; i<players.size();i++){
@@ -50,16 +68,20 @@ public class Game extends Observable implements Serializable {
         return player;
 
     }
+    public void surrender(ICommand command) {}
+
     public void attack(ICommand command) {
 
         PlayerAttackCommand attack = (PlayerAttackCommand) command;
 
         Player playerToAttack = getPlayer(attack.getClientToAttackName());//hay que asegurarse que el id de los clientes sea igual al indice de entrada
-        ICharacter character = playerToAttack.getCharacters().getCharacter(attack.getCharacterToAttackId());
+        ArrayList<ICharacter> list = playerToAttack.getCharacters().getCharacterList();
+
 
         //Guardar estado anterior
 
-        command.execute(character);
+        ((PlayerAttackCommand) command).setChars(list);
+        command.execute();
 
         //arma.func(personaje-a-atacar) con if´s de tpo del mae
         //this.turnoActual++;
