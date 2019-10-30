@@ -10,8 +10,11 @@ import Media.MediaListingFactory;
 import Patterns.IBuilder;
 import Patterns.IPrototype;
 
+import java.util.Hashtable;
+
 public class Weapon extends Tool {
 
+    private Hashtable<Integer, Integer> damageTable; //<tipo, daño>
 
     public Weapon(String name, int type, int simpleUseDecrement) {
         super(name, type, simpleUseDecrement);
@@ -49,7 +52,11 @@ public class Weapon extends Tool {
 
     @Override
     public void func(IBoardElement object) {//input can be character or tool to be affected by the weapon
-        if(object instanceof ICharacter){
+        System.out.println(object.toString());
+        //if(object instanceof ICharacter){
+        //}
+        Warrior warrior = (Warrior) object;
+        if(Skill.ACID.equals(warrior.getSkillType())){
 
         }
     }

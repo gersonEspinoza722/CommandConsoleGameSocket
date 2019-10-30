@@ -44,7 +44,7 @@ public class GameServer extends Server{
         Game game = (Game) observableResources.get(artistID);
 
         if (action.equals("PLAY")) { //era SUBSCRIBE
-            game.addFollower(client);
+            //game.addFollower(client);
         } else {
             //game.removeFollower(client);
         }
