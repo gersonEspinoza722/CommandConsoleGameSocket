@@ -111,7 +111,7 @@ public class ServerThread extends Thread implements Observer {
             
             while(connected){
                 Message clientMessage = (Message) reader.readObject();
-                this.clientMessageHandler.handleClientMessage(clientMessage, server);
+                this.clientMessageHandler.handleClientMessage(clientMessage, server); //aqui se manejan todos los mensajes entrantes
             }
         }
         catch (IOException |ClassNotFoundException ex){
@@ -119,6 +119,7 @@ public class ServerThread extends Thread implements Observer {
             }
     }
 
+    //notify
     @Override
     public void update(Observable observable, Object obj) {
         this.notificationHandler.handleObservableNotification(writer, obj);
