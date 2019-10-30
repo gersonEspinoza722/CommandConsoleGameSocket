@@ -49,6 +49,11 @@ public class Weapon extends Tool {
     }
 
     @Override
+    public void incUse(int increment){
+        simpleUseDecrement = simpleUseDecrement + increment;
+    }
+
+    @Override
     public void func(IBoardElement object) {//input can be character or tool to be affected by the weapon
         System.out.println(object.toString());
         //if(object instanceof ICharacter){
@@ -59,6 +64,7 @@ public class Weapon extends Tool {
     private void attack(ICharacter character){
         Warrior warrior = (Warrior) character;
         warrior.decLife(damageTable.getDamage().get(warrior.getSkillType()));
+        decUse(1);
     }
 
     @Override
