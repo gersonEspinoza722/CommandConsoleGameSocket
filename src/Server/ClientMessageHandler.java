@@ -81,8 +81,8 @@ public class ClientMessageHandler implements IClientMessageHandler{
 
 
                 GameServer gameServer = (GameServer) server;
-                ServerThread gameThread = gameServer.getGames().get(realGame.getIdentifier());
-                //Message attackMessage = new ServerMessage("SERVER", "ATTACK_MESSAGE", attack);
+                ServerThread gameThread = gameServer.getGames().get(attack.getGameId());
+                Message attackMessage = new ServerMessage("SERVER", "ATTACK_MESSAGE", attack);
                 try {
                     gameThread.getWriter().reset();
                     gameThread.getWriter().writeObject(realGame); //Mandé el juego completo para ponerlo talvez en una pantalla de Game
@@ -175,17 +175,17 @@ public class ClientMessageHandler implements IClientMessageHandler{
 
     }
     public Observable getGame(int gameIdentifier, Server server) {
-        ArrayList<Observable> artists = server.getObservableResources();
+        ArrayList<Observable> games = server.getObservableResources();
         Observable result = null;
-        //for (Observable game : games) {//games era artists
-          //  Observable currentGame = (Game) game; //current game era current artist
-           // if (currentGame.getIdentifier().equals(gameIdentifier)) { //getIdentifier() era getName()
-             //   result = currentGame;
-            //}
+        for (Observable game : games) {//games era artists
+            Observable currentGame = (Game) game; //current game era current artist
+            if (((Game)currentGame).getIdentifier()==gameIdentifier) { //getIdentifier() era getName()
+                result =  currentGame;
+            }
 
-    //    }
-      //  return result;
-        return null;//QUITAR ESO
+        }
+        return result;
+        //return null;//QUITAR ESO
     }
     @Override
     public void handleClientMessage(Message message, Server server) {

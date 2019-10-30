@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameServer extends Server{
-    private HashMap<String,ServerThread> games;
+    private HashMap<Integer,ServerThread> games;
+
     public GameServer(int portnumber, IClientMessageHandler clientMessageHandler, INotificationHandler notificationHandler) {
         super(portnumber, clientMessageHandler, notificationHandler);
         this.clients = new HashMap<>();
@@ -14,7 +15,7 @@ public class GameServer extends Server{
         this.games = new HashMap<>();
     }
 
-    public HashMap<String, ServerThread> getGames() {
+    public HashMap<Integer, ServerThread> getGames() {
         return games;
     }
 
@@ -22,19 +23,19 @@ public class GameServer extends Server{
         this.clients.put(clientID, thread);
     }
 
-    public void setArtistClients(HashMap<String, ServerThread> games) {
+    public void setArtistClients(HashMap<Integer, ServerThread> games) {
         this.games = games;
     }
     public void addNewFan(int clientID, ServerThread thread){
         this.clients.put(clientID, thread);
     }
 
-    public void addNewArtist(Game game , String artistName, ServerThread artistThread){
+    public void addNewArtist(Game game , int GameId, ServerThread gameThread){
         this.observableResources.add(game);
-        for (ServerThread currentServerThread : clients.values()){
-            currentServerThread.update(game, game);
-        }
-        this.games.put(artistName, artistThread);
+        //for (ServerThread currentServerThread : clients.values()){
+          //  currentServerThread.update(game, game);
+        //}
+        this.games.put(GameId, gameThread);
     }
 
 
