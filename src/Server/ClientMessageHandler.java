@@ -1,5 +1,8 @@
 package Server;
 
+import Client.Command.ICommand;
+import Client.Command.PlayerAttackCommand;
+import Client.Game.Game;
 import Client.Message;
 import Client.Player.PlayerMessage;
 
@@ -19,7 +22,7 @@ public class ClientMessageHandler implements IClientMessageHandler{
         this.serverLogWindow = serverLogWindow;
     }
 
-    public void handleFanMessage(Message message, Server server) {
+    public void handlePlayerMessage(Message message, Server server) {
         String event = message.getEvent();
 
         switch (event) {
@@ -45,7 +48,7 @@ public class ClientMessageHandler implements IClientMessageHandler{
             }
             break;
 
-            /*case "ENTER_GAME": { // era FOLLOW_ARTIST
+            case "ENTER_GAME": { // era FOLLOW_ARTIST
                 PlayerMessage playerMessage = (FanMessage) message;
                 int clientID = fanMessage.getClientID();
                 ServerThread currentThread = server.getClients().get(clientID);
@@ -68,26 +71,27 @@ public class ClientMessageHandler implements IClientMessageHandler{
             }
             break;
 
-            case "LIKE_MESSAGE": {
-                FanMessage fanMessage = (FanMessage) message;
-                int clientID = fanMessage.getClientID();
-                ArtistPost likedPost = (ArtistPost) fanMessage.getObjectOfInterest();
-                Artist realArtist = getArtist(likedPost.getArtistName(), server);
-                realArtist.addLikeToPost(likedPost.getId());
+            case "ATTACK_MESSAGE": {
+                PlayerMessage playerMessage = (PlayerMessage) message;
 
-                ArtistPost realPost = realArtist.getPostByID(likedPost.getId());
-                SocialNetworkServer networkServer = (SocialNetworkServer) server;
-                ServerThread artistThread = networkServer.getArtistClients().get(realArtist.getName());
-                Message likedMessage = new ServerMessage("SERVER", "LIKED_MESSAGE", realPost);
+                int clientID = playerMessage.getClientID();
+                ICommand attack = (PlayerAttackCommand) playerMessage.getObjectOfInterest();
+                Game realGame = (Game) getGame(attack.getGameId(), server);
+                realGame.attack(attack);
+
+
+                GameServer gameServer = (GameServer) server;
+                ServerThread gameThread = gameServer.getGames().get(realGame.getIdentifier());
+                //Message attackMessage = new ServerMessage("SERVER", "ATTACK_MESSAGE", attack);
                 try {
-                    artistThread.getWriter().reset();
-                    artistThread.getWriter().writeObject(likedMessage);
+                    gameThread.getWriter().reset();
+                    gameThread.getWriter().writeObject(realGame); //Mandé el juego completo para ponerlo talvez en una pantalla de Game
                 } catch (IOException ex) {
                     Logger.getLogger(ClientMessageHandler.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             break;
-
+/*
             case "DISLIKE_MESSAGE": {
                 FanMessage fanMessage = (FanMessage) message;
                 int clientID = fanMessage.getClientID();
@@ -170,7 +174,7 @@ public class ClientMessageHandler implements IClientMessageHandler{
         }
 
     }
-    public Observable getGame(String gameIdentifier, Server server) {
+    public Observable getGame(int gameIdentifier, Server server) {
         ArrayList<Observable> artists = server.getObservableResources();
         Observable result = null;
         //for (Observable game : games) {//games era artists
