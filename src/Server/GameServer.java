@@ -1,5 +1,6 @@
 package Server;
 
+import Client.ClientThread;
 import Client.Game.Game;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class GameServer extends Server{
         this.observableResources = new ArrayList<>();
         this.games = new HashMap<>();
     }
+
 
     public HashMap<Integer, ServerThread> getGames() {
         return games;
@@ -50,4 +52,5 @@ public class GameServer extends Server{
             //game.removeFollower(client);
         }
     }
+
 }

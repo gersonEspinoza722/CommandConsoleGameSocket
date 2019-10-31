@@ -84,13 +84,21 @@ public class ClientMessageHandler implements IClientMessageHandler{
 
                 ICommand attack = (PlayerAttackCommand) playerMessage.getObjectOfInterest();
 
-
-                Game realGame = (Game) getGame(attack.getGameId(), server);
-                ICharacterListing targets = realGame.getPlayer(((PlayerAttackCommand)attack).getClientToAttackName()).getCharacters();
-                ArrayList<ICharacter> targetsList = targets.getCharacterList();
+                System.out.println(attack.getGameId());
 
 
-                realGame.attack(attack);
+                //Game realGame = (Game) getGame(attack.getGameId(), server);
+                //ICharacterListing targets = realGame.getPlayer(((PlayerAttackCommand)attack).getClientToAttackName()).getCharacters();
+                //ArrayList<ICharacter> targetsList = targets.getCharacterList();
+
+
+                //realGame.attack(attack);
+
+
+
+
+
+
 
 /*NO BORRAR, TALVEZ SIRVE, T A L V E Z
                 GameServer gameServer = (GameServer) server;
