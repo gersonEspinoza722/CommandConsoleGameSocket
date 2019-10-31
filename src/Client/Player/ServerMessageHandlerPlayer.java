@@ -26,13 +26,6 @@ public class ServerMessageHandlerPlayer implements IServerMessageHandler {
                 //((FanWindow) fanWindow).displayArtists(artists);
             }
             break;
-            case "TEST":{
-                System.out.println("entró a respuesta test");
-                //ArrayList<Observable> artists = (ArrayList<Observable>) message.getObjectOfInterest();
-            //    ((FanWindow) fanWindow).displayArtists(artists);
-            }
-            break;
-
             case "NEW_ARTIST_MESSAGE":{
               //  ArtistPost newPost = (ArtistPost) message.getObjectOfInterest();
                 //((FanWindow) fanWindow).displayArtistPost(newPost);
@@ -40,16 +33,15 @@ public class ServerMessageHandlerPlayer implements IServerMessageHandler {
             break;
 
             case "NEW_GAME":{
-                System.out.println("Nuevo Juego");
+                System.out.println("Nuevo Game");
                 //Artist newArtist = (Artist) message.getObjectOfInterest();
                 //((FanWindow) fanWindow).addNewArtist(newArtist);
             }
             break;
-
-            case "LIKE_MILESTONE":{
+            case "NEW_ATTACK_MESSAGE":{
+                System.out.println("Nuevo ataque");
                 //ArtistPost likedMessage = (ArtistPost) message.getObjectOfInterest();
                 //JOptionPane.showMessageDialog(fanWindow, likedMessage.getArtistName() + "'s" + " message: \"" + likedMessage.getText() + " \"" + " got to "  + likedMessage.getLikes() + " likes");
-
             }
             break;
 

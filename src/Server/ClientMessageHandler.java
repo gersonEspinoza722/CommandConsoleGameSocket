@@ -43,7 +43,8 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 ArrayList<Observable> games = server.getObservableResources();
                 Message observablesMessage = new ServerMessage("SERVER", "SENT_GAMES_LIST", games);
                 try {
-                  currentThread.getWriter().writeObject(observablesMessage);
+                    //estaba current serve, daba nulo
+                    currentThread.getWriter().writeObject(observablesMessage);
                 } catch (IOException ex) {
                   Logger.getLogger(ClientMessageHandler.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -56,10 +57,11 @@ public class ClientMessageHandler implements IClientMessageHandler{
             case "ENTER_GAME": {
                 PlayerMessage playerMessage = (PlayerMessage) message;
                 int clientID = playerMessage.getClientID();
+                System.out.println("Soy el cliente:" +clientID);
                 ServerThread currentThread = server.getClients().get(clientID);
-
                 String followedGame = (String) message.getObjectOfInterest();
                 Game realGame = getGame(followedGame, server);
+                System.out.println("Quiero entrar al juego:"+realGame.getName());
                 realGame.addPlayer(currentThread); // Use this to validate and notify
 
                 GameServer gameServer = (GameServer) server;
@@ -67,6 +69,7 @@ public class ClientMessageHandler implements IClientMessageHandler{
 
                 Message newFollowerMessage = new ServerMessage("SERVER", "NEW_PLAYER", realGame);
                 try {
+                    //estos current server eran gameServer
                     gameThread.getWriter().reset();
                     gameThread.getWriter().writeObject(newFollowerMessage);
                 } catch (IOException ex) {
@@ -78,8 +81,8 @@ public class ClientMessageHandler implements IClientMessageHandler{
 
             case "ATTACK_MESSAGE": {
                 PlayerMessage playerMessage = (PlayerMessage) message;
-                String gameName = ((PlayerAttackCommand)playerMessage.getObjectOfInterest()).getName();
 
+                String gameName = ((PlayerAttackCommand)playerMessage.getObjectOfInterest()).getName();
                 Game realGame = getGame(gameName,server);
                 realGame.attack((ICommand) playerMessage.getObjectOfInterest());
                 System.out.println("Soy el juego:"+realGame.getName());
@@ -87,7 +90,6 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 GameServer gameServer = (GameServer)  server;
                 ServerThread gameThread = gameServer.getGames().get(realGame.getName());
                 System.out.println("Soy el thread:¨"+gameThread.getID());
-
                 Message newAttackMesagge = new ServerMessage("SERVER","NEW_ATTACK_MESSAGE",realGame);
                 try {
                     gameThread.getWriter().reset();
@@ -149,30 +151,6 @@ public class ClientMessageHandler implements IClientMessageHandler{
 
             }
             break;
-/*
-            case "UNFOLLOW_ARTIST": {
-                FanMessage fanMessage = (FanMessage) message;
-                int clientID = fanMessage.getClientID();
-                ServerThread currentThread = server.getClients().get(clientID);
-
-                Artist unfollowedArtist = (Artist) message.getObjectOfInterest();
-                Artist realArtist = getArtist(unfollowedArtist.getName(), server);
-                realArtist.removeFollower(currentThread);
-
-                SocialNetworkServer networkServer = (SocialNetworkServer) server;
-                ServerThread artistThread = networkServer.getArtistClients().get(realArtist.getName());
-
-                Message newFollowerMessage = new ServerMessage("SERVER", "NEW_UNFOLLOWER", realArtist);
-                try {
-                    artistThread.getWriter().reset();
-                    artistThread.getWriter().writeObject(newFollowerMessage);
-                } catch (IOException ex) {
-                    Logger.getLogger(ClientMessageHandler.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            break;
-
-             */
         }
     }
     public void handleGameMessage(Message message, Server server) {
@@ -211,13 +189,18 @@ public class ClientMessageHandler implements IClientMessageHandler{
 
     }
     public Game getGame(String gameName, Server server) {
+
         ArrayList<Observable> games = server.getObservableResources();
         Game result = null;
         for (Observable game : games) {//games era artists
             Game currentGame = (Game) game; //current game era current artist
+            System.out.println(currentGame.getName());
             if (currentGame.getName().equals(gameName)) { //getIdentifier() era getName()
                 result =  currentGame;
+                System.out.println("encontro el juego por nombre:" + result.getName());
             }
+            //System.out.println("NO encontro el juego por nombre");
+            //result =(Game) games.get(0);//PARA PROBAR
         }
         return result;
     }

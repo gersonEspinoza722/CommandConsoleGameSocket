@@ -77,7 +77,9 @@ public class Game extends Observable implements Serializable {
 
         System.out.println("Entró a attack en Game");
         //PlayerAttackCommand attack = (PlayerAttackCommand) command;
-
+        setChanged();
+        GameNotification attackNotification = new GameNotification(this.name,"NEW_ATTACK_MESSAGE",this);
+        notifyObservers(attackNotification);
         //Player playerToAttack = getPlayer(attack.getClientToAttackName());//hay que asegurarse que el id de los clientes sea igual al indice de entrada
         //ArrayList<ICharacter> list = playerToAttack.getCharacters().getCharacterList();
 
