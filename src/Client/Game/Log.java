@@ -36,6 +36,9 @@ public class Log implements IGame{
 
     private void formatResultado(){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
-        resultado = resultado.concat(simpleDateFormat.format(fecha) + "\n" + command.getCommandText() + "\n");
+        String fechaText = simpleDateFormat.format(fecha) + "\n";
+        String commandText = command.getCommandText() + "\n";
+        resultado = fechaText.concat(commandText).concat(resultado);
+        System.out.println(resultado);
     }
 }

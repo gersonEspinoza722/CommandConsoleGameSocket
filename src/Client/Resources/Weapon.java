@@ -63,8 +63,8 @@ public class Weapon extends Tool {
 
     private void attack(ICharacter character){
         Warrior warrior = (Warrior) character;
-        warrior.decLife(damageTable.getDamage().get(warrior.getSkillType()));
-        decUse(1);
+        warrior.decLife(damageTable.getDamage().get(warrior.getSkillType())); //que no se baje de 0
+        decUse(1); //default 4 usos? o llamar desde afuera
     }
 
     @Override
