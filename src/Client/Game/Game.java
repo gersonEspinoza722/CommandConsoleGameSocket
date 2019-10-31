@@ -36,12 +36,14 @@ public class Game extends Observable implements Serializable {
 //LA LISTA DE COMANDOS Y ESTADOS VA CON PROXY Y VA AQUI TALVEZ
     //aqui se pone el log tambien
 
+    /*Se debe generar el aleatorio de asignacion de armas por tipo cuando se haga la instancia de game (10 "prototipos")*/
+
     public Game(int identifier) {
         this.identifier = identifier;
         this.currentPlayer = 0;
         this.amountPlayers=0;
     }
-
+    /*
     public void addFollower(Observer observer) {
         //log anterior
         this.addObserver(observer);
@@ -52,7 +54,7 @@ public class Game extends Observable implements Serializable {
         GameNotification followersIncreased = new GameNotification(this.identifier, "New player joined the game" , this);
         notifyObservers(followersIncreased);
 
-    }
+    }*/
 
     public Player getPlayer(String name){
         Player player;

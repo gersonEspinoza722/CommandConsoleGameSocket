@@ -115,6 +115,7 @@ public abstract class Client {
     
     public void run(){
         try{
+            System.out.println("corre cliente");
             this.socket = new Socket(this.hostName,this.portNumber);
             
             OutputStream outputStream = socket.getOutputStream();

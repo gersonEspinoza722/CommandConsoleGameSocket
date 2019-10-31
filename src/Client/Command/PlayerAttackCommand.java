@@ -11,6 +11,13 @@ public class PlayerAttackCommand implements ICommand {
     String clientToAttackName;
     ArrayList<ICharacter> chars;
 
+    public PlayerAttackCommand(int gameId, String clientToAttackName, ArrayList<ICharacter> chars, ITool weapon) {
+        this.gameId = gameId;
+        this.clientToAttackName = clientToAttackName;
+        this.chars = chars;
+        this.weapon = weapon;
+    }
+
     public ArrayList<ICharacter> getChars() {
         return chars;
     }

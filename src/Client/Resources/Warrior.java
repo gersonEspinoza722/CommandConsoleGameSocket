@@ -1,19 +1,21 @@
 package Client.Resources;
 
 import BoardElement.Character.CharacterAbstract;
+import BoardElement.Character.ICharacter;
+import BoardElement.IBoardElement;
 import BoardElement.Tools.ITool;
 import BoardElement.Tools.ToolListingFactory;
 import Media.IMediaElement;
 import Media.MediaListingFactory;
 
 public class Warrior extends CharacterAbstract {
-    private int skillType;
+    private Skill skillType;
 
-    public Warrior(int skillType) {
+    public Warrior(Skill skillType) {
         this.skillType = skillType;
     }
 
-    public Warrior(String name, float defaultLife, int skillType) {
+    public Warrior(String name, float defaultLife, Skill skillType) {
         super(name, defaultLife);
         this.skillType = skillType;
         super.decrementableLife = defaultLife;
@@ -21,11 +23,11 @@ public class Warrior extends CharacterAbstract {
         super.media = MediaListingFactory.getInstance().getMediaListing(MediaListingFactory.IMAGE_ARRAY);
     }
 
-    public int getSkillType() {
+    public Skill getSkillType() {
         return skillType;
     }
 
-    public void setSkillType(int skillType) {
+    public void setSkillType(Skill skillType) {
         this.skillType = skillType;
     }
 
@@ -36,4 +38,17 @@ public class Warrior extends CharacterAbstract {
     public void addImage(IMediaElement image) {
         this.media.loadMedia(image);
     }
+
+    @Override
+    public void decLife(int percentage){
+        decrementableLife -= defaultLife * percentage / 100;
+    }
+
+    /*
+    @Override
+    public void interact(IBoardElement otherElement){ //como seria?
+        if(otherElement instanceof ITool){
+
+        }
+    }*/
 }
