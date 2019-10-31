@@ -30,6 +30,7 @@ public class Log implements IGame{
             int damage = playerAttackCommand.getVidasAntes().get(i) - playerAttackCommand.getVidasDespues().get(i);
             resultado = resultado.concat("Enemigo "+ character.getName() + " ha recibido " + Integer.toString(damage) + "% de daño. \n");
         }
+        resultado = resultado.concat("\n");
 
     }
 
