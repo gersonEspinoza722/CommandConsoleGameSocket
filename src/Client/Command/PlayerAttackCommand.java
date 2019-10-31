@@ -9,11 +9,13 @@ import java.util.ArrayList;
 
 public class PlayerAttackCommand implements ICommand, Serializable {
     int gameId;
+    String name;
     String clientToAttackName;
     ArrayList<ICharacter> chars;
 
-    public PlayerAttackCommand(int gameId, String clientToAttackName, ArrayList<ICharacter> chars, ITool weapon) {
+    public PlayerAttackCommand(int gameId,String name, String clientToAttackName, ArrayList<ICharacter> chars, ITool weapon) {
         this.gameId = gameId;
+        this.name = name;
         this.clientToAttackName = clientToAttackName;
         this.chars = chars;
         this.weapon = weapon;
@@ -62,7 +64,13 @@ public class PlayerAttackCommand implements ICommand, Serializable {
         this.weapon = weapon;
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @Override
     public void execute() {

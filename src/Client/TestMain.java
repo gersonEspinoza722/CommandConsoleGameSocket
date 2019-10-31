@@ -7,6 +7,7 @@ import Client.Player.PlayerMessage;
 import Client.Resources.Skill;
 import Server.ClientMessageHandler;
 import Server.GameServer;
+import Server.NotificationHandler;
 import Server.ServerThread;
 
 import java.io.IOException;
@@ -26,10 +27,10 @@ public class TestMain {
 
 
         ClientMessageHandler clientMesaggeHandler = new ClientMessageHandler(null);
-        GameServer server = new GameServer(9090, clientMesaggeHandler,null);
+        NotificationHandler notificationHandler = new NotificationHandler();
+        GameServer server = new GameServer(9090, clientMesaggeHandler,notificationHandler);
         ArrayList<Observable> games = new ArrayList<>();
         server.setObservableResources(games);
-
         server.run();
     }
 }

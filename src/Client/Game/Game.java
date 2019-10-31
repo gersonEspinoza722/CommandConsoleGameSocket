@@ -6,6 +6,7 @@ import Client.Command.ICommand;
 import Client.Command.PlayerAttackCommand;
 import Client.Player.Player;
 import Client.Resources.Warrior;
+import Server.ServerMessage;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class Game extends Observable implements Serializable {
     private int currentPlayer;
     private int amountPlayers;
     private ArrayList<Player> players;
+    private String name;
 
     public int getAmountPlayers() {
         return amountPlayers;
@@ -38,23 +40,24 @@ public class Game extends Observable implements Serializable {
 
     /*Se debe generar el aleatorio de asignacion de armas por tipo cuando se haga la instancia de game (10 "prototipos")*/
 
-    public Game(int identifier) {
+    public Game(int identifier,String name) {
         this.identifier = identifier;
         this.currentPlayer = 0;
         this.amountPlayers=0;
+        this.name = name;
     }
-    /*
-    public void addFollower(Observer observer) {
+
+    public void addPlayer(Observer observer) {
         //log anterior
         this.addObserver(observer);
         this.amountPlayers++;
         //log posterior
         setChanged();
 
-        GameNotification followersIncreased = new GameNotification(this.identifier, "New player joined the game" , this);
+        GameNotification followersIncreased = new GameNotification(this.name, "NEW_PLAYER" , this);
         notifyObservers(followersIncreased);
 
-    }*/
+    }
 
     public Player getPlayer(String name){
         Player player;
@@ -72,22 +75,23 @@ public class Game extends Observable implements Serializable {
 
     public void attack(ICommand command) {
 
-        PlayerAttackCommand attack = (PlayerAttackCommand) command;
+        System.out.println("Entró a attack en Game");
+        //PlayerAttackCommand attack = (PlayerAttackCommand) command;
 
-        Player playerToAttack = getPlayer(attack.getClientToAttackName());//hay que asegurarse que el id de los clientes sea igual al indice de entrada
-        ArrayList<ICharacter> list = playerToAttack.getCharacters().getCharacterList();
+        //Player playerToAttack = getPlayer(attack.getClientToAttackName());//hay que asegurarse que el id de los clientes sea igual al indice de entrada
+        //ArrayList<ICharacter> list = playerToAttack.getCharacters().getCharacterList();
 
 
         //Guardar estado anterior
 
-        attack.setChars(list);
-        attack.execute();
+        //attack.setChars(list);
+        //attack.execute();
 
         //arma.func(personaje-a-atacar) con if´s de tpo del mae
         //this.turnoActual++;
 
 
-        setChanged();
+        //setChanged();
 
         //Guardar estado posterior
 
@@ -97,7 +101,11 @@ public class Game extends Observable implements Serializable {
        // GameNotification followersIncreased = new GameNotification(this.identifier, "- - Juego terminado - -" , this);
 
         //}
-        notifyObservers(this);
+
+        //ServerMessage message = new ServerMessage("SERVER", "TEST", "test response");
+
+
+        //notifyObservers(message);
 
     }
 
@@ -117,6 +125,11 @@ public class Game extends Observable implements Serializable {
         this.currentPlayer = currentPlayer;
     }
 
+    public String getName() {
+        return name;
+    }
 
-
+    public void setName(String name) {
+        this.name = name;
+    }
 }

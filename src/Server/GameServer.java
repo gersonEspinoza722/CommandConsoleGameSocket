@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameServer extends Server{
-    private HashMap<Integer,ServerThread> games;
+    private HashMap<String,ServerThread> games;
 
     public GameServer(int portnumber, IClientMessageHandler clientMessageHandler, INotificationHandler notificationHandler) {
         super(portnumber, clientMessageHandler, notificationHandler);
@@ -17,28 +17,26 @@ public class GameServer extends Server{
     }
 
 
-    public HashMap<Integer, ServerThread> getGames() {
+    public HashMap<String, ServerThread> getGames() {
         return games;
     }
 
     public void addNewPlayer(int clientID, ServerThread thread){
         this.clients.put(clientID, thread);
     }
-
-    public void setArtistClients(HashMap<Integer, ServerThread> games) {
+    public void addNewGame(Game game, String gameName,ServerThread gameThread){
+        this.observableResources.add(game);
+        System.out.println("Lo metió en observables");
+        for (ServerThread currentServerThread : clients.values()){
+            currentServerThread.update(game, game);
+        }
+        this.games.put(gameName, gameThread);
+    }
+    public void setArtistClients(HashMap<String, ServerThread> games) {
         this.games = games;
     }
-    public void addNewFan(int clientID, ServerThread thread){
-        this.clients.put(clientID, thread);
-    }
 
-    public void addNewArtist(Game game , int GameId, ServerThread gameThread){
-        this.observableResources.add(game);
-        //for (ServerThread currentServerThread : clients.values()){
-          //  currentServerThread.update(game, game);
-        //}
-        this.games.put(GameId, gameThread);
-    }
+
 
 
 

@@ -3,6 +3,8 @@ package Client.Player;
 import Client.*;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Observable;
 
 public class ServerMessageHandlerPlayer implements IServerMessageHandler {
 
@@ -19,7 +21,13 @@ public class ServerMessageHandlerPlayer implements IServerMessageHandler {
         String event = message.getEvent();
 
         switch(event){
-            case "SENT_ARTIST_LIST":{
+            case "SENT_GAMES_LIST":{
+                ArrayList<Observable> artists = (ArrayList<Observable>) message.getObjectOfInterest();
+                //((FanWindow) fanWindow).displayArtists(artists);
+            }
+            break;
+            case "TEST":{
+                System.out.println("entró a respuesta test");
                 //ArrayList<Observable> artists = (ArrayList<Observable>) message.getObjectOfInterest();
             //    ((FanWindow) fanWindow).displayArtists(artists);
             }
@@ -31,7 +39,8 @@ public class ServerMessageHandlerPlayer implements IServerMessageHandler {
             }
             break;
 
-            case "NEW_ARTIST":{
+            case "NEW_GAME":{
+                System.out.println("Nuevo Juego");
                 //Artist newArtist = (Artist) message.getObjectOfInterest();
                 //((FanWindow) fanWindow).addNewArtist(newArtist);
             }

@@ -1,7 +1,8 @@
 package Client.Resources;
 
+import Client.ClientType;
 import Client.Command.PlayerAttackCommand;
-import Client.Game.DamageTable;
+import Client.Game.*;
 import Client.IServerMessageHandler;
 import Client.Message;
 import Client.Player.Player;
@@ -19,19 +20,30 @@ public class PlayerTest {
 
     public static void main (String [ ] args) {
 
-        Player player = new Player("localhost",9090, null);
+        GameClient gameClient = new GameClient("localhost",9090, ClientType.OBSERVABLE,"GAME");
+        IServerMessageHandler serverMessageHandlerGame = new ServerMessageHandlerGame(null);
+        gameClient.setServerMessageHandler(serverMessageHandlerGame);
+        gameClient.run();
+
+        Message registrationMessageGame = new GameMessage("GAME","GAME_REGISTRATION","TestGame");
+        gameClient.sendMessage(registrationMessageGame);
+
+        Player player = new Player("localhost",9090, ClientType.OBSERVER,"PLAYER");
         IServerMessageHandler serverMessageHandler = new ServerMessageHandlerPlayer(null);
         player.setServerMessageHandler(serverMessageHandler);
         player.run();
 
-        Message registrationMessage = new PlayerMessage("PLAYER","REGISTRATION","Test",0);
+        Message registrationMessage = new PlayerMessage("PLAYER","PLAYER_REGISTRATION",player.getName(),player.getId());
         player.sendMessage(registrationMessage);
 
-        PlayerAttackCommand command = new PlayerAttackCommand(0, "Player 1", null, null);
-        PlayerMessage message = new PlayerMessage("PLAYER" , "ATTACK_MESSAGE", command);
+        //Message subscribeMessage = new PlayerMessage("PLAYER","ENTER_GAME",gameClient.getName(),player.getId());
+        //player.sendMessage(subscribeMessage);
 
 
 
-        player.sendMessage(message);
+
+        //PlayerAttackCommand command = new PlayerAttackCommand(0, "GAME","PLAYER", null, null);
+        //Message attackMessage = new PlayerMessage("PLAYER" , "ATTACK_MESSAGE",command,player.getId());
+        //player.sendMessage(attackMessage);
     }
 }

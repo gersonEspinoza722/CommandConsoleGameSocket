@@ -7,6 +7,7 @@ import Client.Command.ICommand;
 import Client.Command.PlayerAttackCommand;
 import Client.Command.PlayerSurrenderCommand;
 import Client.Game.Game;
+import Client.Game.GameMessage;
 import Client.Message;
 import Client.Player.PlayerMessage;
 
@@ -30,62 +31,71 @@ public class ClientMessageHandler implements IClientMessageHandler{
         String event = message.getEvent();
 
         switch (event) {
-            case "REGISTRATION": {
+            case "PLAYER_REGISTRATION": {
                 PlayerMessage playerMessage = (PlayerMessage) message;
-
-                String playerName = (String) playerMessage.getObjectOfInterest();
                 int clientID = playerMessage.getClientID();
 
                 GameServer gameServer = (GameServer) server; //GameServer es SocialNetServer
                 ServerThread currentServerThread = server.getClients().get(clientID);
                 gameServer.addNewPlayer(clientID,currentServerThread);
 
-                //ServerThread currentThread = server.getClients().get(clientID);
-                //ArrayList<Observable> games = server.getObservableResources();
-                //Message observablesMessage = new ServerMessage("SERVER", "SENT_GAMES_LIST", games);
-                //try {
-                  //  currentThread.getWriter().writeObject(observablesMessage);
-                //} catch (IOException ex) {
-                  //  Logger.getLogger(ClientMessageHandler.class.getName()).log(Level.SEVERE, null, ex);
-                //}
+                ServerThread currentThread = server.getClients().get(clientID);
+                ArrayList<Observable> games = server.getObservableResources();
+                Message observablesMessage = new ServerMessage("SERVER", "SENT_GAMES_LIST", games);
+                try {
+                  currentThread.getWriter().writeObject(observablesMessage);
+                } catch (IOException ex) {
+                  Logger.getLogger(ClientMessageHandler.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
             }
             break;
+            
 
-                    /*
-            case "ENTER_GAME": { // era FOLLOW_ARTIST
-                PlayerMessage playerMessage = (FanMessage) message;
-                int clientID = fanMessage.getClientID();
+
+            case "ENTER_GAME": {
+                PlayerMessage playerMessage = (PlayerMessage) message;
+                int clientID = playerMessage.getClientID();
                 ServerThread currentThread = server.getClients().get(clientID);
 
-                Artist followedArtist = (Artist) message.getObjectOfInterest();
-                Artist realArtist = getArtist(followedArtist.getName(), server);
-                realArtist.addFollower(currentThread); // Use this to validate and notify
+                String followedGame = (String) message.getObjectOfInterest();
+                Game realGame = getGame(followedGame, server);
+                realGame.addPlayer(currentThread); // Use this to validate and notify
 
-                SocialNetworkServer networkServer = (SocialNetworkServer) server;
-                ServerThread artistThread = networkServer.getArtistClients().get(realArtist.getName());
+                GameServer gameServer = (GameServer) server;
+                ServerThread gameThread = gameServer.getGames().get(realGame.getName());
 
-                Message newFollowerMessage = new ServerMessage("SERVER", "NEW_FOLLOWER", realArtist);
+                Message newFollowerMessage = new ServerMessage("SERVER", "NEW_PLAYER", realGame);
                 try {
-                    artistThread.getWriter().reset();
-                    artistThread.getWriter().writeObject(newFollowerMessage);
+                    gameThread.getWriter().reset();
+                    gameThread.getWriter().writeObject(newFollowerMessage);
                 } catch (IOException ex) {
                     Logger.getLogger(ClientMessageHandler.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
             }
-            break;*/
+            break;
 
             case "ATTACK_MESSAGE": {
-
-                System.out.println("Entró a ataque");
-
                 PlayerMessage playerMessage = (PlayerMessage) message;
+                String gameName = ((PlayerAttackCommand)playerMessage.getObjectOfInterest()).getName();
 
+                Game realGame = getGame(gameName,server);
+                realGame.attack((ICommand) playerMessage.getObjectOfInterest());
+                System.out.println("Soy el juego:"+realGame.getName());
 
-                ICommand attack = (PlayerAttackCommand) playerMessage.getObjectOfInterest();
+                GameServer gameServer = (GameServer)  server;
+                ServerThread gameThread = gameServer.getGames().get(realGame.getName());
+                System.out.println("Soy el thread:¨"+gameThread.getID());
 
-
+                Message newAttackMesagge = new ServerMessage("SERVER","NEW_ATTACK_MESSAGE",realGame);
+                try {
+                    gameThread.getWriter().reset();
+                    gameThread.getWriter().writeObject(newAttackMesagge);
+                } catch (IOException ex) {
+                    Logger.getLogger(ClientMessageHandler.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                //ICommand attack = (PlayerAttackCommand) playerMessage.getObjectOfInterest();
 
 
                 //Game realGame = (Game) getGame(attack.getGameId(), server);
@@ -115,11 +125,11 @@ public class ClientMessageHandler implements IClientMessageHandler{
             break;
 
             case "SURRENDER_MESSAGE": {
-                PlayerMessage playerMessage = (PlayerMessage) message;
-                int clientID = playerMessage.getClientID();
-                ICommand surrender = (PlayerSurrenderCommand) playerMessage.getObjectOfInterest();
-                Game realGame = (Game) getGame(surrender.getGameId(), server);
-                realGame.surrender(surrender);
+                //PlayerMessage playerMessage = (PlayerMessage) message;
+                //int clientID = playerMessage.getClientID();
+                //ICommand surrender = (PlayerSurrenderCommand) playerMessage.getObjectOfInterest();
+                //Game realGame = (Game) getGame(surrender.getGameId(), server);
+                //realGame.surrender(surrender);
 
                 //NO BORRAR, TALVEZ SIRVE, T A L V E Z
                 //ArtistPost unlikedPost = (ArtistPost) fanMessage.getObjectOfInterest();
@@ -165,23 +175,22 @@ public class ClientMessageHandler implements IClientMessageHandler{
              */
         }
     }
-    public void handleArtistMessage(Message message, Server server) {
+    public void handleGameMessage(Message message, Server server) {
         String event = message.getEvent();
         switch (event) {
-            case "REGISTRATION": {
-                /*
-                ArtistMessage artistMessage = (ArtistMessage) message;
-                int artistClientID = artistMessage.getArtistID();
-                ArrayList<Observable> artists = server.getObservableResources();
-                String artistName = (String) message.getObjectOfInterest();
+            case "GAME_REGISTRATION": {
+                GameMessage gameMessage = (GameMessage) message;
+                int gameClientID = gameMessage.getGameID();
+                ArrayList<Observable> games = server.getObservableResources();
                 // Create an Artist based on the information I just received
-                int artistID = artists.size();
-                Artist newArtist = new Artist(artistID, artistName);
+                String gameName = (String) message.getObjectOfInterest();
+                int gameId = games.size();
+                Game newGame = new Game(gameId,gameName);
 
-                SocialNetworkServer networkServer = (SocialNetworkServer) server;
-                ServerThread currentServerThread = server.getClients().get(artistClientID);
-                networkServer.addNewArtist(newArtist , artistName , currentServerThread);
-¨*/
+                GameServer gameServer = (GameServer) server;
+                ServerThread currentServerThread = server.getClients().get(gameClientID);
+                gameServer.addNewGame(newGame,gameName,currentServerThread);
+
             }
             break;
 
@@ -201,18 +210,16 @@ public class ClientMessageHandler implements IClientMessageHandler{
         }
 
     }
-    public Observable getGame(int gameIdentifier, Server server) {
+    public Game getGame(String gameName, Server server) {
         ArrayList<Observable> games = server.getObservableResources();
-        Observable result = null;
+        Game result = null;
         for (Observable game : games) {//games era artists
-            Observable currentGame = (Game) game; //current game era current artist
-            if (((Game)currentGame).getIdentifier()==gameIdentifier) { //getIdentifier() era getName()
+            Game currentGame = (Game) game; //current game era current artist
+            if (currentGame.getName().equals(gameName)) { //getIdentifier() era getName()
                 result =  currentGame;
             }
-
         }
         return result;
-        //return null;//QUITAR ESO
     }
     @Override
     public void handleClientMessage(Message message, Server server) {
@@ -220,7 +227,7 @@ public class ClientMessageHandler implements IClientMessageHandler{
         if (message.sentBy().equals("PLAYER")) { //PLAYER era FAN
             handlePlayerMessage(message, server);
         } else {
-            handleArtistMessage(message, server);
+            handleGameMessage(message, server);
         }
     }
 
