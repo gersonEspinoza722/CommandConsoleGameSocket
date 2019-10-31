@@ -4,9 +4,10 @@ import BoardElement.Character.ICharacter;
 import BoardElement.IBoardElement;
 import BoardElement.Tools.ITool;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PlayerAttackCommand implements ICommand {
+public class PlayerAttackCommand implements ICommand, Serializable {
     int gameId;
     String clientToAttackName;
     ArrayList<ICharacter> chars;

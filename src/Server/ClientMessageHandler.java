@@ -40,14 +40,14 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 ServerThread currentServerThread = server.getClients().get(clientID);
                 gameServer.addNewPlayer(clientID,currentServerThread);
 
-                ServerThread currentThread = server.getClients().get(clientID);
-                ArrayList<Observable> games = server.getObservableResources();
-                Message observablesMessage = new ServerMessage("SERVER", "SENT_GAMES_LIST", games);
-                try {
-                    currentThread.getWriter().writeObject(observablesMessage);
-                } catch (IOException ex) {
-                    Logger.getLogger(ClientMessageHandler.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                //ServerThread currentThread = server.getClients().get(clientID);
+                //ArrayList<Observable> games = server.getObservableResources();
+                //Message observablesMessage = new ServerMessage("SERVER", "SENT_GAMES_LIST", games);
+                //try {
+                  //  currentThread.getWriter().writeObject(observablesMessage);
+                //} catch (IOException ex) {
+                  //  Logger.getLogger(ClientMessageHandler.class.getName()).log(Level.SEVERE, null, ex);
+                //}
 
             }
             break;
@@ -78,13 +78,14 @@ public class ClientMessageHandler implements IClientMessageHandler{
 
             case "ATTACK_MESSAGE": {
 
+                System.out.println("Entró a ataque");
 
                 PlayerMessage playerMessage = (PlayerMessage) message;
 
 
                 ICommand attack = (PlayerAttackCommand) playerMessage.getObjectOfInterest();
 
-                System.out.println(attack.getGameId());
+
 
 
                 //Game realGame = (Game) getGame(attack.getGameId(), server);
@@ -215,11 +216,11 @@ public class ClientMessageHandler implements IClientMessageHandler{
     }
     @Override
     public void handleClientMessage(Message message, Server server) {
-        System.out.println("New client");
+        System.out.println(message.getEvent());
         if (message.sentBy().equals("PLAYER")) { //PLAYER era FAN
-          //  handlePlayerMessage(message, server);
+            handlePlayerMessage(message, server);
         } else {
-            //handleArtistMessage(message, server);
+            handleArtistMessage(message, server);
         }
     }
 
