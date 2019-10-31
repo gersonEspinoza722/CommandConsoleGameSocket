@@ -78,8 +78,8 @@ public class Game extends Observable implements Serializable {
 
         //Guardar estado anterior
 
-        ((PlayerAttackCommand) command).setChars(list);
-        command.execute();
+        attack.setChars(list);
+        attack.execute();
 
         //arma.func(personaje-a-atacar) con if´s de tpo del mae
         //this.turnoActual++;
