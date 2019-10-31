@@ -7,6 +7,8 @@ import Client.Command.ICommand;
 import Client.Command.PlayerAttackCommand;
 import Client.Command.PlayerSurrenderCommand;
 import Client.Game.Game;
+import Client.Game.GameProxy;
+import Client.Game.Log;
 import Client.Message;
 import Client.Player.PlayerMessage;
 
@@ -91,8 +93,10 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 //ICharacterListing targets = realGame.getPlayer(((PlayerAttackCommand)attack).getClientToAttackName()).getCharacters();
                 //ArrayList<ICharacter> targetsList = targets.getCharacterList();
 
+                GameProxy gameProxy = new GameProxy(attack);
+                gameProxy.attack(attack);
 
-                //realGame.attack(attack);
+                //realGame.attack(attack); YA NO SE TIENE QUE LLAMAR DESDE ACA
 
 
 

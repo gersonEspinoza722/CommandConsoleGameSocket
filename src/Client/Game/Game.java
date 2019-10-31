@@ -12,11 +12,12 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Game extends Observable implements Serializable {
+public class Game extends Observable implements Serializable, IGame {
     private int identifier;
     private int currentPlayer;
     private int amountPlayers;
     private ArrayList<Player> players;
+    private ArrayList<Log> logs;
 
     public int getAmountPlayers() {
         return amountPlayers;
@@ -42,6 +43,8 @@ public class Game extends Observable implements Serializable {
         this.identifier = identifier;
         this.currentPlayer = 0;
         this.amountPlayers=0;
+        this.players = new ArrayList<>();
+        this.logs = new ArrayList<>();
     }
     /*
     public void addFollower(Observer observer) {
@@ -99,6 +102,14 @@ public class Game extends Observable implements Serializable {
         //}
         notifyObservers(this);
 
+    }
+
+    public ArrayList<Log> getLogs() {
+        return logs;
+    }
+
+    public void addLog(Log log){
+        logs.add(log);
     }
 
     public int getIdentifier() {
