@@ -31,6 +31,17 @@ public class ServerMessageHandlerGame implements IServerMessageHandler {
                 //Pasan cosas de ataque: bajar vidas
                 //((ArtistWindow) artistWindow).setFollowersLabelText("" + artist.getFollowers());
             }
+            break;
+            case "SURRENDER_MESSAGE_FROM_SERVER": {
+                //PlayerAttackCommand attack = (PlayerAttackCommand) message.getObjectOfInterest();
+                System.out.println("Un jugador se rindió");
+                //Pasan cosas de ataque: bajar vidas
+                //((ArtistWindow) artistWindow).setFollowersLabelText("" + artist.getFollowers());
+            }
+            break;
+            case "END_MESSAGE_FROM_SERVER":{
+                System.out.println("Un jugador terminó el juego empate");
+            }
 
         }
     }

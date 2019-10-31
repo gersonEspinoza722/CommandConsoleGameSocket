@@ -71,7 +71,25 @@ public class Game extends Observable implements Serializable {
         return player;
 
     }
-    public void surrender(ICommand command) {}
+
+
+    public void surrender(ICommand command) {
+        System.out.println("Entró a surrender en Game");
+
+        setChanged();
+        GameNotification surrenderNotification = new GameNotification(this.name,"SURRENDER_MESSAGE_GAME",this);
+        notifyObservers(surrenderNotification);
+
+    }
+
+    public void end(ICommand command) {
+        System.out.println("Entró a end en Game");
+
+        setChanged();
+        GameNotification surrenderNotification = new GameNotification(this.name,"END_MESSAGE_GAME",this);
+        notifyObservers(surrenderNotification);
+
+    }
 
     public void attack(ICommand command) {
 

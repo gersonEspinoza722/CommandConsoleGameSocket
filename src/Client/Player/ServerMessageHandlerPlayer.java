@@ -44,8 +44,19 @@ public class ServerMessageHandlerPlayer implements IServerMessageHandler {
                 //JOptionPane.showMessageDialog(fanWindow, likedMessage.getArtistName() + "'s" + " message: \"" + likedMessage.getText() + " \"" + " got to "  + likedMessage.getLikes() + " likes");
             }
             break;
+            case "SURRENDER_MESSAGE_GAME":{
+                System.out.println("Se rindió");
+                //ArtistPost likedMessage = (ArtistPost) message.getObjectOfInterest();
+                //JOptionPane.showMessageDialog(fanWindow, likedMessage.getArtistName() + "'s" + " message: \"" + likedMessage.getText() + " \"" + " got to "  + likedMessage.getLikes() + " likes");
+            }
+            break;
 
             case "FOLLOWERS_MILESTONE":{
+                //Artist followedArtist = (Artist) message.getObjectOfInterest();
+                //JOptionPane.showMessageDialog(fanWindow, followedArtist.getName() + " got to " +  followedArtist.getFollowers() + " followers");
+            }
+            case "END_MESSAGE_GAME":{
+                System.out.println("Se finaliza juego empate");
                 //Artist followedArtist = (Artist) message.getObjectOfInterest();
                 //JOptionPane.showMessageDialog(fanWindow, followedArtist.getName() + " got to " +  followedArtist.getFollowers() + " followers");
             }

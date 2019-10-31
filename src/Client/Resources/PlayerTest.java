@@ -2,6 +2,8 @@ package Client.Resources;
 
 import Client.ClientType;
 import Client.Command.PlayerAttackCommand;
+import Client.Command.PlayerEndCommand;
+import Client.Command.PlayerSurrenderCommand;
 import Client.Game.*;
 import Client.IServerMessageHandler;
 import Client.Message;
@@ -39,11 +41,18 @@ public class PlayerTest {
         Message subscribeMessage = new PlayerMessage("PLAYER","ENTER_GAME","GAME",player.getId());
         player.sendMessage(subscribeMessage);
 
-
-
-
         PlayerAttackCommand command = new PlayerAttackCommand(0, "GAME","PLAYER", null, null);
         Message attackMessage = new PlayerMessage("PLAYER" , "ATTACK_MESSAGE",command,player.getId());
         player.sendMessage(attackMessage);
+
+        PlayerSurrenderCommand command2 = new PlayerSurrenderCommand(0, "GAME");
+        Message surrenderMessage = new PlayerMessage("PLAYER" , "SURRENDER_MESSAGE",command2,player.getId());
+        player.sendMessage(surrenderMessage);
+
+        PlayerEndCommand command3 = new PlayerEndCommand(0, "GAME");
+        Message endMessage = new PlayerMessage("PLAYER" , "END_MESSAGE",command3,player.getId());
+        player.sendMessage(endMessage);
+
+
     }
 }
