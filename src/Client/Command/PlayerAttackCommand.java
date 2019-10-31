@@ -18,7 +18,6 @@ public class PlayerAttackCommand implements ICommand, Serializable{
     private ArrayList<ICharacter> chars;
     private int totalDaño;
     String name;
-    String clientToAttackName;
 
     private ArrayList<Integer> vidasAntes;
     private ArrayList<Integer> vidasDespues;
@@ -88,12 +87,12 @@ public class PlayerAttackCommand implements ICommand, Serializable{
 
     public ArrayList<Integer> getVidasAntes() {
         return vidasAntes;
+    }
 
     public ArrayList<Integer> getVidasDespues() {
         return vidasDespues;
     }
 
-    }
     public String getName() {
         return name;
     }

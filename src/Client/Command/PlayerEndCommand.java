@@ -1,10 +1,13 @@
 package Client.Command;
 
+import Client.Game.IGame;
+
 import java.io.Serializable;
 
 public class PlayerEndCommand implements ICommand, Serializable {
     int gameId;
-
+    private IGame realGame;
+    private String commandText;
 
 
     String name;
@@ -32,5 +35,15 @@ public class PlayerEndCommand implements ICommand, Serializable {
     @Override
     public int getGameId() {
         return 0;
+    }
+
+    @Override
+    public String getCommandText() {
+        return commandText;
+    }
+
+    @Override
+    public IGame getRealGame() {
+        return realGame;
     }
 }

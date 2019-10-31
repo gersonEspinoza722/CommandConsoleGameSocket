@@ -1,11 +1,14 @@
 package Client.Command;
 
+import Client.Game.IGame;
+
 import java.io.Serializable;
 
 public class PlayerChatCommand implements ICommand, Serializable {
     int gameId;
     String name;
     String text;
+    private IGame realGame;
 
     public void setGameId(int gameId) {
         this.gameId = gameId;
@@ -41,5 +44,15 @@ public class PlayerChatCommand implements ICommand, Serializable {
     @Override
     public int getGameId() {
         return 0;
+    }
+
+    @Override
+    public String getCommandText() {
+        return text;
+    }
+
+    @Override
+    public IGame getRealGame() {
+        return realGame;
     }
 }

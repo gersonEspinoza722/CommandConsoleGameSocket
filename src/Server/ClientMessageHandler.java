@@ -96,7 +96,7 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 } catch (IOException ex) {
                     Logger.getLogger(ClientMessageHandler.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                //ICommand attack = (PlayerAttackCommand) playerMessage.getObjectOfInterest();
+                ICommand attack = (PlayerAttackCommand) playerMessage.getObjectOfInterest(); //estaba comentado
 
 
                 //Game realGame = (Game) getGame(attack.getGameId(), server);

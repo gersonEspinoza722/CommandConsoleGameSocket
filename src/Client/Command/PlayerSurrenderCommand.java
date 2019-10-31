@@ -1,5 +1,7 @@
 package Client.Command;
 
+import Client.Game.IGame;
+
 import java.io.Serializable;
 
 public class PlayerSurrenderCommand  implements ICommand, Serializable {
