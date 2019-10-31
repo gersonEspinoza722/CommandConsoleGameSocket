@@ -2,16 +2,9 @@ package Client.Command;
 
 import java.io.Serializable;
 
-public class PlayerSurrenderCommand  implements ICommand, Serializable {
+public class PlayerPassCommand implements ICommand, Serializable {
     int gameId;
     String name;
-
-
-
-    public PlayerSurrenderCommand(int gameId,String name) {
-        this.gameId = gameId;
-        this.name = name;
-    }
 
     public void setGameId(int gameId) {
         this.gameId = gameId;
@@ -25,6 +18,11 @@ public class PlayerSurrenderCommand  implements ICommand, Serializable {
         this.name = name;
     }
 
+    public PlayerPassCommand(int gameId, String name) {
+        this.gameId = gameId;
+        this.name = name;
+    }
+
     @Override
     public void execute() {
 
@@ -33,15 +31,5 @@ public class PlayerSurrenderCommand  implements ICommand, Serializable {
     @Override
     public int getGameId() {
         return 0;
-    }
-
-    @Override
-    public String getCommandText() {
-        return null;
-    }
-
-    @Override
-    public IGame getRealGame() {
-        return null;
     }
 }

@@ -16,11 +16,11 @@ public class NotificationHandler implements INotificationHandler{
         //ANTES HABÏA UN CASO DE GamePost
 
         if (obj instanceof Game){
-            Game newArtist = (Game)obj;
-            Message newArtistMessage = new ServerMessage("SERVER", "NEW_ARTIST", newArtist);
+            Game newGame = (Game)obj;
+            Message newGameMessage = new ServerMessage("SERVER", "NEW_GAME", newGame);
 
             try {
-                clientWriter.writeObject(newArtistMessage);
+                clientWriter.writeObject(newGameMessage);
             }
 
             catch (IOException ex) {

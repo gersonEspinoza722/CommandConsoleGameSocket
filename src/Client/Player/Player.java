@@ -4,6 +4,7 @@ import BoardElement.Character.ICharacterListing;
 import BoardElement.Character.CharacterListingFactory;
 import BoardElement.Character.ICharacterListing;
 import Client.*;
+import Client.Game.Game;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -11,13 +12,15 @@ import java.util.Observable;
 public class Player extends Client {
 
     private String name;
-    private Observable subscribedGame;
     private int score;
     private int totalScore;
     private ICharacterListing characters;
+    private ArrayList<Game> followingGame;
 
-    public Player(String hostName, int portNumber, ClientType clientType) {
+    public Player(String hostName, int portNumber, ClientType clientType,String name) {
         super(hostName, portNumber, clientType);
+        this.name = name;
+        this.followingGame = new ArrayList<>();
         characters = CharacterListingFactory.getInstance().getCharacterListing(CharacterListingFactory.CHARACTER_ARRAY);
     }
 
@@ -27,14 +30,6 @@ public class Player extends Client {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Observable getSubscribedGame() {
-        return subscribedGame;
-    }
-
-    public void setSubscribedGame(Observable subscribedGame) {
-        this.subscribedGame = subscribedGame;
     }
 
     public ICharacterListing getCharacters() {
@@ -63,5 +58,13 @@ public class Player extends Client {
 
     public void addScore(int score){
         totalScore += score;
+    }
+
+    public ArrayList<Game> getFollowingGame() {
+        return followingGame;
+    }
+
+    public void setFollowingGame(ArrayList<Game> followingGame) {
+        this.followingGame = followingGame;
     }
 }

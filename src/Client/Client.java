@@ -115,22 +115,24 @@ public abstract class Client {
     
     public void run(){
         try{
-            System.out.println("corre cliente");
-            this.socket = new Socket(this.hostName,this.portNumber);
-            
-            OutputStream outputStream = socket.getOutputStream();
-            this.writer = new ObjectOutputStream(outputStream);
-            
-            InputStream inputStream = socket.getInputStream();
-            this.reader = new ObjectInputStream(inputStream);
-            
-            DataInputStream idReceiver = new DataInputStream(inputStream);
-            int assignedId = idReceiver.readInt();
-            this.id = assignedId;
-            
-            ClientThread clientThread = new ClientThread(this,reader);
-            clientThread.setServerMessageHandler(serverMessageHandler);
-            clientThread.start();
+
+                System.out.println("corre cliente");
+                this.socket = new Socket(this.hostName, this.portNumber);
+
+                OutputStream outputStream = socket.getOutputStream();
+                this.writer = new ObjectOutputStream(outputStream);
+
+                InputStream inputStream = socket.getInputStream();
+                this.reader = new ObjectInputStream(inputStream);
+
+                DataInputStream idReceiver = new DataInputStream(inputStream);
+                int assignedId = idReceiver.readInt();
+                this.id = assignedId;
+
+                ClientThread clientThread = new ClientThread(this, reader);
+                clientThread.setServerMessageHandler(serverMessageHandler);
+                clientThread.start();
+
         }
         catch(IOException ex){
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE,null,ex);

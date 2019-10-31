@@ -5,8 +5,15 @@ import Client.Message;
 public class GameMessage extends Message {
     private int gameID;
 
-    public GameMessage(String sentBy, String event, Object objectOfInterest, int gameID) {
+    public GameMessage(String sentBy, String event, Object objectOfInterest) {
         super(sentBy, event, objectOfInterest);
-        this.gameID=gameID;
+    }
+
+    public int getGameID() {
+        return gameID;
+    }
+
+    public void setGameID(int gameID) {
+        this.gameID = gameID;
     }
 }

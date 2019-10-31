@@ -9,6 +9,12 @@ public class PlayerMessage extends Message {
         super(sentBy, event, objectOfInterest);
     }
 
+    public PlayerMessage(String sentBy, String event, Object objectOfInterest, int playerID) {
+        super(sentBy, event, objectOfInterest);
+        this.clientId = playerID;
+    }
+
+
 
 
     public int getClientID() {

@@ -6,9 +6,10 @@ import BoardElement.Tools.ITool;
 import Client.Game.Game;
 import Client.Game.IGame;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PlayerAttackCommand implements ICommand {
+public class PlayerAttackCommand implements ICommand, Serializable{
     private String commandText; //desde el constructor?
     private int gameId;
     private IGame realGame;
@@ -16,12 +17,15 @@ public class PlayerAttackCommand implements ICommand {
     private String clientToAttackName;
     private ArrayList<ICharacter> chars;
     private int totalDaño;
+    String name;
+    String clientToAttackName;
 
     private ArrayList<Integer> vidasAntes;
     private ArrayList<Integer> vidasDespues;
 
-    public PlayerAttackCommand(int gameId, String clientToAttackName, ArrayList<ICharacter> chars, ITool weapon) {
+    public PlayerAttackCommand(int gameId,String name, String clientToAttackName, ArrayList<ICharacter> chars, ITool weapon) {
         this.gameId = gameId;
+        this.name = name;
         this.clientToAttackName = clientToAttackName;
         this.chars = chars;
         this.weapon = weapon;
@@ -84,10 +88,18 @@ public class PlayerAttackCommand implements ICommand {
 
     public ArrayList<Integer> getVidasAntes() {
         return vidasAntes;
-    }
 
     public ArrayList<Integer> getVidasDespues() {
         return vidasDespues;
+    }
+
+    }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
