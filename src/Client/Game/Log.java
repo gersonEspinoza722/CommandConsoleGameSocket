@@ -32,6 +32,13 @@ public class Log implements IGame{
         }
         resultado = resultado.concat("\n");
 
+        formatResultado();
+
+    }
+
+    @Override
+    public void addLog(Log log) {
+        resultado = log.resultado;
     }
 
     private void formatResultado(){
@@ -40,5 +47,6 @@ public class Log implements IGame{
         String commandText = command.getCommandText() + "\n";
         resultado = fechaText.concat(commandText).concat(resultado);
         System.out.println(resultado);
+        command.getRealGame().addLog(this);
     }
 }

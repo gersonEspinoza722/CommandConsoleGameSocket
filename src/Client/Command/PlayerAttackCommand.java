@@ -15,6 +15,7 @@ public class PlayerAttackCommand implements ICommand {
     private ITool weapon;
     private String clientToAttackName;
     private ArrayList<ICharacter> chars;
+    private int totalDaño;
 
     private ArrayList<Integer> vidasAntes;
     private ArrayList<Integer> vidasDespues;
@@ -24,6 +25,7 @@ public class PlayerAttackCommand implements ICommand {
         this.clientToAttackName = clientToAttackName;
         this.chars = chars;
         this.weapon = weapon;
+        this.totalDaño = 0;
     }
 
     public ArrayList<ICharacter> getChars() {
@@ -98,7 +100,9 @@ public class PlayerAttackCommand implements ICommand {
             weapon.interact(character); //meter daños al arraylist
 
             int vidaDespues = (int) chars.get(i).getCurrentLife();
-            vidasAntes.add(vidaDespues);
+            vidasDespues.add(vidaDespues);
+
+            totalDaño += (vidaAntes - vidaDespues);
         }
 
     }
