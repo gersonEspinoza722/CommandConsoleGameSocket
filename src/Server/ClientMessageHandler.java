@@ -3,10 +3,7 @@ package Server;
 import BoardElement.Character.ICharacter;
 import BoardElement.Character.ICharacterListing;
 import BoardElement.IBoardElement;
-import Client.Command.ICommand;
-import Client.Command.PlayerAttackCommand;
-import Client.Command.PlayerEndCommand;
-import Client.Command.PlayerSurrenderCommand;
+import Client.Command.*;
 import Client.Game.Game;
 import Client.Game.GameMessage;
 import Client.Message;
@@ -165,6 +162,101 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 }
             }
             break;
+            case "RELOAD_MESSAGE": {
+
+                PlayerMessage playerMessage = (PlayerMessage) message;
+                String gameName = ((PlayerReloadCommand)playerMessage.getObjectOfInterest()).getName();
+                Game realGame = getGame(gameName,server);
+                realGame.reload((ICommand) playerMessage.getObjectOfInterest());
+
+                GameServer gameServer = (GameServer)  server;
+                ServerThread gameThread = gameServer.getGames().get(realGame.getName());
+                //System.out.println("Soy el thread:¨"+gameThread.getID());
+                Message reloadMesagge = new ServerMessage("SERVER","RELOAD_MESSAGE_FROM_SERVER",realGame);
+                try {
+                    gameThread.getWriter().reset();
+                    gameThread.getWriter().writeObject(reloadMesagge);
+                } catch (IOException ex) {
+                    Logger.getLogger(ClientMessageHandler.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            break;
+            case "COMODIN_MESSAGE": {
+
+                PlayerMessage playerMessage = (PlayerMessage) message;
+                String gameName = ((PlayerComodinCommand)playerMessage.getObjectOfInterest()).getName();
+                Game realGame = getGame(gameName,server);
+                realGame.comodin((ICommand) playerMessage.getObjectOfInterest());
+
+                GameServer gameServer = (GameServer)  server;
+                ServerThread gameThread = gameServer.getGames().get(realGame.getName());
+                //System.out.println("Soy el thread:¨"+gameThread.getID());
+                Message reloadMesagge = new ServerMessage("SERVER","COMODIN_MESSAGE_FROM_SERVER",realGame);
+                try {
+                    gameThread.getWriter().reset();
+                    gameThread.getWriter().writeObject(reloadMesagge);
+                } catch (IOException ex) {
+                    Logger.getLogger(ClientMessageHandler.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            break;
+            case "INFO_MESSAGE": {
+
+                PlayerMessage playerMessage = (PlayerMessage) message;
+                String gameName = ((PlayerGetOtherInfoCommand)playerMessage.getObjectOfInterest()).getName();
+                Game realGame = getGame(gameName,server);
+                realGame.info((ICommand) playerMessage.getObjectOfInterest());
+
+                GameServer gameServer = (GameServer)  server;
+                ServerThread gameThread = gameServer.getGames().get(realGame.getName());
+                //System.out.println("Soy el thread:¨"+gameThread.getID());
+                Message infoMesagge = new ServerMessage("SERVER","INFO_MESSAGE_FROM_SERVER",realGame);
+                try {
+                    gameThread.getWriter().reset();
+                    gameThread.getWriter().writeObject(infoMesagge);
+                } catch (IOException ex) {
+                    Logger.getLogger(ClientMessageHandler.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            break;
+            case "PASS_MESSAGE": {
+
+                PlayerMessage playerMessage = (PlayerMessage) message;
+                String gameName = ((PlayerPassCommand)playerMessage.getObjectOfInterest()).getName();
+                Game realGame = getGame(gameName,server);
+                realGame.pass((ICommand) playerMessage.getObjectOfInterest());
+
+                GameServer gameServer = (GameServer)  server;
+                ServerThread gameThread = gameServer.getGames().get(realGame.getName());
+                //System.out.println("Soy el thread:¨"+gameThread.getID());
+                Message passMesagge = new ServerMessage("SERVER","PASS_MESSAGE_FROM_SERVER",realGame);
+                try {
+                    gameThread.getWriter().reset();
+                    gameThread.getWriter().writeObject(passMesagge);
+                } catch (IOException ex) {
+                    Logger.getLogger(ClientMessageHandler.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            break;
+            case "CHAT_MESSAGE": {
+
+                PlayerMessage playerMessage = (PlayerMessage) message;
+                String gameName = ((PlayerChatCommand)playerMessage.getObjectOfInterest()).getName();
+                Game realGame = getGame(gameName,server);
+                realGame.chat((ICommand) playerMessage.getObjectOfInterest());
+
+                GameServer gameServer = (GameServer)  server;
+                ServerThread gameThread = gameServer.getGames().get(realGame.getName());
+                //System.out.println("Soy el thread:¨"+gameThread.getID());
+                Message chatMesagge = new ServerMessage("SERVER","CHAT_MESSAGE_FROM_SERVER",realGame);
+                try {
+                    gameThread.getWriter().reset();
+                    gameThread.getWriter().writeObject(chatMesagge);
+                } catch (IOException ex) {
+                    Logger.getLogger(ClientMessageHandler.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            break;
         }
     }
     public void handleGameMessage(Message message, Server server) {
@@ -211,7 +303,7 @@ public class ClientMessageHandler implements IClientMessageHandler{
             //System.out.println(currentGame.getName());
             if (currentGame.getName().equals(gameName)) { //getIdentifier() era getName()
                 result =  currentGame;
-                System.out.println("encontro el juego por nombre:" + result.getName());
+             //   System.out.println("encontro el juego por nombre:" + result.getName());
             }
             //System.out.println("NO encontro el juego por nombre");
             //result =(Game) games.get(0);//PARA PROBAR

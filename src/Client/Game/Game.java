@@ -72,6 +72,24 @@ public class Game extends Observable implements Serializable {
 
     }
 
+    public void chat(ICommand command) {
+        System.out.println("Entró a mandar chat en Game");
+
+        setChanged();
+        GameNotification chatNotification = new GameNotification(this.name,"CHAT_MESSAGE_GAME",this);
+        notifyObservers(chatNotification);
+
+    }
+
+    public void pass(ICommand command) {
+        System.out.println("Entró a pass en Game");
+
+        setChanged();
+        GameNotification passNotification = new GameNotification(this.name,"PASS_MESSAGE_GAME",this);
+        notifyObservers(passNotification);
+
+    }
+
 
     public void surrender(ICommand command) {
         System.out.println("Entró a surrender en Game");
@@ -79,6 +97,33 @@ public class Game extends Observable implements Serializable {
         setChanged();
         GameNotification surrenderNotification = new GameNotification(this.name,"SURRENDER_MESSAGE_GAME",this);
         notifyObservers(surrenderNotification);
+
+    }
+
+    public void info(ICommand command) {
+        System.out.println("Entró a pedir información del otro usuario en Game");
+
+        setChanged();
+        GameNotification surrenderNotification = new GameNotification(this.name,"SURRENDER_MESSAGE_GAME",this);
+        notifyObservers(surrenderNotification);
+
+    }
+
+    public void comodin(ICommand command) {
+        System.out.println("Entró a comodin en Game");
+
+        setChanged();
+        GameNotification infoNotification = new GameNotification(this.name,"INFO_MESSAGE_GAME",this);
+        notifyObservers(infoNotification);
+
+    }
+
+    public void reload(ICommand command) {
+        System.out.println("Entró a recargar armas en Game");
+
+        setChanged();
+        GameNotification reloadNotification = new GameNotification(this.name,"RELOAD_MESSAGE_GAME",this);
+        notifyObservers(reloadNotification);
 
     }
 

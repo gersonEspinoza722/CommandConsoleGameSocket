@@ -20,7 +20,7 @@ public class ServerMessageHandlerGame implements IServerMessageHandler {
 
         switch (event) {
             case "NEW_PLAYER": {
-                System.out.println("Nuevo jugador");
+                System.out.println("Un nuevo jugador");
                 //Game game = (Game) message.getObjectOfInterest();
                 //((ArtistWindow) artistWindow).setFollowersLabelText("" + artist.getFollowers());
             }
@@ -42,6 +42,30 @@ public class ServerMessageHandlerGame implements IServerMessageHandler {
             case "END_MESSAGE_FROM_SERVER":{
                 System.out.println("Un jugador terminó el juego empate");
             }
+            break;
+            case "RELOAD_MESSAGE_FROM_SERVER":{
+                System.out.println("Un jugador recargó armas");
+            }
+            break;
+
+            case "COMODIN_MESSAGE_FROM_SERVER":{
+                System.out.println("Un jugador usó comodin");
+            }
+            break;
+
+            case "INFO_MESSAGE_FROM_SERVER":{
+                System.out.println("Un jugador pidió información");
+            }
+            break;
+            case "PASS_MESSAGE_FROM_SERVER":{
+                System.out.println("Un jugador saltó turno");
+            }
+            break;
+            case "CHAT_MESSAGE_FROM_SERVER":{
+                System.out.println("Un jugador mandó chat");
+            }
+            break;
+
 
         }
     }

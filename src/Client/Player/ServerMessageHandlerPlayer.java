@@ -61,6 +61,36 @@ public class ServerMessageHandlerPlayer implements IServerMessageHandler {
                 //JOptionPane.showMessageDialog(fanWindow, followedArtist.getName() + " got to " +  followedArtist.getFollowers() + " followers");
             }
             break;
+            case "RELOAD_MESSAGE_GAME":{
+                System.out.println("Se recarga armas");
+                //Artist followedArtist = (Artist) message.getObjectOfInterest();
+                //JOptionPane.showMessageDialog(fanWindow, followedArtist.getName() + " got to " +  followedArtist.getFollowers() + " followers");
+            }
+            break;
+            case "COMODIN_MESSAGE_GAME":{
+                System.out.println("Se usa el comodin");
+                //Artist followedArtist = (Artist) message.getObjectOfInterest();
+                //JOptionPane.showMessageDialog(fanWindow, followedArtist.getName() + " got to " +  followedArtist.getFollowers() + " followers");
+            }
+            break;
+            case "INFO_MESSAGE_GAME":{
+                System.out.println("Pide info del otro");
+                //Artist followedArtist = (Artist) message.getObjectOfInterest();
+                //JOptionPane.showMessageDialog(fanWindow, followedArtist.getName() + " got to " +  followedArtist.getFollowers() + " followers");
+            }
+            break;
+            case "PASS_MESSAGE_GAME":{
+                System.out.println("Pasa turno");
+                //Artist followedArtist = (Artist) message.getObjectOfInterest();
+                //JOptionPane.showMessageDialog(fanWindow, followedArtist.getName() + " got to " +  followedArtist.getFollowers() + " followers");
+            }
+            break;
+            case "CHAT_MESSAGE_GAME":{
+                System.out.println("Manda chat");
+                //Artist followedArtist = (Artist) message.getObjectOfInterest();
+                //JOptionPane.showMessageDialog(fanWindow, followedArtist.getName() + " got to " +  followedArtist.getFollowers() + " followers");
+            }
+            break;
         }
     }
 
