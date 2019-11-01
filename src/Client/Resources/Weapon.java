@@ -6,16 +6,22 @@ import BoardElement.Tools.Tool;
 import Client.Game.DamageTable;
 import Media.IMediaListing;
 import Patterns.IPrototype;
+
+import java.io.Serializable;
 import java.util.Random;
 
-public class Weapon extends Tool {
+public class Weapon extends Tool implements Serializable {
 
     private DamageTable damageTable; //<tipo, daño>
 
-    public Weapon(String name, int type, int simpleUseDecrement) {
+    public Weapon(String name, int type, int simpleUseDecrement, DamageTable damageTable) { //cuando creo el weapon tengo que darle la cantidad de usos
         super(name, type, simpleUseDecrement);
         Random random = new Random(System.currentTimeMillis());
-        damageTable = new DamageTable(Skill.values()[type], random);
+        this.damageTable = damageTable;//new DamageTable(Skill.values()[type], random);
+    }
+
+    public DamageTable getDamageTable() {
+        return damageTable;
     }
 
     @Override
@@ -49,6 +55,11 @@ public class Weapon extends Tool {
     }
 
     @Override
+    public void incUse(int increment){
+        simpleUseDecrement = simpleUseDecrement + increment;
+    }
+
+    @Override
     public void func(IBoardElement object) {//input can be character or tool to be affected by the weapon
         System.out.println(object.toString());
         //if(object instanceof ICharacter){
@@ -58,7 +69,8 @@ public class Weapon extends Tool {
 
     private void attack(ICharacter character){
         Warrior warrior = (Warrior) character;
-        warrior.decLife(damageTable.getDamage().get(warrior.getSkillType()));
+        warrior.decLife(damageTable.getDamage().get(warrior.getSkillType())); //que no se baje de 0
+        //decUse(1); //default 4 usos? o llamar desde afuera
     }
 
     @Override

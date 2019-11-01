@@ -2,10 +2,11 @@ package Client.Game;
 
 import Client.Resources.Skill;
 
+import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Random;
 
-public class DamageTable {
+public class DamageTable implements Serializable {
     private Skill skillType;
     private Hashtable<Skill, Integer> damage;
 
@@ -21,6 +22,7 @@ public class DamageTable {
 
     @Override
     public String toString() {
+        /*
         String text = "DamageTable{" +
                 "skillType=" + skillType +
                 ", damage=";
@@ -29,8 +31,15 @@ public class DamageTable {
         for (Integer dmg : damage.values()){
             text = text.concat(types[counter].name()+" "+dmg.toString()+", ");
             counter++;
+        }*/
+        int counter = 0;
+        Skill types[] = Skill.values();
+        String toString="";
+        for (Integer dmg : damage.values()){
+            toString = toString.concat(" "+dmg.toString());
+            counter++;
         }
-        return text;
+        return toString;
     }
 
     public Skill getSkillType() {

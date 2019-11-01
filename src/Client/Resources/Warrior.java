@@ -1,18 +1,20 @@
 package Client.Resources;
 
 import BoardElement.Character.CharacterAbstract;
-import BoardElement.Character.ICharacter;
-import BoardElement.IBoardElement;
 import BoardElement.Tools.ITool;
 import BoardElement.Tools.ToolListingFactory;
 import Media.IMediaElement;
 import Media.MediaListingFactory;
 
-public class Warrior extends CharacterAbstract {
+import java.io.Serializable;
+
+public class Warrior extends CharacterAbstract implements Serializable {
     private Skill skillType;
+    private int weaponsQuantity;
 
     public Warrior(Skill skillType) {
         this.skillType = skillType;
+        this.weaponsQuantity = 5;
     }
 
     public Warrior(String name, float defaultLife, Skill skillType) {
@@ -21,6 +23,7 @@ public class Warrior extends CharacterAbstract {
         super.decrementableLife = defaultLife;
         super.tools = ToolListingFactory.getInstance().getToolListing(ToolListingFactory.TOOL_ARRAY);
         super.media = MediaListingFactory.getInstance().getMediaListing(MediaListingFactory.IMAGE_ARRAY);
+        this.weaponsQuantity = 5; //se debe asignar desde parametro, arreglar
     }
 
     public Skill getSkillType() {
@@ -31,6 +34,7 @@ public class Warrior extends CharacterAbstract {
         this.skillType = skillType;
     }
 
+    @Override
     public void addTool(ITool tool) {
         this.tools.addTool(tool);
     }
@@ -42,8 +46,14 @@ public class Warrior extends CharacterAbstract {
     @Override
     public void decLife(int percentage){
         decrementableLife -= defaultLife * percentage / 100;
+        if(decrementableLife > 0){
+            decrementableLife = 0;
+        }
     }
 
+    public int getWeaponsQuantity() {
+        return weaponsQuantity;
+    }
     /*
     @Override
     public void interact(IBoardElement otherElement){ //como seria?

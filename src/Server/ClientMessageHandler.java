@@ -1,12 +1,11 @@
 package Server;
 
-import BoardElement.Character.ICharacter;
 import BoardElement.Character.ICharacterListing;
-import BoardElement.IBoardElement;
 import Client.Command.*;
-import Client.Game.Game;
-import Client.Game.GameMessage;
+import Client.Game.*;
 import Client.Message;
+import Client.*;
+import Client.Player.Player;
 import Client.Player.PlayerMessage;
 
 import javax.swing.*;
@@ -19,10 +18,9 @@ import java.util.logging.Logger;
 
 public class ClientMessageHandler implements IClientMessageHandler{
 
-    JFrame serverLogWindow;
+    //JFrame serverLogWindow;
 
-    public ClientMessageHandler(JFrame serverLogWindow) {
-        this.serverLogWindow = serverLogWindow;
+    public ClientMessageHandler() {
     }
 
     public void handlePlayerMessage(Message message, Server server) {
@@ -49,7 +47,6 @@ public class ClientMessageHandler implements IClientMessageHandler{
 
             }
             break;
-            
 
 
             case "ENTER_GAME": {
@@ -59,7 +56,9 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 ServerThread currentThread = server.getClients().get(clientID);
                 String followedGame = (String) message.getObjectOfInterest();
                 Game realGame = getGame(followedGame, server);
-                //System.out.println("Quiero entrar al juego:"+realGame.getName());
+                //todos los players de real game estan asignados?
+
+                //System.out.println("Quiero entrar al juego:"+realGame.getGameName());
                 realGame.addPlayer(currentThread); // Use this to validate and notify
 
                 GameServer gameServer = (GameServer) server;
@@ -80,10 +79,23 @@ public class ClientMessageHandler implements IClientMessageHandler{
             case "ATTACK_MESSAGE": {
                 PlayerMessage playerMessage = (PlayerMessage) message;
 
-                String gameName = ((PlayerAttackCommand)playerMessage.getObjectOfInterest()).getName();
+                String gameName = ((PlayerAttackCommand)playerMessage.getObjectOfInterest()).getGameName();
                 Game realGame = getGame(gameName,server);
-                realGame.attack((ICommand) playerMessage.getObjectOfInterest());
-                //System.out.println("Soy el juego:"+realGame.getName());
+
+                //System.out.println(realGame.toString());
+
+                //realGame.attack((ICommand) playerMessage.getObjectOfInterest()); gameProxy
+                //System.out.println("Soy el juego:"+realGame.getGameName());
+
+                ICommand attack = (PlayerAttackCommand) playerMessage.getObjectOfInterest(); //estaba comentado
+                ((PlayerAttackCommand) attack).setRealGame(realGame);
+
+                //SACAR LOS CHARACTERS DEL OTRO JUGADOR
+                ICharacterListing targets = realGame.getOtherPlayer().getCharacters();
+                ((PlayerAttackCommand) attack).setCharacters(targets);
+
+                GameProxy gameProxy = new GameProxy(attack);
+                gameProxy.attack(attack);
 
                 GameServer gameServer = (GameServer)  server;
                 ServerThread gameThread = gameServer.getGames().get(realGame.getName());
@@ -95,19 +107,6 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 } catch (IOException ex) {
                     Logger.getLogger(ClientMessageHandler.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                //ICommand attack = (PlayerAttackCommand) playerMessage.getObjectOfInterest();
-
-
-                //Game realGame = (Game) getGame(attack.getGameId(), server);
-                //ICharacterListing targets = realGame.getPlayer(((PlayerAttackCommand)attack).getClientToAttackName()).getCharacters();
-                //ArrayList<ICharacter> targetsList = targets.getCharacterList();
-
-
-                //realGame.attack(attack);
-
-
-
-
 
 
 
@@ -119,7 +118,7 @@ public class ClientMessageHandler implements IClientMessageHandler{
                     gameThread.getWriter().reset();
                     gameThread.getWriter().writeObject(attackMessage); //Mandé el juego completo para ponerlo talvez en una pantalla de Game
                 } catch (IOException ex) {
-                    Logger.getLogger(ClientMessageHandler.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ClientMessageHandler.class.getGameName()).log(Level.SEVERE, null, ex);
                 }*/
             }
             break;
@@ -149,6 +148,7 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 String gameName = ((PlayerEndCommand)playerMessage.getObjectOfInterest()).getName();
                 Game realGame = getGame(gameName,server);
                 realGame.end((ICommand) playerMessage.getObjectOfInterest());
+
 
                 GameServer gameServer = (GameServer)  server;
                 ServerThread gameThread = gameServer.getGames().get(realGame.getName());
@@ -263,17 +263,31 @@ public class ClientMessageHandler implements IClientMessageHandler{
         String event = message.getEvent();
         switch (event) {
             case "GAME_REGISTRATION": {
+
                 GameMessage gameMessage = (GameMessage) message;
                 int gameClientID = gameMessage.getGameID();
                 ArrayList<Observable> games = server.getObservableResources();
                 // Create an Artist based on the information I just received
                 String gameName = (String) message.getObjectOfInterest();
                 int gameId = games.size();
-                Game newGame = new Game(gameId,gameName);
+                Player player1 = new Player(0);
+                Player player2 = new Player(1);
+
+                ArrayList<Player> players = new ArrayList<>();
+                players.add(player1);
+                players.add(player2);
+
+                IGame newGame = new Game(gameId,gameName, players);
+                //System.out.println(newGame.toString());
+                //new game.add t o d o
+                //hacer characters y armas aqui
+                //((Game) newGame).addNewPlayer(player1);
+                //System.out.println(((Game) newGame).getPlayers().get(0).getName());
 
                 GameServer gameServer = (GameServer) server;
                 ServerThread currentServerThread = server.getClients().get(gameClientID);
-                gameServer.addNewGame(newGame,gameName,currentServerThread);
+                gameServer.addNewGame((Game) newGame,gameName,currentServerThread);
+
 
             }
             break;
@@ -300,10 +314,10 @@ public class ClientMessageHandler implements IClientMessageHandler{
         Game result = null;
         for (Observable game : games) {//games era artists
             Game currentGame = (Game) game; //current game era current artist
-            //System.out.println(currentGame.getName());
-            if (currentGame.getName().equals(gameName)) { //getIdentifier() era getName()
+            //System.out.println(currentGame.getGameName());
+            if (currentGame.getName().equals(gameName)) { //getIdentifier() era getGameName()
                 result =  currentGame;
-             //   System.out.println("encontro el juego por nombre:" + result.getName());
+             //   System.out.println("encontro el juego por nombre:" + result.getGameName());
             }
             //System.out.println("NO encontro el juego por nombre");
             //result =(Game) games.get(0);//PARA PROBAR

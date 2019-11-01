@@ -1,50 +1,64 @@
 package Client.Command;
 
-import BoardElement.Character.ICharacter;
+import BoardElement.Character.ICharacterListing;
 import BoardElement.IBoardElement;
 import BoardElement.Tools.ITool;
+import Client.Game.Game;
+import Client.Game.IGame;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PlayerAttackCommand implements ICommand, Serializable {
-    int gameId;
-    String name;
-    String clientToAttackName;
-    ArrayList<ICharacter> chars;
+public class PlayerAttackCommand implements ICommand, Serializable{
 
-    public PlayerAttackCommand(int gameId,String name, String clientToAttackName, ArrayList<ICharacter> chars, ITool weapon) {
-        this.gameId = gameId;
-        this.name = name;
-        this.clientToAttackName = clientToAttackName;
-        this.chars = chars;
-        this.weapon = weapon;
+    private IGame realGame;
+    private String commandText;
+    private ITool weapon;
+    private String weaponName;
+    private String warriorName;
+    private String clientToAttackName;
+    private ICharacterListing characters; //personajes a atacar
+    private int totalDaño;
+    private String gameName; //nombre del juego
+
+    private ArrayList<Integer> vidasAntes;
+    private ArrayList<Integer> vidasDespues;
+
+    public PlayerAttackCommand(String gameName, String commandText, String weaponName, String warriorName){//, String weaponName, String warriorName) { //a partir de commandText se puede obtener weapon y warrior? si si, eliminar dos ultimos campos del constructor
+        this.gameName = gameName;
+
+        this.totalDaño = 0;
+        this.commandText = commandText;
+        this.weaponName = weaponName;
+        this.warriorName = warriorName;
     }
 
-    public ArrayList<ICharacter> getChars() {
-        return chars;
+    public ICharacterListing getCharacters() {
+        return characters;
     }
 
-    public void setChars(ArrayList<ICharacter> chars) {
-        this.chars = chars;
+    public void setCharacters(ICharacterListing characters) {
+        this.characters = characters;
     }
 
     public String getClientToAttackName() {
         return clientToAttackName;
     }
 
-    ITool weapon;
 
 
-@Override
-    public int getGameId() {
-        return gameId;
+    public void setRealGame(IGame realGame) {
+        this.realGame = realGame;
+        System.out.println(((Game)realGame).getName());
+        weapon = realGame.getWeapon(weaponName, warriorName);
     }
 
-    public void setGameId(int gameId) {
-        this.gameId = gameId;
-    }
 
+
+    @Override
+    public IGame getRealGame() {
+        return realGame;
+    }
 
 
     public String clientToAttackName() {
@@ -55,7 +69,6 @@ public class PlayerAttackCommand implements ICommand, Serializable {
         this.clientToAttackName = clientToAttackName;
     }
 
-
     public ITool getWeapon() {
         return weapon;
     }
@@ -64,20 +77,60 @@ public class PlayerAttackCommand implements ICommand, Serializable {
         this.weapon = weapon;
     }
 
-    public String getName() {
-        return name;
+    public ArrayList<Integer> getVidasAntes() {
+        return vidasAntes;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public ArrayList<Integer> getVidasDespues() {
+        return vidasDespues;
+    }
+
+    public String getGameName() {
+        return gameName;
+    }
+
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
+    }
+
+    public int getTotalDaño() {
+        return totalDaño;
+    }
+
+    public String getWeaponName() {
+        return weaponName;
+    }
+
+    public String getWarriorName() {
+        return warriorName;
     }
 
     @Override
+    
     public void execute() {
-        for (int i=0;i<chars.size();i++){
-            IBoardElement character = (IBoardElement) chars.get(i);
-            weapon.interact(character);
-        }
+        for (int i = 0; i< characters.getSize(); i++){
+            int vidaAntes = (int) characters.getCharacter(i).getCurrentLife();
+            vidasAntes.add(vidaAntes);
 
+            IBoardElement character = characters.getCharacter(i);
+            weapon.interact(character); //meter daños al arraylist
+
+            int vidaDespues = (int) characters.getCharacter(i).getCurrentLife();
+            vidasDespues.add(vidaDespues);
+
+            totalDaño += (vidaAntes - vidaDespues);
+        }
+        weapon.decUse(1);
+
+    }
+
+    @Override
+    public int getGameId() {
+        return 0;
+    }
+
+    @Override
+    public String getCommandText() {
+        return commandText;
     }
 }
