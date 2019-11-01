@@ -1,12 +1,13 @@
 package Client.Game;
 
 import BoardElement.Character.ICharacter;
-import BoardElement.IBoardElement;
+import BoardElement.Character.ICharacterListing;
+import BoardElement.Tools.ITool;
+import BoardElement.Tools.IToolListing;
 import Client.Command.ICommand;
 import Client.Command.PlayerAttackCommand;
 import Client.Player.Player;
-import Client.Resources.Warrior;
-import Server.ServerMessage;
+import Client.Resources.Weapon;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,9 +18,11 @@ public class Game extends Observable implements Serializable, IGame {
     private int identifier;
     private int currentPlayer;
     private int amountPlayers;
-    private ArrayList<Player> players;
-    private ArrayList<Log> logs;
+    private ArrayList<Player> players; //ICharacterListing
+    private ArrayList<Log> logs; //ILog listing?
     private String name;
+    private int turno;
+    private GameStatus status;
 
     public int getAmountPlayers() {
         return amountPlayers;
@@ -44,16 +47,19 @@ public class Game extends Observable implements Serializable, IGame {
     public Game(int identifier,String name) {
         this.identifier = identifier;
         this.currentPlayer = 0;
-        this.amountPlayers=0;
+        this.amountPlayers=2;
         this.players = new ArrayList<>();
         this.logs = new ArrayList<>();
         this.name = name;
+        this.turno = -1; //hacer logica para asignar turnos
+        this.status = GameStatus.STARTED;
     }
 
     public void addPlayer(Observer observer) {
         //log anterior
         this.addObserver(observer);
         this.amountPlayers++;
+
         //log posterior
         setChanged();
 
@@ -62,17 +68,8 @@ public class Game extends Observable implements Serializable, IGame {
 
     }
 
-    public Player getPlayer(String name){
-        Player player;
-        player=null;
-        for(int i=0; i<players.size();i++){
-            if(players.get(i).getName().equals(name)){
-                player= players.get(i);
-                break;
-            }
-        }
-        return player;
-
+    public Player getOtherPlayer(){
+        return players.get(turno%amountPlayers+1);
     }
 
     public void chat(ICommand command) {
@@ -142,44 +139,54 @@ public class Game extends Observable implements Serializable, IGame {
     public void attack(ICommand command) {
 
         System.out.println("Entró a attack en Game");
-        //PlayerAttackCommand attack = (PlayerAttackCommand) command;
-        setChanged();
+
+        PlayerAttackCommand attack = (PlayerAttackCommand) command; //nuevo
         GameNotification attackNotification = new GameNotification(this.name,"NEW_ATTACK_MESSAGE",this);
+
+        Player playerToAttack = getOtherPlayer();
+        ICharacterListing list = playerToAttack.getCharacters();
+
+        attack.setCharacters(list);
+        attack.execute();
+
+        if(isOver(getOtherPlayer())> 0){
+            finishGame();
+        }
+
+        //aumentar turno
+        aumentarTurno();
+
+        //----------------------------logica observers
+        setChanged();
         notifyObservers(attackNotification);
 
-        //FALTA IMPLEMENTAR
-        //Player playerToAttack = getPlayer(attack.getClientToAttackName());//hay que asegurarse que el id de los clientes sea igual al indice de entrada
-        //ArrayList<ICharacter> list = playerToAttack.getCharacters().getCharacterList();
+    }
 
+    private int isOver(Player attackedPlayer){
+        //si el jugador atacado tiene 0 characters vivos, termina, devuelve id del perdedor y si no, devueve -1;
+        ICharacterListing playerCharacters = attackedPlayer.getCharacters();
+        Boolean gameOverFlag = true; //se inicializa true, si se encuentra character vivo, se setea a false
+        for(int i = 0; i<playerCharacters.getSize(); i++){
+            ICharacter character = playerCharacters.getCharacter(i);
+            if(character.getCurrentLife() > 0){
+                gameOverFlag = false;
+                break;
+            }
+        }
+        int attackedPlayerId = -1;
+        if(gameOverFlag == true)
+            attackedPlayerId = attackedPlayer.getId();
+        return attackedPlayerId;
+    }
 
-        //Guardar estado anterior
+    private void aumentarTurno(){
+        turno = (turno+1)%amountPlayers;
+    }
 
-        //FALTA IMPLEMENTAR
-        //attack.setChars(list);
-        //attack.execute();
+    private void finishGame(){
+        status = GameStatus.WON;
 
-        //arma.func(personaje-a-atacar) con if´s de tpo del mae
-        //this.turnoActual++;
-
-
-        //FALTA IMPEMENTAR
-        //setChanged();
-
-        //Guardar estado posterior
-
-        //PODEMOS HACER UN IF para ver si el juego yá terminó (ver si quedan vivos) y mandar un Notification de final con el Id del ganador.
-        //if(...terminó){
-
-       // GameNotification followersIncreased = new GameNotification(this.identifier, "- - Juego terminado - -" , this);
-
-        //}
-
-        //FALTA IMPLEMENTAR
-        //ServerMessage message = new ServerMessage("SERVER", "TEST", "test response");
-
-        //FALTA IMPLEMENTAR
-        //notifyObservers(message);
-
+        //MENSAJE DE GANAR //terminar juego (command) y notificar (mensaje ganar, hacer nuevo caso) necesita que le meta un player de atributo
     }
 
     public ArrayList<Log> getLogs() {
@@ -188,6 +195,21 @@ public class Game extends Observable implements Serializable, IGame {
 
     public void addLog(Log log){
         logs.add(log);
+    }
+
+    @Override
+    public ITool getWeapon(String weponName, String warriorName) {// retorna el arma del character del turno activo requerida
+        for (int i = 0; i<players.get(turno%amountPlayers).getCharacters().getSize(); i++){
+            ICharacter character = players.get(turno%amountPlayers).getCharacters().getCharacter(i);
+            if(character.getName().equals(warriorName)){
+                for (int j = 0; j<character.getTools().getSize(); j++){
+                    ITool weapon = (Weapon) character.getTools().getTool(j);
+                    if(weapon.getName().equals(weponName))
+                        return weapon;
+                }
+            }
+        }
+        return null;
     }
 
     public int getIdentifier() {

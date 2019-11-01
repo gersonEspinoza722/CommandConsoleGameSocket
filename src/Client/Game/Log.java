@@ -1,6 +1,7 @@
 package Client.Game;
 
 import BoardElement.Character.ICharacter;
+import BoardElement.Tools.ITool;
 import Client.Command.ICommand;
 import Client.Command.PlayerAttackCommand;
 import java.text.SimpleDateFormat;
@@ -25,8 +26,8 @@ public class Log implements IGame{
     public void attack(ICommand command) {
         PlayerAttackCommand playerAttackCommand = (PlayerAttackCommand) command;
         //obtener de comand las vidas antes y despues de atacar
-        for (int i = 0; i<playerAttackCommand.getChars().size(); i++){
-            ICharacter character = playerAttackCommand.getChars().get(i);
+        for (int i = 0; i<playerAttackCommand.getCharacters().getSize(); i++){
+            ICharacter character = playerAttackCommand.getCharacters().getCharacter(i);
             int damage = playerAttackCommand.getVidasAntes().get(i) - playerAttackCommand.getVidasDespues().get(i);
             resultado = resultado.concat("Enemigo "+ character.getName() + " ha recibido " + Integer.toString(damage) + "% de daño. \n");
         }
@@ -39,6 +40,11 @@ public class Log implements IGame{
     @Override
     public void addLog(Log log) {
         resultado = log.resultado;
+    }
+
+    @Override
+    public ITool getWeapon(String weaponName, String warriorName) {
+        return null;
     }
 
     private void formatResultado(){

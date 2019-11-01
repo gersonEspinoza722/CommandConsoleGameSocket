@@ -1,8 +1,6 @@
 package Client.Resources;
 
 import BoardElement.Character.CharacterAbstract;
-import BoardElement.Character.ICharacter;
-import BoardElement.IBoardElement;
 import BoardElement.Tools.ITool;
 import BoardElement.Tools.ToolListingFactory;
 import Media.IMediaElement;

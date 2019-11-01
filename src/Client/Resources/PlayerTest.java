@@ -33,13 +33,15 @@ public class PlayerTest {
         player.setServerMessageHandler(serverMessageHandler);
         player.run();
 
+        System.out.println(player.getId());
+
         Message registrationMessage = new PlayerMessage("PLAYER","PLAYER_REGISTRATION",player.getName(),player.getId());
         player.sendMessage(registrationMessage);
 
         Message subscribeMessage = new PlayerMessage("PLAYER","ENTER_GAME","GAME",player.getId());
         player.sendMessage(subscribeMessage);
 
-        PlayerAttackCommand command = new PlayerAttackCommand(0, "GAME","PLAYER", null, null);
+        PlayerAttackCommand command = new PlayerAttackCommand(0, "GAME","PLAYER", null, null); //falta implementar logica de descomposicion de comandos
         Message attackMessage = new PlayerMessage("PLAYER" , "ATTACK_MESSAGE",command,player.getId());
         player.sendMessage(attackMessage);
 
