@@ -5,11 +5,13 @@
  */
 package Client;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Marvin Armando
  */
-public interface IServerMessageHandler {
+public interface IServerMessageHandler extends Serializable {
     
     public void handleServerMessage(Message message);
     

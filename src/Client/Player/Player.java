@@ -16,13 +16,13 @@ public class Player extends Client implements Serializable {
     private int score;
     private int totalScore;
     private ICharacterListing characters;
-    private ArrayList<Game> followingGame;
+    //private ArrayList<Game> followingGame;
     private int charactersQuantity;
 
     public Player(String hostName, int portNumber, ClientType clientType, String name) {
         super(hostName, portNumber, clientType);
         this.name = name;
-        this.followingGame = new ArrayList<>();
+        //this.followingGame = new ArrayList<>();
         characters = CharacterListingFactory.getInstance().getCharacterListing(CharacterListingFactory.CHARACTER_ARRAY);
         charactersQuantity = 4;
     }
@@ -78,11 +78,11 @@ public class Player extends Client implements Serializable {
         totalScore += score;
     }
 
-    public ArrayList<Game> getFollowingGame() {
+    /*public ArrayList<Game> getFollowingGame() {
         return followingGame;
     }
 
     public void setFollowingGame(ArrayList<Game> followingGame) {
         this.followingGame = followingGame;
-    }
+    }*/
 }

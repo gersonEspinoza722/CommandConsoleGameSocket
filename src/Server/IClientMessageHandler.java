@@ -7,11 +7,13 @@ package Server;
 
 import Client.Message;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Marvin Armando
  */
-public interface IClientMessageHandler {
+public interface IClientMessageHandler extends Serializable {
     
     public void handleClientMessage(Message message, Server server);
     

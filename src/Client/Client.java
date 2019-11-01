@@ -6,12 +6,7 @@
 package Client;
 
 
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +15,7 @@ import java.util.logging.Logger;
  *
  * @author Marvin Armando
  */
-public abstract class Client {
+public abstract class Client implements Serializable {
     
     private String hostName;
     private int portNumber;

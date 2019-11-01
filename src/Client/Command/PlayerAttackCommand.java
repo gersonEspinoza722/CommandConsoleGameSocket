@@ -26,7 +26,7 @@ public class PlayerAttackCommand implements ICommand, Serializable{
 
     public PlayerAttackCommand(String gameName, String commandText, String weaponName, String warriorName){//, String weaponName, String warriorName) { //a partir de commandText se puede obtener weapon y warrior? si si, eliminar dos ultimos campos del constructor
         this.gameName = gameName;
-        this.clientToAttackName = clientToAttackName;
+
         this.totalDaño = 0;
         this.commandText = commandText;
         this.weaponName = weaponName;

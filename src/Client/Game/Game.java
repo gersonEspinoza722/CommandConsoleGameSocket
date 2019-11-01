@@ -50,17 +50,18 @@ public class Game extends Observable implements Serializable, IGame {
         this.identifier = identifier;
         this.currentPlayer = 0;
         this.amountPlayers=2;
-        this.players = new ArrayList<>();
+        //this.players = new ArrayList<>();
         this.logs = new ArrayList<>();
         this.name = name;
         this.turno = -1; //hacer logica para asignar turnos
         this.status = GameStatus.STARTED;
+        this.players = players;
 
 
         Player player1 = new Player(0);
         Player player2 = new Player(1);
-        this.players.add(player1);
-        this.players.add(player2);
+        //this.players.add(player1);
+        //this.players.add(player2);
 
         initResources();
     }
@@ -264,7 +265,7 @@ public class Game extends Observable implements Serializable, IGame {
 
         gameToString+="Nombre del juego: "+this.getName()+"\n";
         gameToString+="Cantidad de turnos utilizados: "+this.turno+"\n";
-//        gameToString+= "Turno actual: "+getCurrentPlayer().getName()+"\n";
+        //gameToString+= "Turno actual: "+getCurrentPlayer().getName()+"\n";
         gameToString+="Estado actual del juego: "+this.status.name()+"\n";
         gameToString+="\n"+"-----------INFORMACIÓN DE JUGADORES-----------"+"\n";
         for(int i =0; i<players.size();i++){

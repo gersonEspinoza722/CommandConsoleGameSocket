@@ -82,7 +82,7 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 String gameName = ((PlayerAttackCommand)playerMessage.getObjectOfInterest()).getGameName();
                 Game realGame = getGame(gameName,server);
 
-                System.out.println(realGame.toString());
+                //System.out.println(realGame.toString());
 
                 //realGame.attack((ICommand) playerMessage.getObjectOfInterest()); gameProxy
                 //System.out.println("Soy el juego:"+realGame.getGameName());
@@ -276,11 +276,12 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 players.add(player1);
                 players.add(player2);
 
-                IGame newGame = new Game(gameId,gameName, null);
+                IGame newGame = new Game(gameId,gameName, players);
                 //System.out.println(newGame.toString());
                 //new game.add t o d o
                 //hacer characters y armas aqui
-
+                //((Game) newGame).addNewPlayer(player1);
+                //System.out.println(((Game) newGame).getPlayers().get(0).getName());
 
                 GameServer gameServer = (GameServer) server;
                 ServerThread currentServerThread = server.getClients().get(gameClientID);
