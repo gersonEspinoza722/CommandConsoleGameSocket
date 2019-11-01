@@ -11,8 +11,8 @@ public class PlayerEndCommand implements ICommand, Serializable {
 
 
     String name;
-    public PlayerEndCommand(int gameId, String name) {
-        this.gameId = gameId;
+    public PlayerEndCommand(String name,String commandText) {
+this.commandText=commandText;
         this.name = name;
     }
     public void setGameId(int gameId) {

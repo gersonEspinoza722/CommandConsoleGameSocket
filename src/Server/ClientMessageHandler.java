@@ -149,6 +149,7 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 Game realGame = getGame(gameName,server);
                 realGame.end((ICommand) playerMessage.getObjectOfInterest());
 
+
                 GameServer gameServer = (GameServer)  server;
                 ServerThread gameThread = gameServer.getGames().get(realGame.getName());
                 //System.out.println("Soy el thread:¨"+gameThread.getID());

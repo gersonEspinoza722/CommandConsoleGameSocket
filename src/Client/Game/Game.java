@@ -138,6 +138,8 @@ public class Game extends Observable implements Serializable, IGame {
     public void surrender(ICommand command) {
         System.out.println("Entró a surrender en Game");
 
+        this.status=GameStatus.SURREDERED;
+        System.out.println("Gano:");
         setChanged();
         GameNotification surrenderNotification = new GameNotification(this.name,"SURRENDER_MESSAGE_GAME",this);
         notifyObservers(surrenderNotification);
@@ -173,10 +175,10 @@ public class Game extends Observable implements Serializable, IGame {
 
     public void end(ICommand command) {
         System.out.println("Entró a end en Game");
-
+        this.status=GameStatus.EVEN;
         setChanged();
-        GameNotification surrenderNotification = new GameNotification(this.name,"END_MESSAGE_GAME",this);
-        notifyObservers(surrenderNotification);
+        GameNotification endNotification = new GameNotification(this.name,"END_MESSAGE_GAME",this);
+        notifyObservers(endNotification);
 
     }
 
