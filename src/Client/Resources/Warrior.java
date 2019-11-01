@@ -46,7 +46,7 @@ public class Warrior extends CharacterAbstract implements Serializable {
     @Override
     public void decLife(int percentage){
         decrementableLife -= defaultLife * percentage / 100;
-        if(decrementableLife > 0){
+        if(decrementableLife < 0){
             decrementableLife = 0;
         }
     }

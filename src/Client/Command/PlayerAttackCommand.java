@@ -1,5 +1,6 @@
 package Client.Command;
 
+import BoardElement.Character.ICharacter;
 import BoardElement.Character.ICharacterListing;
 import BoardElement.IBoardElement;
 import BoardElement.Tools.ITool;
@@ -31,6 +32,8 @@ public class PlayerAttackCommand implements ICommand, Serializable{
         this.commandText = commandText;
         this.weaponName = weaponName;
         this.warriorName = warriorName;
+        this.vidasAntes = new ArrayList<>();
+        this.vidasDespues = new ArrayList<>();
     }
 
     public ICharacterListing getCharacters() {
@@ -113,6 +116,7 @@ public class PlayerAttackCommand implements ICommand, Serializable{
             vidasAntes.add(vidaAntes);
 
             IBoardElement character = characters.getCharacter(i);
+            //System.out.println(((ICharacter) character).getName());
             weapon.interact(character); //meter daños al arraylist
 
             int vidaDespues = (int) characters.getCharacter(i).getCurrentLife();

@@ -61,7 +61,7 @@ public class Weapon extends Tool implements Serializable {
 
     @Override
     public void func(IBoardElement object) {//input can be character or tool to be affected by the weapon
-        System.out.println(object.toString());
+        //System.out.println(object.toString());
         //if(object instanceof ICharacter){
         //}
         attack((ICharacter) object);
@@ -69,8 +69,9 @@ public class Weapon extends Tool implements Serializable {
 
     private void attack(ICharacter character){
         Warrior warrior = (Warrior) character;
+        //System.out.println(damageTable.getDamage().get(warrior.getSkillType()));
         warrior.decLife(damageTable.getDamage().get(warrior.getSkillType())); //que no se baje de 0
-        //decUse(1); //default 4 usos? o llamar desde afuera
+        //decUse(1); //default 4 usos? o llamar desde afuera SE LLAMA DESDE AFUERA
     }
 
     @Override

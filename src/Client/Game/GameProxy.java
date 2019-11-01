@@ -24,6 +24,7 @@ public class GameProxy implements IGame, Serializable {
 
     @Override
     public void attack(ICommand command) {
+        //System.out.println(command.getGameId());
         game.attack(command); //se realiza la accion de atacar
         log.attack(command); //se documenta en el log la accion de atacar
         (game).addLog(log); //se mete en el array

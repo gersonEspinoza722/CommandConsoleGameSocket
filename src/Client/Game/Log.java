@@ -17,6 +17,7 @@ public class Log implements IGame, Serializable {
     public Log(ICommand command) {
         this.command = command;
         fecha = new Date(System.currentTimeMillis());
+        resultado = "";
     }
 
     @Override

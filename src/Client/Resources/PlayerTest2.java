@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Random;
 
-public class PlayerTest {
+public class PlayerTest2 {
 
 
     public static void main(String[] args) {
@@ -78,31 +78,31 @@ public class PlayerTest {
     }
 }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    class PlayerFrame extends JFrame{
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+class PlayerFrame2 extends JFrame{
 
 
-        public PlayerFrame(){
+    public PlayerFrame2(){
 
-            setBounds(600,300,800,600);
-            PlayerPanel milamina=new PlayerPanel();
+        setBounds(600,300,800,600);
+        PlayerPanel milamina=new PlayerPanel();
 
-            add(milamina);
+        add(milamina);
 
-            setVisible(true);
+        setVisible(true);
 
-
-        }
 
     }
 
-    class PlayerPanel extends JPanel{
+}
+
+    class PlayerPanel2 extends JPanel{
         private CommandTokenizer tokenizer = CommandTokenizer.getInstance();
         private Player player;
 
         //private static final int type = 0;
 
-        public PlayerPanel() {
+        public PlayerPanel2() {
 
             player = new Player("localhost", 9090, ClientType.OBSERVER, "PLAYER");
             IServerMessageHandler serverMessageHandler = new ServerMessageHandlerPlayer(null);

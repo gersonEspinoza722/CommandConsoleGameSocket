@@ -53,7 +53,7 @@ public class Game extends Observable implements Serializable, IGame {
         //this.players = new ArrayList<>();
         this.logs = new ArrayList<>();
         this.name = name;
-        this.turno = -1; //hacer logica para asignar turnos
+        this.turno = 0; //hacer logica para asignar turnos
         this.status = GameStatus.STARTED;
         this.players = players;
 
@@ -118,7 +118,7 @@ public class Game extends Observable implements Serializable, IGame {
     }
 
     public Player getOtherPlayer(){
-        return players.get(turno%amountPlayers+1);
+        return players.get((turno+1)%amountPlayers);
     }
 
     public Player getCurrentPlayer(){
@@ -182,8 +182,7 @@ public class Game extends Observable implements Serializable, IGame {
 
     public void attack(ICommand command) {
 
-        System.out.println("Entró a attack en Game");
-
+        System.out.println("Entró a attack en Game"+" turno "+Integer.toString(turno));
         PlayerAttackCommand attack = (PlayerAttackCommand) command; //nuevo
         GameNotification attackNotification = new GameNotification(this.name,"NEW_ATTACK_MESSAGE",this);
 
@@ -228,7 +227,8 @@ public class Game extends Observable implements Serializable, IGame {
     }
 
     private void aumentarTurno(){
-        turno = (turno+1)%amountPlayers;
+        //turno = (turno+1)%amountPlayers;
+        turno++;
     }
 
     private void finishGame(){
@@ -247,6 +247,7 @@ public class Game extends Observable implements Serializable, IGame {
 
     @Override
     public ITool getWeapon(String weponName, String warriorName) {// retorna el arma del character del turno activo requerida
+        System.out.println(turno%amountPlayers);
         for (int i = 0; i<players.get(turno%amountPlayers).getCharacters().getSize(); i++){
             ICharacter character = players.get(turno%amountPlayers).getCharacters().getCharacter(i);
             if(character.getName().equals(warriorName)){
@@ -278,7 +279,7 @@ public class Game extends Observable implements Serializable, IGame {
             gameToString+="     Rendiciones: "+"\n";
             gameToString+="     ---Información de guerreros--- "+"\n";
             for(int j =0;j<players.get(i).getCharacters().getSize();j++){
-                gameToString+="          Guerrero:"+players.get(i).getCharacters().getCharacter(j).getName()+"con vida "+players.get(i).getCharacters().getCharacter(j).getCurrentLife() +"\n";
+                gameToString+="          Guerrero: "+players.get(i).getCharacters().getCharacter(j).getName()+" con vida "+players.get(i).getCharacters().getCharacter(j).getCurrentLife() +"\n";
                 gameToString+="          ---ARMAS: "+"\n";
                 for(int h =0;h<players.get(i).getCharacters().getCharacter(j).getTools().getSize();h++){
                     gameToString+="              ¬"+players.get(i).getCharacters().getCharacter(j).getTools().getTool(h).getName()+": ";
