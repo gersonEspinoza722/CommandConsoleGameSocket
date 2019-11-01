@@ -12,10 +12,10 @@ public class Weapon extends Tool {
 
     private DamageTable damageTable; //<tipo, daño>
 
-    public Weapon(String name, int type, int simpleUseDecrement) { //cuando creo el weapon tengo que darle la cantidad de usos
+    public Weapon(String name, int type, int simpleUseDecrement, DamageTable damageTable) { //cuando creo el weapon tengo que darle la cantidad de usos
         super(name, type, simpleUseDecrement);
         Random random = new Random(System.currentTimeMillis());
-        damageTable = new DamageTable(Skill.values()[type], random);
+        this.damageTable = damageTable;//new DamageTable(Skill.values()[type], random);
     }
 
     public DamageTable getDamageTable() {

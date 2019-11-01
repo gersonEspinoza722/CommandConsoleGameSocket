@@ -7,12 +7,14 @@ import BoardElement.Tools.IToolListing;
 import Client.Command.ICommand;
 import Client.Command.PlayerAttackCommand;
 import Client.Player.Player;
+import Client.Resources.Warrior;
 import Client.Resources.Weapon;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
 public class Game extends Observable implements Serializable, IGame {
     private int identifier;
@@ -44,15 +46,33 @@ public class Game extends Observable implements Serializable, IGame {
 
     /*Se debe generar el aleatorio de asignacion de armas por tipo cuando se haga la instancia de game (10 "prototipos")*/
 
-    public Game(int identifier,String name) {
+    public Game(int identifier,String name, ArrayList<Player> players) {
         this.identifier = identifier;
         this.currentPlayer = 0;
         this.amountPlayers=2;
-        this.players = new ArrayList<>();
+        this.players = players;
         this.logs = new ArrayList<>();
         this.name = name;
         this.turno = -1; //hacer logica para asignar turnos
         this.status = GameStatus.STARTED;
+
+        initResources();
+    }
+
+    private void initResources(){
+        for (Player player : players){
+            GameResourcesInitializer gameResourcesInitializer = new GameResourcesInitializer();
+            Random random = new Random(System.currentTimeMillis());
+            for(int i = 0; i<player.getCharactersQuantity(); i++){
+                int randomCharacter = random.nextInt(gameResourcesInitializer.getAvailableCharacters().getSize());
+                player.addCharacter(gameResourcesInitializer.getCharacter(randomCharacter));
+
+                for(int j = 0; j<((Warrior)player.getCharacters().getCharacter(i)).getWeaponsQuantity(); j++){
+                    int randomTool = random.nextInt(((Warrior)player.getCharacters().getCharacter(i)).getWeaponsQuantity());
+                    player.getCharacters().getCharacter(i).addTool(gameResourcesInitializer.getTool(randomTool));
+                }
+            }
+        }
     }
 
     public void addPlayer(Observer observer) {
@@ -66,6 +86,10 @@ public class Game extends Observable implements Serializable, IGame {
         GameNotification followersIncreased = new GameNotification(this.name, "NEW_PLAYER" , this);
         notifyObservers(followersIncreased);
 
+    }
+
+    public void addNewPlayer(Player player){
+        players.add(player);
     }
 
     public void chat(ICommand command) {

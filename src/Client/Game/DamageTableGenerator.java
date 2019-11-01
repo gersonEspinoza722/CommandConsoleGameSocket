@@ -26,4 +26,8 @@ public class DamageTableGenerator {
         }
         return text;
     }
+
+    public DamageTable getDamageTable(Skill skill){
+        return damagePerSkill.get(skill);
+    }
 }

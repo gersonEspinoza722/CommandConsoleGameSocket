@@ -40,6 +40,10 @@ public abstract class Client {
         this.type = clientType;
     }
 
+    public Client(int id) {
+        this.id = id;
+    }
+
     public String getHostName() {
         return hostName;
     }

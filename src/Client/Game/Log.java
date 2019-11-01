@@ -32,7 +32,7 @@ public class Log implements IGame{
             resultado = resultado.concat("Enemigo "+ character.getName() + " ha recibido " + Integer.toString(damage) + "% de daño. \n");
         }
         resultado = resultado.concat("\n");
-
+        //vidas antes y despues implementar dividido
         formatResultado();
 
     }

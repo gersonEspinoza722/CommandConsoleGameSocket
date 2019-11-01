@@ -47,25 +47,18 @@ public class PlayerAttackCommand implements ICommand, Serializable{
 
 
 
-
-    @Override
-    public IGame getRealGame() {
-        return realGame;
-    }
-
     public void setRealGame(IGame realGame) {
         this.realGame = realGame;
         System.out.println(((Game)realGame).getName());
         weapon = realGame.getWeapon(weaponName, warriorName);
     }
 
+
+
     @Override
-    public String getCommandText() {
-        //falta implementar
-
-        return null;
+    public IGame getRealGame() {
+        return realGame;
     }
-
 
 
     public String clientToAttackName() {
@@ -127,12 +120,17 @@ public class PlayerAttackCommand implements ICommand, Serializable{
 
             totalDaño += (vidaAntes - vidaDespues);
         }
-        weapon.decUse(1); //
+        weapon.decUse(1);
 
     }
 
     @Override
     public int getGameId() {
         return 0;
+    }
+
+    @Override
+    public String getCommandText() {
+        return commandText;
     }
 }

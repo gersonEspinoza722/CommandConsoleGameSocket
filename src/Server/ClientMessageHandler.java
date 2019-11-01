@@ -4,6 +4,7 @@ import BoardElement.Character.ICharacterListing;
 import Client.Command.*;
 import Client.Game.*;
 import Client.Message;
+import Client.Player.Player;
 import Client.Player.PlayerMessage;
 
 import javax.swing.*;
@@ -267,9 +268,17 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 // Create an Artist based on the information I just received
                 String gameName = (String) message.getObjectOfInterest();
                 int gameId = games.size();
-                IGame newGame = new Game(gameId,gameName);
+                Player player1 = new Player(0);
+                Player player2 = new Player(1);
+
+                ArrayList<Player> players = new ArrayList<>();
+                players.add(player1);
+                players.add(player2);
+
+                IGame newGame = new Game(gameId,gameName, players);
                 //new game.add t o d o
                 //hacer characters y armas aqui
+
 
                 GameServer gameServer = (GameServer) server;
                 ServerThread currentServerThread = server.getClients().get(gameClientID);
