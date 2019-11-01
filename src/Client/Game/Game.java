@@ -6,6 +6,7 @@ import BoardElement.Tools.ITool;
 import BoardElement.Tools.IToolListing;
 import Client.Command.ICommand;
 import Client.Command.PlayerAttackCommand;
+import Client.Command.PlayerChatCommand;
 import Client.Player.Player;
 import Client.Resources.Warrior;
 import Client.Resources.Weapon;
@@ -112,7 +113,7 @@ public class Game extends Observable implements Serializable, IGame {
         System.out.println("Entró a mandar chat en Game");
 
         setChanged();
-        GameNotification chatNotification = new GameNotification(this.name,"CHAT_MESSAGE_GAME",this);
+        GameNotification chatNotification = new GameNotification(this.name,"CHAT_MESSAGE_GAME",((PlayerChatCommand)command).getText());
         notifyObservers(chatNotification);
 
     }
@@ -128,6 +129,7 @@ public class Game extends Observable implements Serializable, IGame {
     public void pass(ICommand command) {
         System.out.println("Entró a pass en Game");
 
+        aumentarTurno();
         setChanged();
         GameNotification passNotification = new GameNotification(this.name,"PASS_MESSAGE_GAME",this);
         notifyObservers(passNotification);
@@ -138,6 +140,8 @@ public class Game extends Observable implements Serializable, IGame {
     public void surrender(ICommand command) {
         System.out.println("Entró a surrender en Game");
 
+        this.status=GameStatus.SURREDERED;
+        System.out.println("Gano:");
         setChanged();
         GameNotification surrenderNotification = new GameNotification(this.name,"SURRENDER_MESSAGE_GAME",this);
         notifyObservers(surrenderNotification);
@@ -173,10 +177,10 @@ public class Game extends Observable implements Serializable, IGame {
 
     public void end(ICommand command) {
         System.out.println("Entró a end en Game");
-
+        this.status=GameStatus.EVEN;
         setChanged();
-        GameNotification surrenderNotification = new GameNotification(this.name,"END_MESSAGE_GAME",this);
-        notifyObservers(surrenderNotification);
+        GameNotification endNotification = new GameNotification(this.name,"END_MESSAGE_GAME",this);
+        notifyObservers(endNotification);
 
     }
 

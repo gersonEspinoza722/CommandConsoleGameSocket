@@ -4,6 +4,7 @@ import BoardElement.Character.ICharacterListing;
 import Client.Command.*;
 import Client.Game.*;
 import Client.Message;
+import Client.*;
 import Client.Player.Player;
 import Client.Player.PlayerMessage;
 
@@ -17,10 +18,9 @@ import java.util.logging.Logger;
 
 public class ClientMessageHandler implements IClientMessageHandler{
 
-    JFrame serverLogWindow;
+    //JFrame serverLogWindow;
 
-    public ClientMessageHandler(JFrame serverLogWindow) {
-        this.serverLogWindow = serverLogWindow;
+    public ClientMessageHandler() {
     }
 
     public void handlePlayerMessage(Message message, Server server) {
@@ -148,6 +148,7 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 String gameName = ((PlayerEndCommand)playerMessage.getObjectOfInterest()).getName();
                 Game realGame = getGame(gameName,server);
                 realGame.end((ICommand) playerMessage.getObjectOfInterest());
+
 
                 GameServer gameServer = (GameServer)  server;
                 ServerThread gameThread = gameServer.getGames().get(realGame.getName());

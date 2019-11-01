@@ -26,7 +26,7 @@ public class TestMain {
         //System.out.println(generator.toString());
 
 
-        ClientMessageHandler clientMesaggeHandler = new ClientMessageHandler(null);
+        ClientMessageHandler clientMesaggeHandler = new ClientMessageHandler();
         NotificationHandler notificationHandler = new NotificationHandler();
         GameServer server = new GameServer(9090, clientMesaggeHandler,notificationHandler);
         ArrayList<Observable> games = new ArrayList<>();
