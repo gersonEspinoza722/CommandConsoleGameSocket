@@ -81,6 +81,8 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 String gameName = ((PlayerAttackCommand)playerMessage.getObjectOfInterest()).getGameName();
                 Game realGame = getGame(gameName,server);
 
+                System.out.println(realGame.toString());
+
                 //realGame.attack((ICommand) playerMessage.getObjectOfInterest()); gameProxy
                 //System.out.println("Soy el juego:"+realGame.getGameName());
 
