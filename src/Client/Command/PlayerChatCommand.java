@@ -5,14 +5,13 @@ import Client.Game.IGame;
 import java.io.Serializable;
 
 public class PlayerChatCommand implements ICommand, Serializable {
-    int gameId;
+
     String name;
     String text;
+    String commandText;
     private IGame realGame;
 
-    public void setGameId(int gameId) {
-        this.gameId = gameId;
-    }
+
 
     public String getName() {
         return name;
@@ -30,8 +29,8 @@ public class PlayerChatCommand implements ICommand, Serializable {
         this.text = text;
     }
 
-    public PlayerChatCommand(int gameId, String name, String text) {
-        this.gameId = gameId;
+    public PlayerChatCommand(String name,String commandText ,String text) {
+this.commandText=commandText;
         this.name = name;
         this.text = text;
     }

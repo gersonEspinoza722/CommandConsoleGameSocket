@@ -22,8 +22,8 @@ public class PlayerPassCommand implements ICommand, Serializable {
         this.name = name;
     }
 
-    public PlayerPassCommand(int gameId, String name) {
-        this.gameId = gameId;
+    public PlayerPassCommand(String name,String commandText) {
+        this.commandText = commandText;
         this.name = name;
     }
 

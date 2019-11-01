@@ -1,6 +1,7 @@
 package Client.Player;
 
 import Client.*;
+import Client.Game.Game;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -48,6 +49,7 @@ public class ServerMessageHandlerPlayer implements IServerMessageHandler {
             break;
             case "SURRENDER_MESSAGE_GAME":{
                 System.out.println("Se rindió");
+                System.out.println(((Game)message.getObjectOfInterest()).toString());
                 //ArtistPost likedMessage = (ArtistPost) message.getObjectOfInterest();
                 //JOptionPane.showMessageDialog(fanWindow, likedMessage.getArtistName() + "'s" + " message: \"" + likedMessage.getText() + " \"" + " got to "  + likedMessage.getLikes() + " likes");
             }
@@ -59,36 +61,42 @@ public class ServerMessageHandlerPlayer implements IServerMessageHandler {
             }
             case "END_MESSAGE_GAME":{
                 System.out.println("Se finaliza juego empate");
+                System.out.println(((Game)message.getObjectOfInterest()).toString());
                 //Artist followedArtist = (Artist) message.getObjectOfInterest();
                 //JOptionPane.showMessageDialog(fanWindow, followedArtist.getGameName() + " got to " +  followedArtist.getFollowers() + " followers");
             }
             break;
             case "RELOAD_MESSAGE_GAME":{
                 System.out.println("Se recarga armas");
+                System.out.println(((Game)message.getObjectOfInterest()).toString());
                 //Artist followedArtist = (Artist) message.getObjectOfInterest();
                 //JOptionPane.showMessageDialog(fanWindow, followedArtist.getGameName() + " got to " +  followedArtist.getFollowers() + " followers");
             }
             break;
             case "COMODIN_MESSAGE_GAME":{
                 System.out.println("Se usa el comodin");
+                System.out.println(((Game)message.getObjectOfInterest()).toString());
                 //Artist followedArtist = (Artist) message.getObjectOfInterest();
                 //JOptionPane.showMessageDialog(fanWindow, followedArtist.getGameName() + " got to " +  followedArtist.getFollowers() + " followers");
             }
             break;
             case "INFO_MESSAGE_GAME":{
                 System.out.println("Pide info del otro");
+                System.out.println(((Game)message.getObjectOfInterest()).toString());
                 //Artist followedArtist = (Artist) message.getObjectOfInterest();
                 //JOptionPane.showMessageDialog(fanWindow, followedArtist.getGameName() + " got to " +  followedArtist.getFollowers() + " followers");
             }
             break;
             case "PASS_MESSAGE_GAME":{
                 System.out.println("Pasa turno");
+                System.out.println(((Game)message.getObjectOfInterest()).toString());
                 //Artist followedArtist = (Artist) message.getObjectOfInterest();
                 //JOptionPane.showMessageDialog(fanWindow, followedArtist.getGameName() + " got to " +  followedArtist.getFollowers() + " followers");
             }
             break;
             case "CHAT_MESSAGE_GAME":{
-                System.out.println("Manda chat");
+                System.out.println("Manda chat:");
+                System.out.println(message.getObjectOfInterest());
                 //Artist followedArtist = (Artist) message.getObjectOfInterest();
                 //JOptionPane.showMessageDialog(fanWindow, followedArtist.getGameName() + " got to " +  followedArtist.getFollowers() + " followers");
             }

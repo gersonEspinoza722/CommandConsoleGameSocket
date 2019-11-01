@@ -8,7 +8,7 @@ import Client.Message;
 import Client.Player.Player;
 import Client.Player.PlayerMessage;
 import Client.Player.ServerMessageHandlerPlayer;
-import Server.ClientMessageHandler;
+import Server.*;
 import Server.GameServer;
 import Server.ServerThread;
 
@@ -65,13 +65,13 @@ public class PlayerTest {
         Message getOtherInfoMessage = new PlayerMessage("PLAYER", "INFO_MESSAGE", command6, player.getId());
         player.sendMessage(getOtherInfoMessage);
 
-        PlayerPassCommand command7 = new PlayerPassCommand(0, "GAME");
-        Message passMessage = new PlayerMessage("PLAYER", "PASS_MESSAGE", command7, player.getId());
-        player.sendMessage(passMessage);
+        //PlayerPassCommand command7 = new PlayerPassCommand(0, "GAME");
+        //Message passMessage = new PlayerMessage("PLAYER", "PASS_MESSAGE", command7, player.getId());
+        //player.sendMessage(passMessage);
 
-        PlayerChatCommand command8 = new PlayerChatCommand(0, "GAME", "Mensaje para chat");
-        Message chatMessage = new PlayerMessage("PLAYER", "CHAT_MESSAGE", command8, player.getId());
-        player.sendMessage(chatMessage);
+        //PlayerChatCommand command8 = new PlayerChatCommand(0, "GAME", "Mensaje para chat");
+        //Message chatMessage = new PlayerMessage("PLAYER", "CHAT_MESSAGE", command8, player.getId());
+        //player.sendMessage(chatMessage);
 
         PlayerFrame frame = new PlayerFrame();
 
@@ -133,6 +133,15 @@ public class PlayerTest {
             }
             if(tokens[0].equals("END")){
                 message = new PlayerMessage("PLAYER", "END_MESSAGE",tokenizer.analyzeCommand(commandField.getText()) , player.getId());
+            }
+            if(tokens[0].equals("PASS")){
+                message = new PlayerMessage("PLAYER", "PASS_MESSAGE",tokenizer.analyzeCommand(commandField.getText()) , player.getId());
+            }
+            if(tokens[0].equals("CHAT")){
+                message = new PlayerMessage("PLAYER", "CHAT_MESSAGE",tokenizer.analyzeCommand(commandField.getText()) , player.getId());
+            }
+            if(tokens[0].equals("RELOAD")){
+                message = new PlayerMessage("PLAYER", "RELOAD_MESSAGE",tokenizer.analyzeCommand(commandField.getText()) , player.getId());
             }
             player.sendMessage(message);
 

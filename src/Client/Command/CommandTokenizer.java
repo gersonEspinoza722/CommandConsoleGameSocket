@@ -33,6 +33,19 @@ public class CommandTokenizer {
             PlayerEndCommand command = new PlayerEndCommand(tokens[1],commandString);
             realCommand=command;
         }
+        if(tokens[0].equals("PASS")){
+            PlayerPassCommand command = new PlayerPassCommand(tokens[1],commandString);
+            realCommand=command;
+        }
+        if(tokens[0].equals("CHAT")){
+            PlayerChatCommand command = new PlayerChatCommand(tokens[1],commandString,tokens[2]);
+            realCommand=command;
+        }
+        if(tokens[0].equals("RELOAD")){
+            PlayerChatCommand command = new PlayerChatCommand(tokens[1],commandString,tokens[2]);
+            realCommand=command;
+        }
+
 
 
 
