@@ -21,6 +21,7 @@ public class PlayerAttackCommand implements ICommand, Serializable{
     private ICharacterListing characters; //personajes a atacar
     private int totalDaño;
     private String gameName; //nombre del juego
+    private boolean errorFlag;
 
     private ArrayList<Integer> vidasAntes;
     private ArrayList<Integer> vidasDespues;
@@ -34,6 +35,8 @@ public class PlayerAttackCommand implements ICommand, Serializable{
         this.warriorName = warriorName;
         this.vidasAntes = new ArrayList<>();
         this.vidasDespues = new ArrayList<>();
+        this.errorFlag = false;
+
     }
 
     public ICharacterListing getCharacters() {
@@ -48,7 +51,13 @@ public class PlayerAttackCommand implements ICommand, Serializable{
         return clientToAttackName;
     }
 
+    public boolean isErrorFlag() {
+        return errorFlag;
+    }
 
+    public void setErrorFlag(boolean errorFlag) {
+        this.errorFlag = errorFlag;
+    }
 
     public void setRealGame(IGame realGame) {
         this.realGame = realGame;
@@ -118,16 +127,22 @@ public class PlayerAttackCommand implements ICommand, Serializable{
 
             IBoardElement character = characters.getCharacter(i);
             //System.out.println(((ICharacter) character).getName());
+            if(errorFlag == true)
+                weapon.setNoAttackFlag(true);
+
             weapon.interact(character); //meter daños al arraylist
 
             int vidaDespues = (int) characters.getCharacter(i).getCurrentLife();
             vidasDespues.add(vidaDespues);
-            System.out.println(vidasDespues.toString());
+            //System.out.println(vidasDespues.toString());
 
             totalDaño += (vidaAntes - vidaDespues);
         }
-        weapon.decUse(1);
-
+        if(errorFlag == false)
+            weapon.decUse(1);
+        else
+            weapon.setNoAttackFlag(false);
+        errorFlag = false;
     }
 
     @Override

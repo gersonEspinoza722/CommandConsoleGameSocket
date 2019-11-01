@@ -13,15 +13,25 @@ import java.util.Random;
 public class Weapon extends Tool implements Serializable {
 
     private DamageTable damageTable; //<tipo, daño>
+    private boolean noAttackFlag;
 
     public Weapon(String name, int type, int simpleUseDecrement, DamageTable damageTable) { //cuando creo el weapon tengo que darle la cantidad de usos
         super(name, type, simpleUseDecrement);
         Random random = new Random(System.currentTimeMillis());
         this.damageTable = damageTable;//new DamageTable(Skill.values()[type], random);
+        this.noAttackFlag = false;
     }
 
     public DamageTable getDamageTable() {
         return damageTable;
+    }
+
+    public boolean isNoAttackFlag() {
+        return noAttackFlag;
+    }
+
+    public void setNoAttackFlag(boolean noAttackFlag) {
+        this.noAttackFlag = noAttackFlag;
     }
 
     @Override
@@ -70,7 +80,8 @@ public class Weapon extends Tool implements Serializable {
     private void attack(ICharacter character){
         Warrior warrior = (Warrior) character;
         //System.out.println(damageTable.getDamage().get(warrior.getSkillType()));
-        warrior.decLife(damageTable.getDamage().get(warrior.getSkillType())); //que no se baje de 0
+        if(noAttackFlag == false)
+            warrior.decLife(damageTable.getDamage().get(warrior.getSkillType())); //que no se baje de 0
         //decUse(1); //default 4 usos? o llamar desde afuera SE LLAMA DESDE AFUERA
     }
 

@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Random;
 
-public class DamageTable implements Serializable {
+public class DamageTable implements Serializable{
     private Skill skillType;
     private Hashtable<Skill, Integer> damage;
 

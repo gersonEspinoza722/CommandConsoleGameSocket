@@ -220,7 +220,7 @@ public class Game extends Observable implements Serializable, IGame {
                 getCurrentPlayer().addAtaquesFracasados();
 
             if(isOver(getOtherPlayer())> 0){
-                finishGame();
+                finishGame(); //estadistica
             }
 
             //aumentar turno
@@ -231,13 +231,16 @@ public class Game extends Observable implements Serializable, IGame {
             notifyObservers(attackNotification);
         }
         else{
+
             GameNotification failedAttack = new GameNotification(this.name, "FAILED_ATTACK_MESSAGE_GAME", "Falló el ultimo ataque, intentelo de nuevo.");
             //OBSERVER LOGIC
-            PlayerAttackCommand attack = (PlayerAttackCommand) command; //////Se necesita hacer una clase nueva de tipo failedAttackCommand
+            PlayerAttackCommand attack = (PlayerAttackCommand) command;
             Player playerToAttack = getOtherPlayer();
             ICharacterListing list = playerToAttack.getCharacters();
             attack.setCharacters(list);
+            attack.setErrorFlag(true);
             attack.execute();
+            attack.setErrorFlag(false);
             setChanged();
             notifyObservers(failedAttack);
         }
