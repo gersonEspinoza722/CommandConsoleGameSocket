@@ -251,10 +251,6 @@ public class Game extends Observable implements Serializable, IGame {
         return  gameToString;
     }
 
-    public Player getCurrentPlayer(){
-        return players.get(turno%amountPlayers);
-    }
-
     public int getIdentifier() {
         return identifier;
     }
