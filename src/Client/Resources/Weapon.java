@@ -12,7 +12,7 @@ public class Weapon extends Tool {
 
     private DamageTable damageTable; //<tipo, daño>
 
-    public Weapon(String name, int type, int simpleUseDecrement) {
+    public Weapon(String name, int type, int simpleUseDecrement) { //cuando creo el weapon tengo que darle la cantidad de usos
         super(name, type, simpleUseDecrement);
         Random random = new Random(System.currentTimeMillis());
         damageTable = new DamageTable(Skill.values()[type], random);
@@ -64,7 +64,7 @@ public class Weapon extends Tool {
     private void attack(ICharacter character){
         Warrior warrior = (Warrior) character;
         warrior.decLife(damageTable.getDamage().get(warrior.getSkillType())); //que no se baje de 0
-        decUse(1); //default 4 usos? o llamar desde afuera
+        //decUse(1); //default 4 usos? o llamar desde afuera
     }
 
     @Override

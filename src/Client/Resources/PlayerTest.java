@@ -41,7 +41,7 @@ public class PlayerTest {
         Message subscribeMessage = new PlayerMessage("PLAYER","ENTER_GAME","GAME",player.getId());
         player.sendMessage(subscribeMessage);
 
-        PlayerAttackCommand command = new PlayerAttackCommand(0, "GAME","PLAYER", null, null); //falta implementar logica de descomposicion de comandos
+        PlayerAttackCommand command = new PlayerAttackCommand(0, "GAME","PLAYER", "attack warriorName weaponName");
         Message attackMessage = new PlayerMessage("PLAYER" , "ATTACK_MESSAGE",command,player.getId());
         player.sendMessage(attackMessage);
 

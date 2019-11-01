@@ -23,7 +23,7 @@ public class PlayerAttackCommand implements ICommand, Serializable{
     private ArrayList<Integer> vidasAntes;
     private ArrayList<Integer> vidasDespues;
 
-    public PlayerAttackCommand(int gameId, String gameName, String clientToAttackName, String commandText, String weaponName, String warriorName) { //a partir de commandText se puede obtener weapon y warrior? si si, eliminar dos ultimos campos del constructor
+    public PlayerAttackCommand(int gameId, String gameName, String clientToAttackName, String commandText){//, String weaponName, String warriorName) { //a partir de commandText se puede obtener weapon y warrior? si si, eliminar dos ultimos campos del constructor
         this.gameId = gameId;
         this.gameName = gameName;
         this.clientToAttackName = clientToAttackName;
@@ -131,6 +131,7 @@ public class PlayerAttackCommand implements ICommand, Serializable{
 
             totalDaño += (vidaAntes - vidaDespues);
         }
+        weapon.decUse(1); //
 
     }
 }

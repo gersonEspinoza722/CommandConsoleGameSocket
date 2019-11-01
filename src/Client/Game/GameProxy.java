@@ -1,5 +1,6 @@
 package Client.Game;
 
+import BoardElement.Tools.ITool;
 import Client.Command.ICommand;
 
 public class GameProxy implements IGame {
@@ -29,5 +30,10 @@ public class GameProxy implements IGame {
     @Override
     public void addLog(Log log) {
         this.log = log;
+    }
+
+    @Override
+    public ITool getWeapon(String weaponName, String warriorName) {
+        return command.getRealGame().getWeapon(weaponName, warriorName);
     }
 }
