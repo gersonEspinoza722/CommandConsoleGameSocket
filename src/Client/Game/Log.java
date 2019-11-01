@@ -4,10 +4,12 @@ import BoardElement.Character.ICharacter;
 import BoardElement.Tools.ITool;
 import Client.Command.ICommand;
 import Client.Command.PlayerAttackCommand;
+
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Log implements IGame{
+public class Log implements IGame, Serializable {
     private Date fecha;
     private ICommand command;
     String resultado;

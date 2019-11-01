@@ -93,7 +93,7 @@ public class Game extends Observable implements Serializable, IGame {
     public void addPlayer(Observer observer) {
         //log anterior
         this.addObserver(observer);
-        this.amountPlayers++;
+        //this.amountPlayers++;
 
         //log posterior
         //setChanged();

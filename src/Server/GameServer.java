@@ -28,9 +28,9 @@ public class GameServer extends Server{
     public void addNewGame(Game game, String gameName,ServerThread gameThread){
         this.observableResources.add(game);
         //System.out.println("Lo metió en observables");
-       for (ServerThread currentServerThread : clients.values()){
-            currentServerThread.update(game, game);
-        }
+       //for (ServerThread currentServerThread : clients.values()){
+         //   currentServerThread.update(game, game);
+        //}
         this.games.put(gameName, gameThread);
     }
     public void setArtistClients(HashMap<String, ServerThread> games) {

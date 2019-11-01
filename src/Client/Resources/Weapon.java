@@ -6,9 +6,11 @@ import BoardElement.Tools.Tool;
 import Client.Game.DamageTable;
 import Media.IMediaListing;
 import Patterns.IPrototype;
+
+import java.io.Serializable;
 import java.util.Random;
 
-public class Weapon extends Tool {
+public class Weapon extends Tool implements Serializable {
 
     private DamageTable damageTable; //<tipo, daño>
 

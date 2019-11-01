@@ -2,10 +2,11 @@ package Client.Game;
 
 import Client.Resources.Skill;
 
+import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Random;
 
-public class DamageTableGenerator {
+public class DamageTableGenerator implements Serializable {
     private Hashtable <Skill, DamageTable> damagePerSkill;
 
     public DamageTableGenerator() {
