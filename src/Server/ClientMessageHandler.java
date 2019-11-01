@@ -103,7 +103,7 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 //ArrayList<ICharacter> targetsList = targets.getCharacterList();
 
 
-                //realGame.attack(attack);a
+                //realGame.attack(attack);
 
 
 
