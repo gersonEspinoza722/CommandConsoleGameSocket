@@ -183,25 +183,31 @@ public class Game extends Observable implements Serializable, IGame {
     public void attack(ICommand command) {
 
         System.out.println("Entró a attack en Game"+" turno "+Integer.toString(turno));
-        PlayerAttackCommand attack = (PlayerAttackCommand) command; //nuevo
-        GameNotification attackNotification = new GameNotification(this.name,"NEW_ATTACK_MESSAGE",this);
+        if(((PlayerAttackCommand)command).getWeapon().getSimpleUseDecrement() > 0){
+            PlayerAttackCommand attack = (PlayerAttackCommand) command; //nuevo
+            GameNotification attackNotification = new GameNotification(this.name,"NEW_ATTACK_MESSAGE",this);
 
-        Player playerToAttack = getOtherPlayer();
-        ICharacterListing list = playerToAttack.getCharacters();
+            Player playerToAttack = getOtherPlayer();
+            ICharacterListing list = playerToAttack.getCharacters();
 
-        attack.setCharacters(list);
-        attack.execute();
+            attack.setCharacters(list);
+            attack.execute();
 
-        if(isOver(getOtherPlayer())> 0){
-            finishGame();
+            if(isOver(getOtherPlayer())> 0){
+                finishGame();
+            }
+
+            //aumentar turno
+            aumentarTurno();
+
+            //----------------------------logica observers
+            setChanged();
+            notifyObservers(attackNotification);
         }
-
-        //aumentar turno
-        aumentarTurno();
-
-        //----------------------------logica observers
-        setChanged();
-        notifyObservers(attackNotification);
+        else{
+            GameNotification failedAttack = new GameNotification(this.name, "FAILED_ATTACK_MESSAGE_GAME", "Falló el ultimo ataque, intentelo de nuevo.");
+            //OBSERVER LOGIC
+        }
 
     }
 

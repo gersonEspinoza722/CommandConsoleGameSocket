@@ -92,6 +92,10 @@ public class ServerMessageHandlerPlayer implements IServerMessageHandler {
                 //JOptionPane.showMessageDialog(fanWindow, followedArtist.getGameName() + " got to " +  followedArtist.getFollowers() + " followers");
             }
             break;
+                case "FAILED_ATTACK_MESSAGE_GAME":{
+                    System.out.println(message.getObjectOfInterest());
+                }
+                break;
         }
     }
 
