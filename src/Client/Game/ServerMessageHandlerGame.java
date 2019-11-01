@@ -27,7 +27,7 @@ public class ServerMessageHandlerGame implements IServerMessageHandler {
             break;
             case "NEW_ATTACK_MESSAGE": {
                 //PlayerAttackCommand attack = (PlayerAttackCommand) message.getObjectOfInterest();
-                System.out.println("Un jugador ataco");
+                System.out.println("Log:---"+message.getObjectOfInterest());
                 //Pasan cosas de ataque: bajar vidas
                 //((ArtistWindow) artistWindow).setFollowersLabelText("" + artist.getFollowers());
             }

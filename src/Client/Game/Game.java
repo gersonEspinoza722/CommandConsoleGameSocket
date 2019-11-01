@@ -183,6 +183,7 @@ public class Game extends Observable implements Serializable, IGame {
     public void reload(ICommand command) {
         System.out.println("Entró a recargar armas en Game");
 
+
         setChanged();
         GameNotification reloadNotification = new GameNotification(this.name,"RELOAD_MESSAGE_GAME",this);
         notifyObservers(reloadNotification);

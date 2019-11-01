@@ -100,7 +100,7 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 GameServer gameServer = (GameServer)  server;
                 ServerThread gameThread = gameServer.getGames().get(realGame.getName());
                 //System.out.println("Soy el thread:¨"+gameThread.getID());
-                Message newAttackMesagge = new ServerMessage("SERVER","NEW_ATTACK_MESSAGE",realGame);
+                Message newAttackMesagge = new ServerMessage("SERVER","NEW_ATTACK_MESSAGE",attack.getCommandText());
                 try {
                     gameThread.getWriter().reset();
                     gameThread.getWriter().writeObject(newAttackMesagge);
@@ -125,15 +125,20 @@ public class ClientMessageHandler implements IClientMessageHandler{
 
             case "SURRENDER_MESSAGE": {
 
+
                 PlayerMessage playerMessage = (PlayerMessage) message;
                 String gameName = ((PlayerSurrenderCommand)playerMessage.getObjectOfInterest()).getName();
                 Game realGame = getGame(gameName,server);
-                realGame.surrender((ICommand) playerMessage.getObjectOfInterest());
+                realGame.surrender((PlayerSurrenderCommand)playerMessage.getObjectOfInterest());
+                //PlayerSurrenderCommand surrender= ((PlayerSurrenderCommand) playerMessage.getObjectOfInterest());
+
+               // GameProxy gameProxy = new GameProxy(surrender);
+                //gameProxy.surrender(surrender);
 
                 GameServer gameServer = (GameServer)  server;
                 ServerThread gameThread = gameServer.getGames().get(realGame.getName());
                 //System.out.println("Soy el thread:¨"+gameThread.getID());
-                Message surrenderMesagge = new ServerMessage("SERVER","SURRENDER_MESSAGE_FROM_SERVER",realGame);
+                Message surrenderMesagge = new ServerMessage("SERVER","SURRENDER_MESSAGE_FROM_SERVER","Log surrender");
                 try {
                     gameThread.getWriter().reset();
                     gameThread.getWriter().writeObject(surrenderMesagge);
@@ -148,12 +153,15 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 String gameName = ((PlayerEndCommand)playerMessage.getObjectOfInterest()).getName();
                 Game realGame = getGame(gameName,server);
                 realGame.end((ICommand) playerMessage.getObjectOfInterest());
+                //PlayerEndCommand end= ((PlayerEndCommand) playerMessage.getObjectOfInterest());
 
+                //GameProxy gameProxy = new GameProxy(end);
+                //gameProxy.end(end);
 
                 GameServer gameServer = (GameServer)  server;
                 ServerThread gameThread = gameServer.getGames().get(realGame.getName());
                 //System.out.println("Soy el thread:¨"+gameThread.getID());
-                Message endMesagge = new ServerMessage("SERVER","END_MESSAGE_FROM_SERVER",realGame);
+                Message endMesagge = new ServerMessage("SERVER","END_MESSAGE_FROM_SERVER","Log endGame");
                 try {
                     gameThread.getWriter().reset();
                     gameThread.getWriter().writeObject(endMesagge);
@@ -169,10 +177,15 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 Game realGame = getGame(gameName,server);
                 realGame.reload((ICommand) playerMessage.getObjectOfInterest());
 
+                //PlayerReloadCommand reload= ((PlayerReloadCommand) playerMessage.getObjectOfInterest());
+
+                //GameProxy gameProxy = new GameProxy(reload);
+                //gameProxy.reload(reload);
+
                 GameServer gameServer = (GameServer)  server;
                 ServerThread gameThread = gameServer.getGames().get(realGame.getName());
                 //System.out.println("Soy el thread:¨"+gameThread.getID());
-                Message reloadMesagge = new ServerMessage("SERVER","RELOAD_MESSAGE_FROM_SERVER",realGame);
+                Message reloadMesagge = new ServerMessage("SERVER","RELOAD_MESSAGE_FROM_SERVER","Log Reload");
                 try {
                     gameThread.getWriter().reset();
                     gameThread.getWriter().writeObject(reloadMesagge);
@@ -188,10 +201,15 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 Game realGame = getGame(gameName,server);
                 realGame.comodin((ICommand) playerMessage.getObjectOfInterest());
 
+                //PlayerComodinCommand comodin= ((PlayerComodinCommand) playerMessage.getObjectOfInterest());
+
+                //GameProxy gameProxy = new GameProxy(comodin);
+                //gameProxy.comodin(comodin);
+
                 GameServer gameServer = (GameServer)  server;
                 ServerThread gameThread = gameServer.getGames().get(realGame.getName());
                 //System.out.println("Soy el thread:¨"+gameThread.getID());
-                Message reloadMesagge = new ServerMessage("SERVER","COMODIN_MESSAGE_FROM_SERVER",realGame);
+                Message reloadMesagge = new ServerMessage("SERVER","COMODIN_MESSAGE_FROM_SERVER","Log comodin");
                 try {
                     gameThread.getWriter().reset();
                     gameThread.getWriter().writeObject(reloadMesagge);
@@ -207,10 +225,15 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 Game realGame = getGame(gameName,server);
                 realGame.info((ICommand) playerMessage.getObjectOfInterest());
 
+                //PlayerGetOtherInfoCommand info= ((PlayerGetOtherInfoCommand) playerMessage.getObjectOfInterest());
+
+                //GameProxy gameProxy = new GameProxy(info);
+                //gameProxy.info(info);
+
                 GameServer gameServer = (GameServer)  server;
                 ServerThread gameThread = gameServer.getGames().get(realGame.getName());
                 //System.out.println("Soy el thread:¨"+gameThread.getID());
-                Message infoMesagge = new ServerMessage("SERVER","INFO_MESSAGE_FROM_SERVER",realGame);
+                Message infoMesagge = new ServerMessage("SERVER","INFO_MESSAGE_FROM_SERVER","Log Info");
                 try {
                     gameThread.getWriter().reset();
                     gameThread.getWriter().writeObject(infoMesagge);
@@ -224,12 +247,15 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 PlayerMessage playerMessage = (PlayerMessage) message;
                 String gameName = ((PlayerPassCommand)playerMessage.getObjectOfInterest()).getName();
                 Game realGame = getGame(gameName,server);
-                realGame.pass((ICommand) playerMessage.getObjectOfInterest());
+               realGame.pass((ICommand) playerMessage.getObjectOfInterest());
+                //PlayerPassCommand pass= ((PlayerPassCommand) playerMessage.getObjectOfInterest());
 
+                //GameProxy gameProxy = new GameProxy(pass);
+                //gameProxy.pass(pass);
                 GameServer gameServer = (GameServer)  server;
                 ServerThread gameThread = gameServer.getGames().get(realGame.getName());
                 //System.out.println("Soy el thread:¨"+gameThread.getID());
-                Message passMesagge = new ServerMessage("SERVER","PASS_MESSAGE_FROM_SERVER",realGame);
+                Message passMesagge = new ServerMessage("SERVER","PASS_MESSAGE_FROM_SERVER","Log pass");
                 try {
                     gameThread.getWriter().reset();
                     gameThread.getWriter().writeObject(passMesagge);
@@ -245,10 +271,16 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 Game realGame = getGame(gameName,server);
                 realGame.chat((ICommand) playerMessage.getObjectOfInterest());
 
+              //  PlayerChatCommand chat= (PlayerChatCommand) playerMessage.getObjectOfInterest();
+                //System.out.println(chat.getCommandText());
+
+                //GameProxy gameProxy = new GameProxy(chat);
+                //gameProxy.chat(chat);
+
                 GameServer gameServer = (GameServer)  server;
                 ServerThread gameThread = gameServer.getGames().get(realGame.getName());
                 //System.out.println("Soy el thread:¨"+gameThread.getID());
-                Message chatMesagge = new ServerMessage("SERVER","CHAT_MESSAGE_FROM_SERVER",realGame);
+                Message chatMesagge = new ServerMessage("SERVER","CHAT_MESSAGE_FROM_SERVER","Log Chat");
                 try {
                     gameThread.getWriter().reset();
                     gameThread.getWriter().writeObject(chatMesagge);
