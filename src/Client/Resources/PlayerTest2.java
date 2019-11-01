@@ -45,13 +45,13 @@ public class PlayerTest2 {
 
         //player.sendMessage(attackMessage);
 
-        PlayerSurrenderCommand command2 = new PlayerSurrenderCommand(0, "GAME");
-        Message surrenderMessage = new PlayerMessage("PLAYER", "SURRENDER_MESSAGE", command2, player.getId());
-        player.sendMessage(surrenderMessage);
+        //PlayerSurrenderCommand command2 = new PlayerSurrenderCommand(0, "GAME");
+        //Message surrenderMessage = new PlayerMessage("PLAYER", "SURRENDER_MESSAGE", command2, player.getId());
+        //player.sendMessage(surrenderMessage);
 
-        PlayerEndCommand command3 = new PlayerEndCommand(0, "GAME");
-        Message endMessage = new PlayerMessage("PLAYER", "END_MESSAGE", command3, player.getId());
-        player.sendMessage(endMessage);
+        //PlayerEndCommand command3 = new PlayerEndCommand(0, "GAME");
+        //Message endMessage = new PlayerMessage("PLAYER", "END_MESSAGE", command3, player.getId());
+        //player.sendMessage(endMessage);
 
         PlayerReloadCommand command4 = new PlayerReloadCommand(0, "GAME");
         Message reloadMessage = new PlayerMessage("PLAYER", "RELOAD_MESSAGE", command4, player.getId());
@@ -65,13 +65,13 @@ public class PlayerTest2 {
         Message getOtherInfoMessage = new PlayerMessage("PLAYER", "INFO_MESSAGE", command6, player.getId());
         player.sendMessage(getOtherInfoMessage);
 
-        PlayerPassCommand command7 = new PlayerPassCommand(0, "GAME");
-        Message passMessage = new PlayerMessage("PLAYER", "PASS_MESSAGE", command7, player.getId());
-        player.sendMessage(passMessage);
+        //PlayerPassCommand command7 = new PlayerPassCommand(0, "GAME");
+        //Message passMessage = new PlayerMessage("PLAYER", "PASS_MESSAGE", command7, player.getId());
+        //player.sendMessage(passMessage);
 
-        PlayerChatCommand command8 = new PlayerChatCommand(0, "GAME", "Mensaje para chat");
-        Message chatMessage = new PlayerMessage("PLAYER", "CHAT_MESSAGE", command8, player.getId());
-        player.sendMessage(chatMessage);
+        //PlayerChatCommand command8 = new PlayerChatCommand(0, "GAME", "Mensaje para chat");
+        //Message chatMessage = new PlayerMessage("PLAYER", "CHAT_MESSAGE", command8, player.getId());
+        //player.sendMessage(chatMessage);
 
         PlayerFrame frame = new PlayerFrame();
 

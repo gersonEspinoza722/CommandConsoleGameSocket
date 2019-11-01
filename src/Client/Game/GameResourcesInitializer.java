@@ -69,11 +69,11 @@ public class GameResourcesInitializer implements Serializable {
 
     public ITool getTool(int index){
         //System.out.println(availableWeapons.getSize());
-        return availableWeapons.getTool(index);
+        return availableWeapons.removeTool(index);
     }
 
     public ICharacter getCharacter(int index){
-        return availableCharacters.getCharacter(index);
+        return availableCharacters.removeCharacter(index);
     }
 
     public ITool getTool(Skill skill){

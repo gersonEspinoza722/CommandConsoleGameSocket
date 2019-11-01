@@ -41,7 +41,7 @@ public class ServerMessageHandlerPlayer implements IServerMessageHandler {
             break;
             case "NEW_ATTACK_MESSAGE":{
                 System.out.println("Nuevo ataque");
-
+                System.out.println(((Game) message.getObjectOfInterest()).toString());
 
                 //ArtistPost likedMessage = (ArtistPost) message.getObjectOfInterest();
                 //JOptionPane.showMessageDialog(fanWindow, likedMessage.getArtistName() + "'s" + " message: \"" + likedMessage.getText() + " \"" + " got to "  + likedMessage.getLikes() + " likes");

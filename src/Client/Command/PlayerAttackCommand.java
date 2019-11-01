@@ -114,6 +114,7 @@ public class PlayerAttackCommand implements ICommand, Serializable{
         for (int i = 0; i< characters.getSize(); i++){
             int vidaAntes = (int) characters.getCharacter(i).getCurrentLife();
             vidasAntes.add(vidaAntes);
+            System.out.println(vidasAntes.toString());
 
             IBoardElement character = characters.getCharacter(i);
             //System.out.println(((ICharacter) character).getName());
@@ -121,6 +122,7 @@ public class PlayerAttackCommand implements ICommand, Serializable{
 
             int vidaDespues = (int) characters.getCharacter(i).getCurrentLife();
             vidasDespues.add(vidaDespues);
+            System.out.println(vidasDespues.toString());
 
             totalDaño += (vidaAntes - vidaDespues);
         }

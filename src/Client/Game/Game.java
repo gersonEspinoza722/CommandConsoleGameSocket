@@ -7,6 +7,7 @@ import BoardElement.Tools.IToolListing;
 import Client.Command.ICommand;
 import Client.Command.PlayerAttackCommand;
 import Client.Command.PlayerChatCommand;
+import Client.Command.PlayerEndCommand;
 import Client.Player.Player;
 import Client.Resources.Warrior;
 import Client.Resources.Weapon;
@@ -136,6 +137,19 @@ public class Game extends Observable implements Serializable, IGame {
 
     }
 
+    //busca si el warrior esta vivo o no
+    public boolean isAtackerAlive(String warriorName){
+        for(int i = 0; i<getCurrentPlayer().getCharacters().getSize(); i++){
+            if(getCurrentPlayer().getCharacters().getCharacter(i).getName().equals(warriorName)){
+                if(getCurrentPlayer().getCharacters().getCharacter(i).getCurrentLife() <= 0){
+                    System.out.println("MORI SAD");
+                    return false;
+                }
+            }
+        }
+        System.out.println("SIGO VIVOOOO");
+        return true;
+    }
 
     public void surrender(ICommand command) {
         System.out.println("Entró a surrender en Game");
@@ -187,14 +201,16 @@ public class Game extends Observable implements Serializable, IGame {
     public void attack(ICommand command) {
 
         System.out.println("Entró a attack en Game"+" turno "+Integer.toString(turno));
-        if(((PlayerAttackCommand)command).getWeapon().getSimpleUseDecrement() > 0){
+        if(((PlayerAttackCommand)command).getWeapon().getSimpleUseDecrement() > 0 && isAtackerAlive(((PlayerAttackCommand) command).getWarriorName())){
             PlayerAttackCommand attack = (PlayerAttackCommand) command; //nuevo
             GameNotification attackNotification = new GameNotification(this.name,"NEW_ATTACK_MESSAGE",this);
 
             Player playerToAttack = getOtherPlayer();
+            System.out.println("other player "+Integer.toString(getOtherPlayer().getId()));
             ICharacterListing list = playerToAttack.getCharacters();
 
             attack.setCharacters(list);
+            System.out.println("Ataque chars size"+Integer.toString(attack.getCharacters().getSize()));
             attack.execute();
 
             if(isOver(getOtherPlayer())> 0){
@@ -211,6 +227,13 @@ public class Game extends Observable implements Serializable, IGame {
         else{
             GameNotification failedAttack = new GameNotification(this.name, "FAILED_ATTACK_MESSAGE_GAME", "Falló el ultimo ataque, intentelo de nuevo.");
             //OBSERVER LOGIC
+            PlayerAttackCommand attack = (PlayerAttackCommand) command; //////Se necesita hacer una clase nueva de tipo failedAttackCommand
+            Player playerToAttack = getOtherPlayer();
+            ICharacterListing list = playerToAttack.getCharacters();
+            attack.setCharacters(list);
+            attack.execute();
+            setChanged();
+            notifyObservers(failedAttack);
         }
 
     }
@@ -280,7 +303,7 @@ public class Game extends Observable implements Serializable, IGame {
         gameToString+="Estado actual del juego: "+this.status.name()+"\n";
         gameToString+="\n"+"-----------INFORMACIÓN DE JUGADORES-----------"+"\n";
         for(int i =0; i<players.size();i++){
-            gameToString+="Datos de "+players.get(i).getName()+":\n";
+            gameToString+="Datos de jugador "+i+"\n";
             gameToString+="     Ataques exitosos: "+"\n";
             gameToString+="     Ataques fracasados: "+"\n";
             gameToString+="     Muertes enemigas: "+"\n";
