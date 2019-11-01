@@ -41,6 +41,47 @@ public class Log implements IGame, Serializable {
     }
 
     @Override
+    public void chat(ICommand command) {
+        resultado = resultado.concat(command.getCommandText());
+        resultado = resultado.concat("\n");
+    }
+
+    @Override
+    public void reload(ICommand command) {
+        resultado = resultado.concat(command.getCommandText());
+        resultado = resultado.concat("\n");
+
+    }
+
+    @Override
+    public void pass(ICommand command) {
+        resultado = resultado.concat(command.getCommandText());
+        resultado = resultado.concat("\n");
+
+    }
+
+    @Override
+    public void comodin(ICommand command) {
+        resultado = resultado.concat(command.getCommandText());
+        resultado = resultado.concat("\n");
+
+    }
+
+    @Override
+    public void end(ICommand command) {
+        resultado = resultado.concat(command.getCommandText());
+        resultado = resultado.concat("\n");
+
+    }
+
+    @Override
+    public void info(ICommand command) {
+        resultado = resultado.concat(command.getCommandText());
+        resultado = resultado.concat("\n");
+
+    }
+
+    @Override
     public void addLog(Log log) {
         resultado = log.resultado;
     }
