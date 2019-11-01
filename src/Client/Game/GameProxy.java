@@ -24,7 +24,7 @@ public class GameProxy implements IGame {
     public void attack(ICommand command) {
         game.attack(command); //se realiza la accion de atacar
         log.attack(command); //se documenta en el log la accion de atacar
-        ((Game) game).addLog(log); //se mete en el array
+        (game).addLog(log); //se mete en el array
     }
 
     @Override

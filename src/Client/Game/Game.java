@@ -68,10 +68,6 @@ public class Game extends Observable implements Serializable, IGame {
 
     }
 
-    public Player getOtherPlayer(){
-        return players.get(turno%amountPlayers+1);
-    }
-
     public void chat(ICommand command) {
         System.out.println("Entró a mandar chat en Game");
 
@@ -79,6 +75,14 @@ public class Game extends Observable implements Serializable, IGame {
         GameNotification chatNotification = new GameNotification(this.name,"CHAT_MESSAGE_GAME",this);
         notifyObservers(chatNotification);
 
+    }
+
+    public Player getOtherPlayer(){
+        return players.get(turno%amountPlayers+1);
+    }
+
+    public Player getCurrentPlayer(){
+        return players.get(turno%amountPlayers);
     }
 
     public void pass(ICommand command) {
@@ -179,6 +183,10 @@ public class Game extends Observable implements Serializable, IGame {
         return attackedPlayerId;
     }
 
+    public int getCurrentTurno(){
+        return turno%amountPlayers;
+    }
+
     private void aumentarTurno(){
         turno = (turno+1)%amountPlayers;
     }
@@ -220,7 +228,7 @@ public class Game extends Observable implements Serializable, IGame {
         this.identifier = identifier;
     }
 
-    public int getCurrentPlayer() {
+    public int getCurrentPlayerIndex() {
         return currentPlayer;
     }
 

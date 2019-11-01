@@ -40,6 +40,9 @@ public class Warrior extends CharacterAbstract {
     @Override
     public void decLife(int percentage){
         decrementableLife -= defaultLife * percentage / 100;
+        if(decrementableLife > 0){
+            decrementableLife = 0;
+        }
     }
 
     /*
