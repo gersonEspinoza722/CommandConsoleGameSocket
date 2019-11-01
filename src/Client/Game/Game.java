@@ -213,6 +213,12 @@ public class Game extends Observable implements Serializable, IGame {
             System.out.println("Ataque chars size"+Integer.toString(attack.getCharacters().getSize()));
             attack.execute();
 
+            //estadisticas
+            if(attack.getTotalDaño()>=100)
+                getCurrentPlayer().addAtaquesExitosos();
+            if(attack.getTotalDaño()<100)
+                getCurrentPlayer().addAtaquesFracasados();
+
             if(isOver(getOtherPlayer())> 0){
                 finishGame();
             }
@@ -304,12 +310,12 @@ public class Game extends Observable implements Serializable, IGame {
         gameToString+="\n"+"-----------INFORMACIÓN DE JUGADORES-----------"+"\n";
         for(int i =0; i<players.size();i++){
             gameToString+="Datos de jugador "+i+"\n";
-            gameToString+="     Ataques exitosos: "+"\n";
-            gameToString+="     Ataques fracasados: "+"\n";
-            gameToString+="     Muertes enemigas: "+"\n";
-            gameToString+="     Victorias: "+"\n";
-            gameToString+="     Fracasos: "+"\n";
-            gameToString+="     Rendiciones: "+"\n";
+            gameToString+="     Ataques exitosos: "+getCurrentPlayer().getAtaquesExitosos()+"\n"; //hacer logica para jugador contrario
+            gameToString+="     Ataques fracasados: "+getCurrentPlayer().getAtaquesFracasados()+"\n";
+            gameToString+="     Muertes enemigas: "+getCurrentPlayer().getMuertesEnemigas()+"\n";
+            gameToString+="     Victorias: "+getCurrentPlayer().getVictorias()+"\n";
+            gameToString+="     Fracasos: "+getCurrentPlayer().getFracasos()+"\n";
+            gameToString+="     Rendiciones: "+getCurrentPlayer().getRendiciones()+"\n";
             gameToString+="     ---Información de guerreros--- "+"\n";
             for(int j =0;j<players.get(i).getCharacters().getSize();j++){
                 gameToString+="          Guerrero: "+players.get(i).getCharacters().getCharacter(j).getName()+" con vida "+players.get(i).getCharacters().getCharacter(j).getCurrentLife() +"\n";

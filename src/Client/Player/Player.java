@@ -19,12 +19,79 @@ public class Player extends Client implements Serializable {
     //private ArrayList<Game> followingGame;
     private int charactersQuantity;
 
+    private int ataquesExitosos;
+    private int ataquesFracasados;
+    private int muertesEnemigas;
+    private int victorias;
+    private int fracasos;
+    private int rendiciones;
+
     public Player(String hostName, int portNumber, ClientType clientType, String name) {
         super(hostName, portNumber, clientType);
         this.name = name;
         //this.followingGame = new ArrayList<>();
         characters = CharacterListingFactory.getInstance().getCharacterListing(CharacterListingFactory.CHARACTER_ARRAY);
         charactersQuantity = 4;
+
+        //se deben cargar desde archivo externo
+        ataquesExitosos = 0;
+        ataquesFracasados = 0;
+        muertesEnemigas = 0;
+        victorias = 0;
+        fracasos = 0;
+        rendiciones = 0;
+    }
+
+    public void setCharactersQuantity(int charactersQuantity) {
+        this.charactersQuantity = charactersQuantity;
+    }
+
+    public int getAtaquesExitosos() {
+        return ataquesExitosos;
+    }
+
+    public void addAtaquesExitosos() {
+        this.ataquesExitosos++;
+    }
+
+    public int getAtaquesFracasados() {
+        return ataquesFracasados;
+    }
+
+    public void addAtaquesFracasados() {
+        this.ataquesFracasados++;
+    }
+
+    public int getMuertesEnemigas() {
+        return muertesEnemigas;
+    }
+
+    public void addMuertesEnemigas() {
+        this.muertesEnemigas++;
+    }
+
+    public int getVictorias() {
+        return victorias;
+    }
+
+    public void addVictorias() {
+        this.victorias++;
+    }
+
+    public int getFracasos() {
+        return fracasos;
+    }
+
+    public void addFracasos() {
+        this.fracasos++;
+    }
+
+    public int getRendiciones() {
+        return rendiciones;
+    }
+
+    public void addRendiciones(int rendiciones) {
+        this.rendiciones++;
     }
 
     public Player(int id) {
