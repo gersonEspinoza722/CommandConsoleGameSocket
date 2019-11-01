@@ -25,6 +25,14 @@ public class CommandTokenizer {
             PlayerAttackCommand command = new PlayerAttackCommand(tokens[1],commandString, tokens[3],tokens[2]);
             realCommand=command;
         }
+        if(tokens[0].equals("SURRENDER")){
+            PlayerSurrenderCommand command = new PlayerSurrenderCommand(tokens[1],commandString);
+            realCommand=command;
+        }
+        if(tokens[0].equals("END")){
+            PlayerEndCommand command = new PlayerEndCommand(tokens[1],commandString);
+            realCommand=command;
+        }
 
 
 

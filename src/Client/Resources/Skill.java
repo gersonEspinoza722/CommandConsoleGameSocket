@@ -1,6 +1,8 @@
 package Client.Resources;
 
-public enum Skill {
+import java.io.Serializable;
+
+public enum Skill implements Serializable {
     FIRE,
     AIR,
     WATER,

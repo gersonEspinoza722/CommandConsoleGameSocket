@@ -11,10 +11,13 @@ import Client.Resources.Warrior;
 import Client.Resources.Weapon;
 import Patterns.IPrototype;
 
-public class GameResourcesInitializer {
+import java.io.Serializable;
+
+public class GameResourcesInitializer implements Serializable {
 
     private ICharacterListing availableCharacters;
     private IToolListing availableWeapons;
+    private DamageTableGenerator damageTableGenerator;
 
     private CharacterListingFactory characterListingFactory;
     private ToolListingFactory toolListingFactory;
@@ -49,27 +52,28 @@ public class GameResourcesInitializer {
         availableCharacters.addCharacter(character9);
         availableCharacters.addCharacter(character10);
 
-        ITool weapon1 = new Weapon("FIRESWORD", Skill.FIRE.ordinal(), 1); //String name, int type, int simpleUseDecrement
-        ITool weapon2 = new Weapon("AIRSWORD", Skill.AIR.ordinal(), 1);
-        ITool weapon3 = new Weapon("WATERSPEAR", Skill.WATER.ordinal(), 1);
-        ITool weapon4 = new Weapon("LIGHTSWORD", Skill.WHITE_MAGIC.ordinal(), 1);
-        ITool weapon5 = new Weapon("BLACKAXE", Skill.BLACK_MAGIC.ordinal(), 1);
-        ITool weapon6 = new Weapon("LIGHTNING", Skill.ELECTRICITY.ordinal(), 1);
-        ITool weapon7 = new Weapon("BLIZZARD", Skill.ICE.ordinal(), 1);
-        ITool weapon8 = new Weapon("MAZE", Skill.IRON.ordinal(), 1);
-        ITool weapon9 = new Weapon("TOXICBOMB", Skill.ACID.ordinal(), 1);
-        ITool weapon10 = new Weapon("HOLYGRAIL", Skill.SPIRITUALITY.ordinal(), 1);
+        //System.out.println(availableCharacters.getSize());
+        damageTableGenerator = new DamageTableGenerator();
 
-        availableWeapons.addTool(weapon1);
-        availableWeapons.addTool(weapon2);
-        availableWeapons.addTool(weapon3);
-        availableWeapons.addTool(weapon4);
-        availableWeapons.addTool(weapon5);
-        availableWeapons.addTool(weapon6);
-        availableWeapons.addTool(weapon7);
-        availableWeapons.addTool(weapon8);
-        availableWeapons.addTool(weapon9);
-        availableWeapons.addTool(weapon10);
+        refillWeapons();
+
+    }
+
+    public ICharacterListing getAvailableCharacters() {
+        return availableCharacters;
+    }
+
+    public IToolListing getAvailableWeapons() {
+        return availableWeapons;
+    }
+
+    public ITool getTool(int index){
+        //System.out.println(availableWeapons.getSize());
+        return availableWeapons.getTool(index);
+    }
+
+    public ICharacter getCharacter(int index){
+        return availableCharacters.getCharacter(index);
     }
 
     public ITool getTool(Skill skill){
@@ -88,5 +92,29 @@ public class GameResourcesInitializer {
             }
         }
         return null;
+    }
+
+    public void refillWeapons(){
+        ITool weapon1 = new Weapon("FIRESWORD", Skill.FIRE.ordinal(), 1, damageTableGenerator.getDamageTable(Skill.FIRE)); //String name, int type, int simpleUseDecrement
+        ITool weapon2 = new Weapon("AIRSWORD", Skill.AIR.ordinal(), 1, damageTableGenerator.getDamageTable(Skill.AIR));
+        ITool weapon3 = new Weapon("WATERSPEAR", Skill.WATER.ordinal(), 1, damageTableGenerator.getDamageTable(Skill.WATER));
+        ITool weapon4 = new Weapon("LIGHTSWORD", Skill.WHITE_MAGIC.ordinal(), 1, damageTableGenerator.getDamageTable(Skill.WHITE_MAGIC));
+        ITool weapon5 = new Weapon("BLACKAXE", Skill.BLACK_MAGIC.ordinal(), 1, damageTableGenerator.getDamageTable(Skill.BLACK_MAGIC));
+        ITool weapon6 = new Weapon("LIGHTNING", Skill.ELECTRICITY.ordinal(), 1, damageTableGenerator.getDamageTable(Skill.ELECTRICITY));
+        ITool weapon7 = new Weapon("BLIZZARD", Skill.ICE.ordinal(), 1, damageTableGenerator.getDamageTable(Skill.ICE));
+        ITool weapon8 = new Weapon("MAZE", Skill.IRON.ordinal(), 1, damageTableGenerator.getDamageTable(Skill.IRON));
+        ITool weapon9 = new Weapon("TOXICBOMB", Skill.ACID.ordinal(), 1, damageTableGenerator.getDamageTable(Skill.ACID));
+        ITool weapon10 = new Weapon("HOLYGRAIL", Skill.SPIRITUALITY.ordinal(), 1, damageTableGenerator.getDamageTable(Skill.SPIRITUALITY));
+
+        availableWeapons.addTool(weapon1);
+        availableWeapons.addTool(weapon2);
+        availableWeapons.addTool(weapon3);
+        availableWeapons.addTool(weapon4);
+        availableWeapons.addTool(weapon5);
+        availableWeapons.addTool(weapon6);
+        availableWeapons.addTool(weapon7);
+        availableWeapons.addTool(weapon8);
+        availableWeapons.addTool(weapon9);
+        availableWeapons.addTool(weapon10);
     }
 }

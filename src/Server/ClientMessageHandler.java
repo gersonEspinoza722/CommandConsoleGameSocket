@@ -4,6 +4,7 @@ import BoardElement.Character.ICharacterListing;
 import Client.Command.*;
 import Client.Game.*;
 import Client.Message;
+import Client.Player.Player;
 import Client.Player.PlayerMessage;
 
 import javax.swing.*;
@@ -81,7 +82,7 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 String gameName = ((PlayerAttackCommand)playerMessage.getObjectOfInterest()).getGameName();
                 Game realGame = getGame(gameName,server);
 
-                System.out.println(realGame.toString());
+                //System.out.println(realGame.toString());
 
                 //realGame.attack((ICommand) playerMessage.getObjectOfInterest()); gameProxy
                 //System.out.println("Soy el juego:"+realGame.getGameName());
@@ -147,6 +148,7 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 String gameName = ((PlayerEndCommand)playerMessage.getObjectOfInterest()).getName();
                 Game realGame = getGame(gameName,server);
                 realGame.end((ICommand) playerMessage.getObjectOfInterest());
+
 
                 GameServer gameServer = (GameServer)  server;
                 ServerThread gameThread = gameServer.getGames().get(realGame.getName());
@@ -261,19 +263,31 @@ public class ClientMessageHandler implements IClientMessageHandler{
         String event = message.getEvent();
         switch (event) {
             case "GAME_REGISTRATION": {
+
                 GameMessage gameMessage = (GameMessage) message;
                 int gameClientID = gameMessage.getGameID();
                 ArrayList<Observable> games = server.getObservableResources();
                 // Create an Artist based on the information I just received
                 String gameName = (String) message.getObjectOfInterest();
                 int gameId = games.size();
-                IGame newGame = new Game(gameId,gameName);
+                Player player1 = new Player(0);
+                Player player2 = new Player(1);
+
+                ArrayList<Player> players = new ArrayList<>();
+                players.add(player1);
+                players.add(player2);
+
+                IGame newGame = new Game(gameId,gameName, players);
+                //System.out.println(newGame.toString());
                 //new game.add t o d o
                 //hacer characters y armas aqui
+                //((Game) newGame).addNewPlayer(player1);
+                //System.out.println(((Game) newGame).getPlayers().get(0).getName());
 
                 GameServer gameServer = (GameServer) server;
                 ServerThread currentServerThread = server.getClients().get(gameClientID);
                 gameServer.addNewGame((Game) newGame,gameName,currentServerThread);
+
 
             }
             break;

@@ -7,12 +7,13 @@ import java.io.Serializable;
 public class PlayerSurrenderCommand  implements ICommand, Serializable {
     int gameId;
     String name;
+    String commandText;
 
 
+    public PlayerSurrenderCommand(String name, String commandText) {
 
-    public PlayerSurrenderCommand(int gameId,String name) {
-        this.gameId = gameId;
         this.name = name;
+        this.commandText = commandText;
     }
 
     public void setGameId(int gameId) {

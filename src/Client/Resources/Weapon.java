@@ -6,16 +6,18 @@ import BoardElement.Tools.Tool;
 import Client.Game.DamageTable;
 import Media.IMediaListing;
 import Patterns.IPrototype;
+
+import java.io.Serializable;
 import java.util.Random;
 
-public class Weapon extends Tool {
+public class Weapon extends Tool implements Serializable {
 
     private DamageTable damageTable; //<tipo, daño>
 
-    public Weapon(String name, int type, int simpleUseDecrement) { //cuando creo el weapon tengo que darle la cantidad de usos
+    public Weapon(String name, int type, int simpleUseDecrement, DamageTable damageTable) { //cuando creo el weapon tengo que darle la cantidad de usos
         super(name, type, simpleUseDecrement);
         Random random = new Random(System.currentTimeMillis());
-        damageTable = new DamageTable(Skill.values()[type], random);
+        this.damageTable = damageTable;//new DamageTable(Skill.values()[type], random);
     }
 
     public DamageTable getDamageTable() {

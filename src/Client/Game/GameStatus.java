@@ -1,6 +1,8 @@
 package Client.Game;
 
-public enum GameStatus {
+import java.io.Serializable;
+
+public enum GameStatus implements Serializable {
     STARTED,
     SURREDERED,
     EVEN,

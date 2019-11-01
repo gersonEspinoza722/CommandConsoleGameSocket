@@ -7,18 +7,20 @@ import BoardElement.Tools.IToolListing;
 import Client.Command.ICommand;
 import Client.Command.PlayerAttackCommand;
 import Client.Player.Player;
+import Client.Resources.Warrior;
 import Client.Resources.Weapon;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
 public class Game extends Observable implements Serializable, IGame {
     private int identifier;
     private int currentPlayer;
     private int amountPlayers;
-    private ArrayList<Player> players; //ICharacterListing
+    private ArrayList<Player> players;
     private ArrayList<Log> logs; //ILog listing?
     private String name;
     private int turno;
@@ -44,28 +46,66 @@ public class Game extends Observable implements Serializable, IGame {
 
     /*Se debe generar el aleatorio de asignacion de armas por tipo cuando se haga la instancia de game (10 "prototipos")*/
 
-    public Game(int identifier,String name) {
+    public Game(int identifier,String name, ArrayList<Player> players) {
         this.identifier = identifier;
         this.currentPlayer = 0;
         this.amountPlayers=2;
-        this.players = new ArrayList<>();
+        //this.players = new ArrayList<>();
         this.logs = new ArrayList<>();
         this.name = name;
         this.turno = -1; //hacer logica para asignar turnos
         this.status = GameStatus.STARTED;
+        this.players = players;
+
+
+        Player player1 = new Player(0);
+        Player player2 = new Player(1);
+        //this.players.add(player1);
+        //this.players.add(player2);
+
+        initResources();
+    }
+
+    private void initResources(){
+        //System.out.println("aqi");
+        for (Player player : players){
+        //for(int p = 0; p<2; p++){
+            //Player player = players.get(p);
+            GameResourcesInitializer gameResourcesInitializer = new GameResourcesInitializer();
+            Random random = new Random(System.currentTimeMillis());
+            for(int i = 0; i<player.getCharactersQuantity(); i++){
+            //for(int i = 0; i<4; i++){
+                int randomCharacter = random.nextInt(gameResourcesInitializer.getAvailableCharacters().getSize());
+                player.addCharacter(gameResourcesInitializer.getCharacter(randomCharacter));
+
+                for(int j = 0; j<((Warrior)player.getCharacters().getCharacter(i)).getWeaponsQuantity(); j++){
+                //for(int j = 0; j<5; j++){
+                    System.out.println(j);
+                    int randomTool = random.nextInt(((Warrior)player.getCharacters().getCharacter(i)).getWeaponsQuantity());
+                    //int randomTool = random.nextInt(5);
+                    //System.out.println(player.getCharacters().getSize());
+                    player.getCharacters().getCharacter(i).addTool(gameResourcesInitializer.getTool(randomTool));
+                }
+                gameResourcesInitializer.refillWeapons();
+            }
+        }
     }
 
     public void addPlayer(Observer observer) {
         //log anterior
         this.addObserver(observer);
-        this.amountPlayers++;
+        //this.amountPlayers++;
 
         //log posterior
-        setChanged();
+        //setChanged();
 
-        GameNotification followersIncreased = new GameNotification(this.name, "NEW_PLAYER" , this);
-        notifyObservers(followersIncreased);
+        //GameNotification followersIncreased = new GameNotification(this.name, "NEW_PLAYER" , this);
+        //notifyObservers(followersIncreased);
 
+    }
+
+    public void addNewPlayer(Player player){
+        players.add(player);
     }
 
     public void chat(ICommand command) {
@@ -98,6 +138,8 @@ public class Game extends Observable implements Serializable, IGame {
     public void surrender(ICommand command) {
         System.out.println("Entró a surrender en Game");
 
+        this.status=GameStatus.SURREDERED;
+        System.out.println("Gano:");
         setChanged();
         GameNotification surrenderNotification = new GameNotification(this.name,"SURRENDER_MESSAGE_GAME",this);
         notifyObservers(surrenderNotification);
@@ -133,10 +175,10 @@ public class Game extends Observable implements Serializable, IGame {
 
     public void end(ICommand command) {
         System.out.println("Entró a end en Game");
-
+        this.status=GameStatus.EVEN;
         setChanged();
-        GameNotification surrenderNotification = new GameNotification(this.name,"END_MESSAGE_GAME",this);
-        notifyObservers(surrenderNotification);
+        GameNotification endNotification = new GameNotification(this.name,"END_MESSAGE_GAME",this);
+        notifyObservers(endNotification);
 
     }
 
@@ -225,7 +267,7 @@ public class Game extends Observable implements Serializable, IGame {
 
         gameToString+="Nombre del juego: "+this.getName()+"\n";
         gameToString+="Cantidad de turnos utilizados: "+this.turno+"\n";
-        gameToString+= "Turno actual: "+getCurrentPlayer().getName()+"\n";
+        //gameToString+= "Turno actual: "+getCurrentPlayer().getName()+"\n";
         gameToString+="Estado actual del juego: "+this.status.name()+"\n";
         gameToString+="\n"+"-----------INFORMACIÓN DE JUGADORES-----------"+"\n";
         for(int i =0; i<players.size();i++){

@@ -4,10 +4,12 @@ import BoardElement.Character.ICharacter;
 import BoardElement.Tools.ITool;
 import Client.Command.ICommand;
 import Client.Command.PlayerAttackCommand;
+
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Log implements IGame{
+public class Log implements IGame, Serializable {
     private Date fecha;
     private ICommand command;
     String resultado;
@@ -32,7 +34,7 @@ public class Log implements IGame{
             resultado = resultado.concat("Enemigo "+ character.getName() + " ha recibido " + Integer.toString(damage) + "% de daño. \n");
         }
         resultado = resultado.concat("\n");
-
+        //vidas antes y despues implementar dividido
         formatResultado();
 
     }

@@ -26,7 +26,7 @@ public class PlayerAttackCommand implements ICommand, Serializable{
 
     public PlayerAttackCommand(String gameName, String commandText, String weaponName, String warriorName){//, String weaponName, String warriorName) { //a partir de commandText se puede obtener weapon y warrior? si si, eliminar dos ultimos campos del constructor
         this.gameName = gameName;
-        this.clientToAttackName = clientToAttackName;
+
         this.totalDaño = 0;
         this.commandText = commandText;
         this.weaponName = weaponName;
@@ -47,25 +47,18 @@ public class PlayerAttackCommand implements ICommand, Serializable{
 
 
 
-
-    @Override
-    public IGame getRealGame() {
-        return realGame;
-    }
-
     public void setRealGame(IGame realGame) {
         this.realGame = realGame;
         System.out.println(((Game)realGame).getName());
         weapon = realGame.getWeapon(weaponName, warriorName);
     }
 
+
+
     @Override
-    public String getCommandText() {
-        //falta implementar
-
-        return null;
+    public IGame getRealGame() {
+        return realGame;
     }
-
 
 
     public String clientToAttackName() {
@@ -127,12 +120,17 @@ public class PlayerAttackCommand implements ICommand, Serializable{
 
             totalDaño += (vidaAntes - vidaDespues);
         }
-        weapon.decUse(1); //
+        weapon.decUse(1);
 
     }
 
     @Override
     public int getGameId() {
         return 0;
+    }
+
+    @Override
+    public String getCommandText() {
+        return commandText;
     }
 }

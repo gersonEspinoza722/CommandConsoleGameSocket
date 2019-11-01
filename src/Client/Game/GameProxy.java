@@ -3,7 +3,9 @@ package Client.Game;
 import BoardElement.Tools.ITool;
 import Client.Command.ICommand;
 
-public class GameProxy implements IGame {
+import java.io.Serializable;
+
+public class GameProxy implements IGame, Serializable {
 
     private ICommand command;
     private IGame game;

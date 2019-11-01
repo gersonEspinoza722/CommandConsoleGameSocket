@@ -6,12 +6,7 @@
 package Client;
 
 
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +15,7 @@ import java.util.logging.Logger;
  *
  * @author Marvin Armando
  */
-public abstract class Client {
+public abstract class Client implements Serializable {
     
     private String hostName;
     private int portNumber;
@@ -38,6 +33,10 @@ public abstract class Client {
         this.hostName = hostName;
         this.portNumber = portNumber;
         this.type = clientType;
+    }
+
+    public Client(int id) {
+        this.id = id;
     }
 
     public String getHostName() {
@@ -115,7 +114,6 @@ public abstract class Client {
     
     public void run(){
         try{
-
                 System.out.println("corre cliente");
                 this.socket = new Socket(this.hostName, this.portNumber);
 

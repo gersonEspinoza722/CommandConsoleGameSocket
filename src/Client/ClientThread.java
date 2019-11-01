@@ -55,6 +55,8 @@ public class ClientThread extends Thread{
         
         while (connected){
             try{
+
+
                 Message serverMessage = (Message) reader.readObject();
                 this.serverMessageHandler.handleServerMessage(serverMessage);
             }
