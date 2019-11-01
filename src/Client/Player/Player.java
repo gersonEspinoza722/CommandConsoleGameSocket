@@ -29,6 +29,8 @@ public class Player extends Client implements Serializable {
 
     public Player(int id) {
         super(id);
+        characters = CharacterListingFactory.getInstance().getCharacterListing(CharacterListingFactory.CHARACTER_ARRAY);
+        charactersQuantity = 4;
     }
 
     public String getName() {
@@ -48,8 +50,8 @@ public class Player extends Client implements Serializable {
     }
 
     public void addCharacter(ICharacter character){
-        System.out.println(character.getName()+" "+character.getTools().getTool(0).getType());
         characters.addCharacter(character);
+        //System.out.println(character.getName()+" "+character.getTools().getTool(0).getType());
     }
 
     public int getCharactersQuantity() {

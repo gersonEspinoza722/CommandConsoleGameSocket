@@ -262,6 +262,7 @@ public class ClientMessageHandler implements IClientMessageHandler{
         String event = message.getEvent();
         switch (event) {
             case "GAME_REGISTRATION": {
+
                 GameMessage gameMessage = (GameMessage) message;
                 int gameClientID = gameMessage.getGameID();
                 ArrayList<Observable> games = server.getObservableResources();
@@ -275,7 +276,8 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 players.add(player1);
                 players.add(player2);
 
-                IGame newGame = new Game(gameId,gameName, players);
+                IGame newGame = new Game(gameId,gameName, null);
+                //System.out.println(newGame.toString());
                 //new game.add t o d o
                 //hacer characters y armas aqui
 
@@ -283,6 +285,7 @@ public class ClientMessageHandler implements IClientMessageHandler{
                 GameServer gameServer = (GameServer) server;
                 ServerThread currentServerThread = server.getClients().get(gameClientID);
                 gameServer.addNewGame((Game) newGame,gameName,currentServerThread);
+
 
             }
             break;

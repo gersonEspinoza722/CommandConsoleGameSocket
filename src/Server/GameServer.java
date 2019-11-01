@@ -24,10 +24,11 @@ public class GameServer extends Server{
     public void addNewPlayer(int clientID, ServerThread thread){
         this.clients.put(clientID, thread);
     }
+
     public void addNewGame(Game game, String gameName,ServerThread gameThread){
         this.observableResources.add(game);
         //System.out.println("Lo metió en observables");
-        for (ServerThread currentServerThread : clients.values()){
+       for (ServerThread currentServerThread : clients.values()){
             currentServerThread.update(game, game);
         }
         this.games.put(gameName, gameThread);

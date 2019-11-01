@@ -6,7 +6,9 @@ import BoardElement.Tools.ToolListingFactory;
 import Media.IMediaElement;
 import Media.MediaListingFactory;
 
-public class Warrior extends CharacterAbstract {
+import java.io.Serializable;
+
+public class Warrior extends CharacterAbstract implements Serializable {
     private Skill skillType;
     private int weaponsQuantity;
 
@@ -32,6 +34,7 @@ public class Warrior extends CharacterAbstract {
         this.skillType = skillType;
     }
 
+    @Override
     public void addTool(ITool tool) {
         this.tools.addTool(tool);
     }

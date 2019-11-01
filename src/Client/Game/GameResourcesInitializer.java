@@ -11,7 +11,9 @@ import Client.Resources.Warrior;
 import Client.Resources.Weapon;
 import Patterns.IPrototype;
 
-public class GameResourcesInitializer {
+import java.io.Serializable;
+
+public class GameResourcesInitializer implements Serializable {
 
     private ICharacterListing availableCharacters;
     private IToolListing availableWeapons;
@@ -53,6 +55,46 @@ public class GameResourcesInitializer {
         //System.out.println(availableCharacters.getSize());
         damageTableGenerator = new DamageTableGenerator();
 
+        refillWeapons();
+
+    }
+
+    public ICharacterListing getAvailableCharacters() {
+        return availableCharacters;
+    }
+
+    public IToolListing getAvailableWeapons() {
+        return availableWeapons;
+    }
+
+    public ITool getTool(int index){
+        //System.out.println(availableWeapons.getSize());
+        return availableWeapons.getTool(index);
+    }
+
+    public ICharacter getCharacter(int index){
+        return availableCharacters.getCharacter(index);
+    }
+
+    public ITool getTool(Skill skill){
+        for (int i = 0; i<availableWeapons.getSize(); i++){
+            if(availableWeapons.getTool(i).getType() == skill.ordinal()){
+                return availableWeapons.removeTool(i);
+            }
+        }
+        return null;
+    }
+
+    public ICharacter getCharacter(Skill skill){
+        for (int i = 0; i<availableWeapons.getSize(); i++){
+            if(((Warrior)availableCharacters.getCharacter(i)).getSkillType().equals(skill)){
+                return (ICharacter) availableCharacters.removeCharacter(i);
+            }
+        }
+        return null;
+    }
+
+    public void refillWeapons(){
         ITool weapon1 = new Weapon("FIRESWORD", Skill.FIRE.ordinal(), 1, damageTableGenerator.getDamageTable(Skill.FIRE)); //String name, int type, int simpleUseDecrement
         ITool weapon2 = new Weapon("AIRSWORD", Skill.AIR.ordinal(), 1, damageTableGenerator.getDamageTable(Skill.AIR));
         ITool weapon3 = new Weapon("WATERSPEAR", Skill.WATER.ordinal(), 1, damageTableGenerator.getDamageTable(Skill.WATER));
@@ -74,40 +116,5 @@ public class GameResourcesInitializer {
         availableWeapons.addTool(weapon8);
         availableWeapons.addTool(weapon9);
         availableWeapons.addTool(weapon10);
-
-    }
-
-    public ICharacterListing getAvailableCharacters() {
-        return availableCharacters;
-    }
-
-    public IToolListing getAvailableWeapons() {
-        return availableWeapons;
-    }
-
-    public ITool getTool(int index){
-        return availableWeapons.removeTool(index);
-    }
-
-    public ICharacter getCharacter(int index){
-        return availableCharacters.removeCharacter(index);
-    }
-
-    public ITool getTool(Skill skill){
-        for (int i = 0; i<availableWeapons.getSize(); i++){
-            if(availableWeapons.getTool(i).getType() == skill.ordinal()){
-                return availableWeapons.removeTool(i);
-            }
-        }
-        return null;
-    }
-
-    public ICharacter getCharacter(Skill skill){
-        for (int i = 0; i<availableWeapons.getSize(); i++){
-            if(((Warrior)availableCharacters.getCharacter(i)).getSkillType().equals(skill)){
-                return (ICharacter) availableCharacters.removeCharacter(i);
-            }
-        }
-        return null;
     }
 }

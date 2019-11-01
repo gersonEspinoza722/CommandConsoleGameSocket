@@ -20,7 +20,7 @@ public class Game extends Observable implements Serializable, IGame {
     private int identifier;
     private int currentPlayer;
     private int amountPlayers;
-    private ArrayList<Player> players; //ICharacterListing
+    private ArrayList<Player> players;
     private ArrayList<Log> logs; //ILog listing?
     private String name;
     private int turno;
@@ -50,27 +50,42 @@ public class Game extends Observable implements Serializable, IGame {
         this.identifier = identifier;
         this.currentPlayer = 0;
         this.amountPlayers=2;
-        this.players = players;
+        this.players = new ArrayList<>();
         this.logs = new ArrayList<>();
         this.name = name;
         this.turno = -1; //hacer logica para asignar turnos
         this.status = GameStatus.STARTED;
 
+
+        Player player1 = new Player(0);
+        Player player2 = new Player(1);
+        this.players.add(player1);
+        this.players.add(player2);
+
         initResources();
     }
 
     private void initResources(){
+        //System.out.println("aqi");
         for (Player player : players){
+        //for(int p = 0; p<2; p++){
+            //Player player = players.get(p);
             GameResourcesInitializer gameResourcesInitializer = new GameResourcesInitializer();
             Random random = new Random(System.currentTimeMillis());
             for(int i = 0; i<player.getCharactersQuantity(); i++){
+            //for(int i = 0; i<4; i++){
                 int randomCharacter = random.nextInt(gameResourcesInitializer.getAvailableCharacters().getSize());
                 player.addCharacter(gameResourcesInitializer.getCharacter(randomCharacter));
 
                 for(int j = 0; j<((Warrior)player.getCharacters().getCharacter(i)).getWeaponsQuantity(); j++){
+                //for(int j = 0; j<5; j++){
+                    System.out.println(j);
                     int randomTool = random.nextInt(((Warrior)player.getCharacters().getCharacter(i)).getWeaponsQuantity());
+                    //int randomTool = random.nextInt(5);
+                    //System.out.println(player.getCharacters().getSize());
                     player.getCharacters().getCharacter(i).addTool(gameResourcesInitializer.getTool(randomTool));
                 }
+                gameResourcesInitializer.refillWeapons();
             }
         }
     }
@@ -81,10 +96,10 @@ public class Game extends Observable implements Serializable, IGame {
         this.amountPlayers++;
 
         //log posterior
-        setChanged();
+        //setChanged();
 
-        GameNotification followersIncreased = new GameNotification(this.name, "NEW_PLAYER" , this);
-        notifyObservers(followersIncreased);
+        //GameNotification followersIncreased = new GameNotification(this.name, "NEW_PLAYER" , this);
+        //notifyObservers(followersIncreased);
 
     }
 
@@ -249,7 +264,7 @@ public class Game extends Observable implements Serializable, IGame {
 
         gameToString+="Nombre del juego: "+this.getName()+"\n";
         gameToString+="Cantidad de turnos utilizados: "+this.turno+"\n";
-        gameToString+= "Turno actual: "+getCurrentPlayer().getName()+"\n";
+//        gameToString+= "Turno actual: "+getCurrentPlayer().getName()+"\n";
         gameToString+="Estado actual del juego: "+this.status.name()+"\n";
         gameToString+="\n"+"-----------INFORMACIÓN DE JUGADORES-----------"+"\n";
         for(int i =0; i<players.size();i++){
