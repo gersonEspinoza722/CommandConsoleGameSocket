@@ -3,13 +3,14 @@ package Client.Command;
 import BoardElement.Character.ICharacterListing;
 import BoardElement.IBoardElement;
 import BoardElement.Tools.ITool;
+import Client.Game.Game;
 import Client.Game.IGame;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class PlayerAttackCommand implements ICommand, Serializable{
-    private int gameId;
+
     private IGame realGame;
     private String commandText;
     private ITool weapon;
@@ -23,8 +24,7 @@ public class PlayerAttackCommand implements ICommand, Serializable{
     private ArrayList<Integer> vidasAntes;
     private ArrayList<Integer> vidasDespues;
 
-    public PlayerAttackCommand(int gameId, String gameName, String clientToAttackName, String commandText){//, String weaponName, String warriorName) { //a partir de commandText se puede obtener weapon y warrior? si si, eliminar dos ultimos campos del constructor
-        this.gameId = gameId;
+    public PlayerAttackCommand(String gameName, String commandText, String weaponName, String warriorName){//, String weaponName, String warriorName) { //a partir de commandText se puede obtener weapon y warrior? si si, eliminar dos ultimos campos del constructor
         this.gameName = gameName;
         this.clientToAttackName = clientToAttackName;
         this.totalDaño = 0;
@@ -46,10 +46,7 @@ public class PlayerAttackCommand implements ICommand, Serializable{
     }
 
 
-    @Override
-    public int getGameId() {
-        return gameId;
-    }
+
 
     @Override
     public IGame getRealGame() {
@@ -58,6 +55,7 @@ public class PlayerAttackCommand implements ICommand, Serializable{
 
     public void setRealGame(IGame realGame) {
         this.realGame = realGame;
+        System.out.println(((Game)realGame).getName());
         weapon = realGame.getWeapon(weaponName, warriorName);
     }
 
@@ -68,9 +66,7 @@ public class PlayerAttackCommand implements ICommand, Serializable{
         return null;
     }
 
-    public void setGameId(int gameId) {
-        this.gameId = gameId;
-    }
+
 
     public String clientToAttackName() {
         return clientToAttackName;
@@ -133,5 +129,10 @@ public class PlayerAttackCommand implements ICommand, Serializable{
         }
         weapon.decUse(1); //
 
+    }
+
+    @Override
+    public int getGameId() {
+        return 0;
     }
 }

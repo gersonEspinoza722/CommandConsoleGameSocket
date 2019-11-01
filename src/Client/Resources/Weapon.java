@@ -18,6 +18,10 @@ public class Weapon extends Tool {
         damageTable = new DamageTable(Skill.values()[type], random);
     }
 
+    public DamageTable getDamageTable() {
+        return damageTable;
+    }
+
     @Override
     public void setDefaultLife(int amount) {
         defaultLife = amount;

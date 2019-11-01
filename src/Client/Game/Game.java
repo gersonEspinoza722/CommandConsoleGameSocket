@@ -220,6 +220,41 @@ public class Game extends Observable implements Serializable, IGame {
         return null;
     }
 
+    public String toString(){
+        String gameToString = "";
+
+        gameToString+="Nombre del juego: "+this.getName()+"\n";
+        gameToString+="Cantidad de turnos utilizados: "+this.turno+"\n";
+        gameToString+= "Turno actual: "+getCurrentPlayer().getName()+"\n";
+        gameToString+="Estado actual del juego: "+this.status.name()+"\n";
+        gameToString+="\n"+"-----------INFORMACIÓN DE JUGADORES-----------"+"\n";
+        for(int i =0; i<players.size();i++){
+            gameToString+="Datos de "+players.get(i).getName()+":\n";
+            gameToString+="     Ataques exitosos: "+"\n";
+            gameToString+="     Ataques fracasados: "+"\n";
+            gameToString+="     Muertes enemigas: "+"\n";
+            gameToString+="     Victorias: "+"\n";
+            gameToString+="     Fracasos: "+"\n";
+            gameToString+="     Rendiciones: "+"\n";
+            gameToString+="     ---Información de guerreros--- "+"\n";
+            for(int j =0;j<players.get(i).getCharacters().getSize();j++){
+                gameToString+="          Guerrero:"+players.get(i).getCharacters().getCharacter(j).getName()+"con vida "+players.get(i).getCharacters().getCharacter(j).getCurrentLife() +"\n";
+                gameToString+="          ---ARMAS: "+"\n";
+                for(int h =0;h<players.get(i).getCharacters().getCharacter(j).getTools().getSize();h++){
+                    gameToString+="              ¬"+players.get(i).getCharacters().getCharacter(j).getTools().getTool(h).getName()+": ";
+                    gameToString+= ((Weapon)players.get(i).getCharacters().getCharacter(j).getTools().getTool(h)).getDamageTable().toString();
+                    gameToString+="\n";
+                }
+            }
+
+        }
+        return  gameToString;
+    }
+
+    public Player getCurrentPlayer(){
+        return players.get(turno%amountPlayers);
+    }
+
     public int getIdentifier() {
         return identifier;
     }
